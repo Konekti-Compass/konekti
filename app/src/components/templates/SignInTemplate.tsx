@@ -184,7 +184,7 @@ const SignInTemplate = memo(
                   _text={{ color: "brand.600" }}
                   onPress={signUpNavigationHandler}
                 >
-                  サインイン
+                  新規登録
                 </Link>
               </HStack>
             </VStack>

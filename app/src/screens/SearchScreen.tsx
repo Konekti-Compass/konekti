@@ -1,8 +1,8 @@
 import React from "react";
-import { Box } from "native-base";
+import { Center } from "native-base";
 
 const SearchScreen = () => {
-  return <Box>SearchScreen</Box>;
+  return <Center flex={1}>SearchScreen</Center>;
 };
 
 export default SearchScreen;

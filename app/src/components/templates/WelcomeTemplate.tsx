@@ -21,19 +21,19 @@ const WelcomeTemplate = memo(
       >
         <StatusBar style="light" />
         <VStack space="0" alignItems="center">
-          <Heading color="white" fontSize="64">
+          <Heading color="white" fontSize="64" letterSpacing="2">
             Konekti
           </Heading>
-          <Heading color="white" fontSize="60" textAlign="center">
+          <Heading
+            color="white"
+            fontSize="60"
+            textAlign="center"
+            letterSpacing="2"
+          >
             Compass
           </Heading>
         </VStack>
-        <Text
-          bold
-          color="white"
-          fontSize="2xl"
-          textAlign="center"
-        >
+        <Text bold color="white" fontSize="xl" textAlign="center">
           Tap to Start
         </Text>
       </Pressable>

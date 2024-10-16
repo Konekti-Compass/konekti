@@ -1,17 +1,18 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+import * as SecureStore from "expo-secure-store";
 import { useToast } from "native-base";
 
 import Alert from "../components/molecules/Alert";
 import SignUpTemplate from "../components/templates/SignUpTemplate";
 import { showAlert } from "../functions";
-import {
-  useSignInWithProvider,
-  useSignUpWithEmail,
-} from "../hooks/auth/mutate";
+import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
+import { supabase } from "../supabase";
+import useGoogleAuth from "../hooks/auth/useGoogleAuth";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const toast = useToast();
@@ -97,7 +98,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
     },
   });
 
-  const { mutateAsync: mutateAsyncSignInWithProvider } = useSignInWithProvider({
+  const { mutateAsync: mutateAsyncSignInWithGoogle } = useGoogleAuth({
     onSuccess: async (data) => {
       if (data?.user) {
         const user = await mutateAsyncSearchUser(data?.user?.id);
@@ -138,7 +139,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   );
 
   const signUpWithGoogle = useCallback(async () => {
-    await mutateAsyncSignInWithProvider("google");
+    await mutateAsyncSignInWithGoogle();
   }, []);
 
   const signInNavigationHandler = useCallback(() => {

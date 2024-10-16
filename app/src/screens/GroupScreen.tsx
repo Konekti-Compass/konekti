@@ -1,8 +1,8 @@
 import React from "react";
-import { Box } from "native-base";
+import { Center } from "native-base";
 
 const GroupScreen = () => {
-  return <Box>GroupScreen</Box>;
+  return <Center flex={1}>GroupScreen</Center>;
 };
 
 export default GroupScreen;

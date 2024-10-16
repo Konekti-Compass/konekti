@@ -7,10 +7,10 @@ import SignIn from "../components/templates/SignInTemplate";
 import { showAlert } from "../functions";
 import {
   useSignInWithEmail,
-  useSignInWithProvider,
 } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
+import useGoogleAuth from "../hooks/auth/useGoogleAuth";
 
 const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   const toast = useToast();
@@ -70,7 +70,8 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     },
   });
 
-  const { mutateAsync: mutateAsyncSignInWithProvider } = useSignInWithProvider({
+  
+  const { mutateAsync: mutateAsyncSignInWithGoogle } = useGoogleAuth({
     onSuccess: async (data) => {
       if (data?.user) {
         const user = await mutateAsyncSearchUser(data?.user?.id);
@@ -95,6 +96,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
       );
     },
   });
+  
 
   const signInWithEmail = useCallback(
     async (email: string, password: string) => {
@@ -104,7 +106,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   );
 
   const signInWithGoogle = useCallback(async () => {
-    await mutateAsyncSignInWithProvider("google");
+    await mutateAsyncSignInWithGoogle();
   }, []);
 
   const signUpNavigationHandler = useCallback(() => {

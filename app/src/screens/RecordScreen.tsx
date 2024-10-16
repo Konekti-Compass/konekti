@@ -1,8 +1,8 @@
 import React from "react";
-import { Box } from "native-base";
+import { Center } from "native-base";
 
 const RecordScreen = () => {
-  return <Box>RecordScreen</Box>;
+  return <Center flex={1}>RecordScreen</Center>;
 };
 
 export default RecordScreen;

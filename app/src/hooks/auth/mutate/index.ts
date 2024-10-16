@@ -4,7 +4,6 @@ import {
   AuthError,
 } from "@supabase/supabase-js";
 import { useMutation } from "@tanstack/react-query";
-import { makeRedirectUri, startAsync } from "expo-auth-session";
 
 import { supabase, supabaseUrl } from "../../../supabase";
 import { UseMutationResult } from "../../../types";
@@ -15,9 +14,7 @@ export type SignUpWithEmailResponse = Awaited<
 export type SignInWithEmailResponse = Awaited<
   ReturnType<typeof signInWithEmail>
 >;
-export type SignInWithProviderResponse = Awaited<
-  ReturnType<typeof signInWithProvider>
->;
+
 export type SignOutResponse = Awaited<ReturnType<typeof signOut>>;
 
 const signUpWithEmail = async (credentials: SignUpWithPasswordCredentials) => {
@@ -34,37 +31,6 @@ const signInWithEmail = async (credentials: SignInWithPasswordCredentials) => {
     throw error;
   }
   return data;
-};
-
-const signInWithProvider = async (provider: string) => {
-  const redirectUrl = makeRedirectUri({
-    scheme: "konekti",
-    path: "redirect",
-    projectNameForProxy: "konekti",
-  });
-
-  console.log(redirectUrl);
-
-  const authResponse = await startAsync({
-    authUrl: `${supabaseUrl}/auth/v1/authorize?provider=${provider}&redirect_to=${redirectUrl}`,
-    returnUrl: redirectUrl,
-  });
-
-  if (authResponse.type === "success") {
-    const { data, error } = await supabase.auth.setSession({
-      access_token: authResponse.params.access_token,
-      refresh_token: authResponse.params.refresh_token,
-    });
-
-    if (error) {
-      throw error;
-    }
-    return data;
-  } else if (authResponse.type === "error") {
-    throw authResponse.error;
-  } else {
-    return null;
-  }
 };
 
 const signOut = async () => {
@@ -91,16 +57,6 @@ export const useSignInWithEmail = ({
 }: UseMutationResult<SignInWithEmailResponse, AuthError>) =>
   useMutation({
     mutationFn: signInWithEmail,
-    onSuccess,
-    onError,
-  });
-
-export const useSignInWithProvider = ({
-  onSuccess,
-  onError,
-}: UseMutationResult<SignInWithProviderResponse, Error>) =>
-  useMutation({
-    mutationFn: signInWithProvider,
     onSuccess,
     onError,
   });

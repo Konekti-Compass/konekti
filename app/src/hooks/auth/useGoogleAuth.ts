@@ -1,0 +1,94 @@
+import { useState, useCallback, useEffect } from "react";
+
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
+
+import { supabase } from "../../supabase";
+import { infiniteQueryOptions } from "@tanstack/react-query";
+import { User, Session } from "@supabase/supabase-js";
+
+type UseGoogleAuthType = {
+  onSuccess?: (
+    data:
+      | {
+          user: User | null;
+          session: Session | null;
+        }
+      | {
+          user: null;
+          session: null;
+        }
+  ) => void;
+  onError?: (error: Error) => void;
+};
+
+const useGoogleAuth = ({
+  onSuccess,
+  onError,
+}: UseGoogleAuthType) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    WebBrowser.warmUpAsync();
+
+    return () => {
+      WebBrowser.coolDownAsync();
+    };
+  }, []);
+
+  const mutateAsync = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const redirectURL = Linking.createURL("redirect");
+
+      const { data } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: redirectURL },
+      });
+
+      if (!data.url) throw Error();
+
+      const result = await WebBrowser.openAuthSessionAsync(
+        data.url,
+        redirectURL,
+        {
+          showInRecents: true,
+        }
+      );
+
+      if (result.type === "success") {
+        const params = new URLSearchParams(result.url.split("#")[1]);
+        const access_token = params.get("access_token");
+        const refresh_token = params.get("refresh_token");
+
+        if (!!access_token && !!refresh_token) {
+          const { data, error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          onSuccess && onSuccess(data);
+        }
+      } else {
+        throw Error();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        onError && onError(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return {
+    isLoading,
+    mutateAsync,
+  };
+};
+
+export default useGoogleAuth;

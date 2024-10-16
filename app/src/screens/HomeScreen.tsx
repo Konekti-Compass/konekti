@@ -1,8 +1,8 @@
 import React from "react";
-import { Box } from "native-base";
+import { Center } from "native-base";
 
 const HomeScreen = () => {
-  return <Box>HomeScreen</Box>;
+  return <Center flex={1}>HomeScreen</Center>;
 };
 
 export default HomeScreen;

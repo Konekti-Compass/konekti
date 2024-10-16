@@ -56,7 +56,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={<Feather />}
-              name="map-pin"
+              name="home"
               size={focused ? "lg" : "md"}
               color={focused ? "brand.600" : iconColor}
               mt="1"
@@ -64,7 +64,7 @@ const TabNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <Text bold fontSize="2xs" color={focused ? "brand.600" : iconColor}>
-              Home
+              ホーム
             </Text>
           ),
         }}
@@ -84,7 +84,7 @@ const TabNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <Text bold fontSize="2xs" color={focused ? "brand.600" : iconColor}>
-              Group
+              グループ
             </Text>
           ),
         }}
@@ -96,7 +96,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={<Feather />}
-              name="clipboard"
+              name="search"
               size={focused ? "lg" : "md"}
               color={focused ? "brand.600" : iconColor}
               mt="1"
@@ -104,7 +104,7 @@ const TabNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <Text bold fontSize="2xs" color={focused ? "brand.600" : iconColor}>
-              Search
+              検索
             </Text>
           ),
         }}
@@ -116,7 +116,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Icon
               as={<Feather />}
-              name="message-circle"
+              name="clock"
               size={focused ? "lg" : "md"}
               color={focused ? "brand.600" : iconColor}
               mt="1"
@@ -124,7 +124,7 @@ const TabNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <Text bold fontSize="2xs" color={focused ? "brand.600" : iconColor}>
-              Record
+              記録
             </Text>
           ),
         }}
@@ -144,7 +144,7 @@ const TabNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <Text bold fontSize="2xs" color={focused ? "brand.600" : iconColor}>
-              Setting
+              設定
             </Text>
           ),
         }}

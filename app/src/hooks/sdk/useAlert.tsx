@@ -2,8 +2,6 @@ import { useToast } from "native-base";
 import React, { useCallback, useEffect } from "react";
 
 import Alert from "../../components/molecules/Alert";
-import { wait } from "../../functions";
-import { set } from "react-hook-form";
 
 const useAlert = () => {
   const toast = useToast();
@@ -26,7 +24,6 @@ const useAlert = () => {
           id: newId,
           duration: 3000,
           placement: "top",
-          avoidKeyboard: true,
           render: () => (
             <Alert
               text={text}

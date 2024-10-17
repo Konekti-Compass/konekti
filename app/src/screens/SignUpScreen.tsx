@@ -48,8 +48,6 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
           text: "もう一度お試しください",
         });
       } else {
-        console.log(error.message);
-        console.log(error.cause);
         showAlert({
           status: "error",
           text: "エラーが発生しました",

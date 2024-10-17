@@ -41,6 +41,7 @@ const useGoogleAuth = ({
     setIsLoading(true);
     try {
       const redirectURL = Linking.createURL("redirect");
+      console.log(redirectURL)
 
       const { data } = await supabase.auth.signInWithOAuth({
         provider: "google",

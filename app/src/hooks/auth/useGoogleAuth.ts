@@ -20,11 +20,13 @@ type UseGoogleAuthType = {
         }
   ) => void;
   onError?: (error: Error) => void;
+  onCancel?: () => void;
 };
 
 const useGoogleAuth = ({
   onSuccess,
   onError,
+  onCancel,
 }: UseGoogleAuthType) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,7 +76,7 @@ const useGoogleAuth = ({
           onSuccess && onSuccess(data);
         }
       } else {
-        throw Error();
+        onCancel && onCancel();
       }
     } catch (error) {
       if (error instanceof Error) {

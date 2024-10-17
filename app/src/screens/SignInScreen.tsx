@@ -58,6 +58,9 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     onError: () => {
       showAlert({ status: "error", text: "エラーが発生しました" });
     },
+    onCancel: () => {
+      showAlert({ status: "error", text: "キャンセルされました" });
+    }
   });
 
   const signInWithEmail = useCallback(

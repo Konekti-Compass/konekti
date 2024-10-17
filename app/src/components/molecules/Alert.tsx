@@ -10,16 +10,20 @@ import {
 } from "native-base";
 
 type AlertProps = {
-  onPressCloseButton: () => void;
   text: string;
   status: "success" | "error";
+  onPressCloseButton: () => void;
 };
 
-const Alert = memo(({ onPressCloseButton, text, status }: AlertProps) => {
+const Alert = memo(({ text, status, onPressCloseButton }: AlertProps) => {
   return (
     <NativeBaseAlert status={status} rounded="md">
       <HStack space="2" alignItems="center">
-        <Icon as={<Feather name="alert-triangle" />} size="4" color={status + ".600"}/>
+        <Icon
+          as={<Feather name="alert-triangle" />}
+          size="4"
+          color={status + ".600"}
+        />
         <Text fontSize="md" color="black">
           {text}
         </Text>

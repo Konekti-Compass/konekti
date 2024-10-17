@@ -2,7 +2,14 @@ import React from "react";
 import { Alert } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
-import { Text, Center, useToast, HStack, Icon, Pressable, useColorModeValue } from "native-base";
+import {
+  Text,
+  Center,
+  HStack,
+  Icon,
+  Pressable,
+  useColorModeValue,
+} from "native-base";
 import { useSignOut } from "../hooks/auth/mutate";
 
 const SettingScreen = () => {

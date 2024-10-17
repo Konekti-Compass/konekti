@@ -27,7 +27,7 @@ const RootComponent = () => {
     },
   };
 
-    const prefix = Linking.createURL("/");
+  const prefix = Linking.createURL("/");
 
   return (
     <NavigationContainer

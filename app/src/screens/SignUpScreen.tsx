@@ -1,48 +1,27 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 
 import * as Linking from "expo-linking";
-import * as WebBrowser from "expo-web-browser";
-import * as SecureStore from "expo-secure-store";
-import { useToast } from "native-base";
 
-import Alert from "../components/molecules/Alert";
 import SignUpTemplate from "../components/templates/SignUpTemplate";
-import { showAlert } from "../functions";
 import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
-import { supabase } from "../supabase";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
+import useAlert from "../hooks/sdk/useAlert";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
-  const toast = useToast();
+  const { showAlert } = useAlert();
 
   const { mutateAsync: mutateAsyncSearchUser, isPending: isLoadingSearchUser } =
     useSearchUser({
-      onError: () => {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
-      },
+      onError: () =>
+        showAlert({ status: "error", text: "エラーが発生しました" }),
     });
 
   const { mutateAsync: mutateAsyncPostUser, isPending: isLoadingPostUser } =
     usePostUser({
-      onError: () => {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
-      },
+      onError: () =>
+        showAlert({ status: "error", text: "エラーが発生しました" }),
     });
 
   const {
@@ -56,44 +35,23 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
           name: "ユーザー",
           color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
         });
-        showAlert(
-          toast,
-          <Alert
-            status="success"
-            onPressCloseButton={() => toast.closeAll()}
-            text="確認メールを送信しました"
-          />
-        );
+
+        showAlert({ status: "success", text: "確認メールを送信しました" });
       } else {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="既にアカウントが存在します"
-          />
-        );
+        showAlert({ status: "error", text: "既にアカウントが存在します" });
       }
     },
     onError: (error) => {
       if (error.status === 429) {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="もう一度お試しください"
-          />
-        );
+        showAlert({
+          status: "error",
+          text: "もう一度お試しください",
+        });
       } else {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
+        showAlert({
+          status: "error",
+          text: "エラーが発生しました",
+        });
       }
     },
   });
@@ -113,14 +71,10 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
       }
     },
     onError: () => {
-      showAlert(
-        toast,
-        <Alert
-          status="error"
-          onPressCloseButton={() => toast.closeAll()}
-          text="エラーが発生しました"
-        />
-      );
+      showAlert({
+        status: "error",
+        text: "エラーが発生しました",
+      });
     },
   });
 

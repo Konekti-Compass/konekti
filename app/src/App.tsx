@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LogBox, useColorScheme } from "react-native";
 import {
   ColorMode,

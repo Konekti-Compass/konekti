@@ -4,41 +4,25 @@ import { useToast } from "native-base";
 
 import Alert from "../components/molecules/Alert";
 import SignIn from "../components/templates/SignInTemplate";
-import { showAlert } from "../functions";
 import { useSignInWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
+import useAlert from "../hooks/sdk/useAlert";
 
 const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
-  const toast = useToast();
+  const { showAlert } = useAlert();
 
   const { mutateAsync: mutateAsyncSearchUser, isPending: isLoadingSearchUser } =
     useSearchUser({
-      onError: () => {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
-      },
+      onError: () =>
+        showAlert({ status: "error", text: "エラーが発生しました" }),
     });
 
   const { mutateAsync: mutateAsyncPostUser, isPending: isLoadingPostUser } =
     usePostUser({
-      onError: () => {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
-      },
+      onError: () =>
+        showAlert({ status: "error", text: "エラーが発生しました" }),
     });
 
   const {
@@ -47,23 +31,12 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   } = useSignInWithEmail({
     onError: (error) => {
       if (error.status == 400) {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="メールまたはパスワードが違います"
-          />
-        );
+        showAlert({
+          status: "error",
+          text: "メールまたはパスワードが違います",
+        });
       } else {
-        showAlert(
-          toast,
-          <Alert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text="エラーが発生しました"
-          />
-        );
+        showAlert({ status: "error", text: "エラーが発生しました" });
       }
     },
   });
@@ -83,14 +56,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
       }
     },
     onError: () => {
-      showAlert(
-        toast,
-        <Alert
-          status="error"
-          onPressCloseButton={() => toast.closeAll()}
-          text="エラーが発生しました"
-        />
-      );
+      showAlert({ status: "error", text: "エラーが発生しました" });
     },
   });
 

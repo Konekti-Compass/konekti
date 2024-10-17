@@ -10,6 +10,7 @@ import { supabase } from "../supabase";
 import useAlert from "../hooks/sdk/useAlert";
 
 import { HomeStackScreenProps } from "../types";
+import { useSignOut } from "../hooks/auth/mutate";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
@@ -42,6 +43,11 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
       onError: () => {
         showAlert({ status: "error", text: "エラーが発生しました" });
       },
+    });
+
+    const { mutateAsync: mutateAsyncSignOut, isPending: isLoadingSignOut } =
+    useSignOut({
+      onError: () => {},
     });
 
   const { mutateAsync: mutateAsyncPostAvatar, isPending: isLoadingPostAvatar } =
@@ -87,8 +93,20 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     }
   }, [user]);
 
+  const signOut = useCallback(async () => {
+    await mutateAsyncSignOut();
+  }, []);
+
   const editProfileNavigationHandler = useCallback(() => {
     navigation.navigate("EditProfile");
+  }, []);
+
+  const qrCodeNavigationHandler = useCallback(() => {
+    navigation.navigate("QRCode");
+  }, []);
+
+  const friendListNavigationHandler = useCallback(() => {
+    navigation.navigate("FriendList");
   }, []);
 
   return (
@@ -101,7 +119,10 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
       isRefetching={isRefetching}
       isLoadingAvatar={isLoadingPostAvatar || isLoadingUpdateUser}
       deleteAvatar={deleteAvatar}
+      signOut={signOut}
       editProfileNavigationHandler={editProfileNavigationHandler}
+      friendListNavigationHandler={friendListNavigationHandler}
+      qrCodeNavigationHandler={qrCodeNavigationHandler}
     />
   );
 };

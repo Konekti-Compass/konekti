@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "generate": "npx supabase gen types typescript --linked > ./src/types/schema.ts"
+    "generate": "npx supabase gen types typescript --linked > ./src/types/schema.d.ts"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -20,6 +20,7 @@
     "dotenv": "^16.4.5",
     "expo": "~51.0.28",
     "expo-auth-session": "~5.5.2",
+    "expo-camera": "~15.0.16",
     "expo-crypto": "~13.0.2",
     "expo-image": "~1.13.0",
     "expo-image-manipulator": "~12.0.5",
@@ -34,6 +35,7 @@
     "react-hook-form": "^7.53.0",
     "react-native": "0.74.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-qrcode-svg": "6.3.0",
     "react-native-safe-area-context": "^4.11.0",
     "react-native-screens": "^3.34.0",
     "react-native-svg": "12.1.1",

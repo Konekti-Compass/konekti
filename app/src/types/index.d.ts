@@ -4,7 +4,7 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Database } from "./schema";
+import { Database } from "./schema.d/ts";
 
 export type User = Database["public"]["Tables"]["user"];
 
@@ -39,7 +39,9 @@ export type TabParamList = {
 
 export type HomeStackParamList = {
   Home: undefined;
-  EditProfile: undefined
+  EditProfile: undefined;
+  QRCode: undefined;
+  FriendList: undefined;
 };
 
 export type GroupStackParamList = {
@@ -101,11 +103,12 @@ export type RecordStackScreenProps<Screen extends keyof RecordStackParamList> =
     >
   >;
 
-export type SettingStackScreenProps<Screen extends keyof SettingStackParamList> =
+export type SettingStackScreenProps<
+  Screen extends keyof SettingStackParamList
+> = CompositeScreenProps<
+  BottomTabScreenProps<SettingStackParamList, Screen>,
   CompositeScreenProps<
-    BottomTabScreenProps<SettingStackParamList, Screen>,
-    CompositeScreenProps<
-      BottomTabScreenProps<TabParamList>,
-      NativeStackScreenProps<RootStackParamList>
-    >
-  >;
+    BottomTabScreenProps<TabParamList>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+>;

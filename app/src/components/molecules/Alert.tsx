@@ -12,14 +12,14 @@ import {
 type AlertProps = {
   onPressCloseButton: () => void;
   text: string;
-  status: string;
+  status: "success" | "error";
 };
 
 const Alert = memo(({ onPressCloseButton, text, status }: AlertProps) => {
   return (
     <NativeBaseAlert status={status} rounded="md">
       <HStack space="2" alignItems="center">
-        <NativeBaseAlert.Icon />
+        <Icon as={<Feather name="alert-triangle" />} size="4" color={status + ".600"}/>
         <Text fontSize="md" color="black">
           {text}
         </Text>

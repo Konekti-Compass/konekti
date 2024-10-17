@@ -5,9 +5,7 @@ import { useToast } from "native-base";
 import Alert from "../components/molecules/Alert";
 import SignIn from "../components/templates/SignInTemplate";
 import { showAlert } from "../functions";
-import {
-  useSignInWithEmail,
-} from "../hooks/auth/mutate";
+import { useSignInWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
@@ -70,7 +68,6 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     },
   });
 
-  
   const { mutateAsync: mutateAsyncSignInWithGoogle } = useGoogleAuth({
     onSuccess: async (data) => {
       if (data?.user) {
@@ -96,7 +93,6 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
       );
     },
   });
-  
 
   const signInWithEmail = useCallback(
     async (email: string, password: string) => {

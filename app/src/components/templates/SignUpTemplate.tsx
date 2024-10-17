@@ -79,11 +79,10 @@ const SignUpTemplate = memo(
           <Box size="12" />
         </HStack>
         <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
           enableResetScrollToCoords={false}
           keyboardShouldPersistTaps="handled"
         >
-          <VStack flex={1} pt="24" pb="12" px="12" space="3">
+          <VStack pt="24" pb="12" px="12" space="3">
             <FormControl isRequired isInvalid={"email" in errors}>
               <FormControl.Label>メールアドレス</FormControl.Label>
               <Controller

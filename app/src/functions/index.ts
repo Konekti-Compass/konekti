@@ -7,9 +7,10 @@ export const wait = (sec: number) => {
 };
 
 export const showAlert = (toast: IToastService, Alert: ReactNode) => {
+  toast.closeAll();
+  
   if (!toast.isActive(1)) {
     toast.show({
-      id: 1,
       placement: "top",
       duration: 3000,
       render: () => Alert,

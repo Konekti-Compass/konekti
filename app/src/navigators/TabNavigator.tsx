@@ -24,7 +24,7 @@ const TabNavigator = () => {
   const getTabStyle = useCallback(
     (route: Partial<Route<string, object | undefined>>) => {
       const routeName = getFocusedRouteNameFromRoute(route);
-      if (routeName === "Hoge") return false;
+      if (routeName === "EditProfile") return false;
 
       return true;
     },

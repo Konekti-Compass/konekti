@@ -3527,6 +3527,22 @@ expo-font@~12.0.10:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image-loader@~4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.7.0.tgz#d403106822de80bda12d644c82b7a3b7983c0f0b"
+
+expo-image-manipulator@~12.0.5:
+  version "12.0.5"
+  resolved "https://registry.yarnpkg.com/expo-image-manipulator/-/expo-image-manipulator-12.0.5.tgz#e3dd2810d27025705f73523cd4ba47b0d091a662"
+  dependencies:
+    expo-image-loader "~4.7.0"
+
+expo-image-picker@~15.0.7:
+  version "15.0.7"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-15.0.7.tgz#eb25abfdb03cb940f0418add3d9814439526b025"
+  dependencies:
+    expo-image-loader "~4.7.0"
+
 expo-image@~1.13.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.13.0.tgz#f0ad585ecf57f6df2d8524f5e9275cb12b349836"
@@ -3541,6 +3557,10 @@ expo-linking@~6.3.0, expo-linking@~6.3.1:
   dependencies:
     expo-constants "~16.0.0"
     invariant "^2.2.4"
+
+expo-media-library@~16.0.5:
+  version "16.0.5"
+  resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-16.0.5.tgz#5827f237f4425088bdb15f1f0949916613d0ae3d"
 
 expo-modules-autolinking@1.11.3:
   version "1.11.3"

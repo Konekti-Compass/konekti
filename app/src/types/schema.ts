@@ -38,25 +38,37 @@ export type Database = {
       user: {
         Row: {
           avatarUrl: string | null
+          belong: string | null
           color: string
           createdAt: string
+          hobby: string | null
           name: string
+          profile: string | null
+          talent: string | null
           updatedAt: string
           userId: string
         }
         Insert: {
           avatarUrl?: string | null
+          belong?: string | null
           color: string
           createdAt?: string
+          hobby?: string | null
           name: string
+          profile?: string | null
+          talent?: string | null
           updatedAt?: string
           userId: string
         }
         Update: {
           avatarUrl?: string | null
+          belong?: string | null
           color?: string
           createdAt?: string
+          hobby?: string | null
           name?: string
+          profile?: string | null
+          talent?: string | null
           updatedAt?: string
           userId?: string
         }

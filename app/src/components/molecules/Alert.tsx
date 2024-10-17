@@ -20,8 +20,12 @@ const Alert = memo(({ text, status, onPressCloseButton }: AlertProps) => {
     <NativeBaseAlert status={status} rounded="md" shadow="1" py="2">
       <HStack space="2" alignItems="center">
         <Icon
-          as={<Feather name="alert-triangle" />}
-          size="4"
+          as={
+            <Feather
+              name={status === "success" ? "check-circle" : "alert-circle"}
+            />
+          }
+          size="5"
           color={status + ".500"}
         />
         <Text bold fontSize="sm" color={status + ".500"}>

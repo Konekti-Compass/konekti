@@ -39,6 +39,7 @@ export type TabParamList = {
 
 export type HomeStackParamList = {
   Home: undefined;
+  EditProfile: undefined
 };
 
 export type GroupStackParamList = {
@@ -64,7 +65,7 @@ export type AuthStackScreenProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList>
 >;
 
-export type MapStackScreenProps<Screen extends keyof HomeStackParamList> =
+export type HomeStackScreenProps<Screen extends keyof HomeStackParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<HomeStackParamList, Screen>,
     CompositeScreenProps<

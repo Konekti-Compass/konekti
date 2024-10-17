@@ -35,6 +35,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      belong: {
+        Row: {
+          belongCode: number | null
+          belongId: string
+          userId: string | null
+        }
+        Insert: {
+          belongCode?: number | null
+          belongId?: string
+          userId?: string | null
+        }
+        Update: {
+          belongCode?: number | null
+          belongId?: string
+          userId?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "belong_belongCode_fkey"
+            columns: ["belongCode"]
+            isOneToOne: false
+            referencedRelation: "belong_code"
+            referencedColumns: ["belongCode"]
+          },
+          {
+            foreignKeyName: "belong_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
+      belong_code: {
+        Row: {
+          belongCode: number
+          name: string
+        }
+        Insert: {
+          belongCode?: number
+          name: string
+        }
+        Update: {
+          belongCode?: number
+          name?: string
+        }
+        Relationships: []
+      }
       user: {
         Row: {
           avatarUrl: string | null

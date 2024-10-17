@@ -17,19 +17,21 @@ type AlertProps = {
 
 const Alert = memo(({ text, status, onPressCloseButton }: AlertProps) => {
   return (
-    <NativeBaseAlert status={status} rounded="md">
+    <NativeBaseAlert status={status} rounded="md" shadow="1" py="2">
       <HStack space="2" alignItems="center">
         <Icon
           as={<Feather name="alert-triangle" />}
           size="4"
-          color={status + ".600"}
+          color={status + ".500"}
         />
-        <Text fontSize="md" color="black">
+        <Text bold fontSize="sm" color={status + ".500"}>
           {text}
         </Text>
         <IconButton
           onPress={onPressCloseButton}
-          icon={<Icon as={<Feather name="x" />} size="3" />}
+          icon={
+            <Icon as={<Feather name="x" />} size="4" color={status + ".500"} />
+          }
           variant="unstyled"
         />
       </HStack>

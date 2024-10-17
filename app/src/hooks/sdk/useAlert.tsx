@@ -7,12 +7,15 @@ const useAlert = () => {
   const toast = useToast();
 
   const showAlert = useCallback(
-    async ({ text, status }: { text: string; status: "success" | "error" }) => {
+    ({ text, status }: { text: string; status: "success" | "error" }) => {
       toast.closeAll();
+
+      const newId = Math.random();
       toast.show({
-        id: Math.random(),
+        id: newId,
         duration: 3000,
-        placement: "top",
+        avoidKeyboard: true,
+        placement: "bottom",
         render: () => (
           <Alert
             text={text}
@@ -22,7 +25,7 @@ const useAlert = () => {
         ),
       });
     },
-    []
+    [toast]
   );
 
   return {

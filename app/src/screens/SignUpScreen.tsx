@@ -36,7 +36,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
           color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
         });
 
-        showAlert({ status: "success", text: "確認メールを送信しました" });
+        // showAlert({ status: "success", text: "確認メールを送信しました" });
       } else {
         showAlert({ status: "error", text: "既にアカウントが存在します" });
       }
@@ -48,6 +48,8 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
           text: "もう一度お試しください",
         });
       } else {
+        console.log(error.message);
+        console.log(error.cause);
         showAlert({
           status: "error",
           text: "エラーが発生しました",

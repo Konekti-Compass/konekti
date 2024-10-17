@@ -5,7 +5,7 @@ import {
 } from "@supabase/supabase-js";
 import { useMutation } from "@tanstack/react-query";
 
-import { supabase, supabaseUrl } from "../../../supabase";
+import { supabase } from "../../../supabase";
 import { UseMutationResult } from "../../../types";
 
 export type SignUpWithEmailResponse = Awaited<

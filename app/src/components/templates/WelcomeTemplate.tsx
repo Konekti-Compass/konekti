@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 
 import { StatusBar } from "expo-status-bar";
-import { Box, Button, Heading, Pressable, Text, VStack } from "native-base";
+import { Heading, Pressable, Text, VStack } from "native-base";
 
 type WelcomeTemplateProps = {
   signInNavigationHandler: () => void;

@@ -4,7 +4,6 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 
 import { supabase } from "../../supabase";
-import { infiniteQueryOptions } from "@tanstack/react-query";
 import { User, Session } from "@supabase/supabase-js";
 
 type UseGoogleAuthType = {

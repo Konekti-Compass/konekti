@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -81,6 +82,47 @@ export type Database = {
           name?: string
         }
         Relationships: []
+      }
+      profile: {
+        Row: {
+          createdAt: string
+          hobby: string
+          introduction: string
+          name: string
+          profileId: number
+          talent: string
+          updateAt: string
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          hobby: string
+          introduction: string
+          name: string
+          profileId?: number
+          talent: string
+          updateAt?: string
+          userId: string
+        }
+        Update: {
+          createdAt?: string
+          hobby?: string
+          introduction?: string
+          name?: string
+          profileId?: number
+          talent?: string
+          updateAt?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["userId"]
+          },
+        ]
       }
       user: {
         Row: {

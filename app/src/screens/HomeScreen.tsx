@@ -8,6 +8,7 @@ import { usePostAvatar, useUpdateUser } from "../hooks/user/mutate";
 import { useQueryUser } from "../hooks/user/query";
 import { supabase } from "../supabase";
 import useAlert from "../hooks/sdk/useAlert";
+import { useQueryUserProfiles } from "../hooks/profile/query";
 
 import { HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
@@ -16,6 +17,8 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
 
   const focusRef = useRef(true);
+
+  const [profileIndex, setIsProfileIndex] = useState(0);
   const [isRefetching, setIsRefetching] = useState(false);
 
   const {
@@ -23,6 +26,12 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     isLoading: isLoadingUser,
     refetch: refetchUser,
   } = useQueryUser();
+
+  const {
+    data: profiles,
+    isLoading: isLoadingProfiles,
+    refetch: refetchProfile,
+  } = useQueryUserProfiles();
 
   useFocusEffect(
     useCallback(() => {
@@ -32,6 +41,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
       }
 
       refetchUser();
+      refetchProfile();
     }, [])
   );
 
@@ -45,9 +55,11 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
       },
     });
 
-    const { mutateAsync: mutateAsyncSignOut, isPending: isLoadingSignOut } =
+  const { mutateAsync: mutateAsyncSignOut, isPending: isLoadingSignOut } =
     useSignOut({
-      onError: () => {},
+      onError: () => {
+        showAlert({ status: "error", text: "エラーが発生しました" });
+      },
     });
 
   const { mutateAsync: mutateAsyncPostAvatar, isPending: isLoadingPostAvatar } =
@@ -111,11 +123,13 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   return (
     <HomeTemplate
+      profileIndex={profileIndex}
       user={user}
+      profiles={profiles}
       refetch={refetch}
       pickImageByCamera={pickImageByCamera}
       pickImageByLibrary={pickImageByLibrary}
-      isLoading={isLoadingUser}
+      isLoading={isLoadingUser || isLoadingProfiles}
       isRefetching={isRefetching}
       isLoadingAvatar={isLoadingPostAvatar || isLoadingUpdateUser}
       deleteAvatar={deleteAvatar}

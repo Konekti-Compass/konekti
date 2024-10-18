@@ -19,9 +19,12 @@ import ImageActionSheet from "../organisms/ImageActionSheet";
 import Fab from "../molecules/Fab";
 import { Feather } from "@expo/vector-icons";
 import { Alert } from "react-native";
+import { GetUserProfilesResponse } from "../../hooks/profile/query";
 
 type SettingTemplateProps = {
+  profileIndex: number;
   user: GetUserResponse | undefined;
+  profiles: GetUserProfilesResponse | undefined;
   refetch: () => Promise<void>;
   pickImageByCamera: () => Promise<void>;
   pickImageByLibrary: () => Promise<void>;
@@ -36,7 +39,9 @@ type SettingTemplateProps = {
 };
 
 const HomeTemplate = ({
+  profileIndex,
   user,
+  profiles,
   pickImageByCamera,
   pickImageByLibrary,
   isLoadingAvatar,
@@ -71,7 +76,9 @@ const HomeTemplate = ({
             updatedAt={user?.updatedAt}
             onPress={onOpen}
           />
-          <Heading fontSize="xl">{user?.name}</Heading>
+          <Heading fontSize="xl">
+            {profiles?.length ? profiles[profileIndex].name : "ユーザー"}
+          </Heading>
         </VStack>
         <VStack w="80%" mt="6" space="5">
           <VStack alignItems="flex-start">
@@ -79,7 +86,7 @@ const HomeTemplate = ({
               所属
             </Text>
             <Text bold fontSize="md">
-              {user?.belong ?? "所属がありません。"}
+              所属がありません。
             </Text>
           </VStack>
           <HStack w="100%">
@@ -88,7 +95,7 @@ const HomeTemplate = ({
                 趣味
               </Text>
               <Text bold fontSize="md">
-                {user?.hobby ?? "趣味がありません。"}
+                {profiles?.length ? profiles[profileIndex].hobby : "趣味がありません。"}
               </Text>
             </VStack>
             <VStack w="50%" alignItems="flex-start">
@@ -96,7 +103,7 @@ const HomeTemplate = ({
                 特技
               </Text>
               <Text bold fontSize="md">
-                {user?.talent ?? "特技がありません。"}
+                {profiles?.length ? profiles[profileIndex].talent : "特技がありません。"}
               </Text>
             </VStack>
           </HStack>
@@ -105,7 +112,7 @@ const HomeTemplate = ({
               自己紹介
             </Text>
             <Text bold fontSize="md">
-              {user?.profile ?? "自己紹介がありません。"}
+              {profiles?.length ? profiles[profileIndex].introduction : "自己紹介がありません。"}
             </Text>
           </VStack>
         </VStack>

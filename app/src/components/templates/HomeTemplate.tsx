@@ -82,27 +82,28 @@ const HomeTemplate = ({
               {user?.belong ?? "所属がありません。"}
             </Text>
           </VStack>
-          <VStack alignItems="flex-start">
-            <Text bold fontSize="sm" color="muted.400">
-              趣味
-            </Text>
-            <Text bold fontSize="md">
-              {user?.hobby ?? "趣味がありません。"}
-            </Text>
-          </VStack>
-          <VStack alignItems="flex-start">
-            <Text bold fontSize="sm" color="muted.400">
-              特技
-            </Text>
-            <Text bold fontSize="md">
-              {user?.talent ?? "特技がありません。"}
-            </Text>
-          </VStack>
+          <HStack w="100%">
+            <VStack w="50%" alignItems="flex-start">
+              <Text bold fontSize="sm" color="muted.400">
+                趣味
+              </Text>
+              <Text bold fontSize="md">
+                {user?.hobby ?? "趣味がありません。"}
+              </Text>
+            </VStack>
+            <VStack w="50%" alignItems="flex-start">
+              <Text bold fontSize="sm" color="muted.400">
+                特技
+              </Text>
+              <Text bold fontSize="md">
+                {user?.talent ?? "特技がありません。"}
+              </Text>
+            </VStack>
+          </HStack>
           <VStack alignItems="flex-start">
             <Text bold fontSize="sm" color="muted.400">
               自己紹介
             </Text>
-
             <Text bold fontSize="md">
               {user?.profile ?? "自己紹介がありません。"}
             </Text>

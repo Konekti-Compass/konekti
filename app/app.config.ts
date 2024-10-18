@@ -43,7 +43,7 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   web: {
     favicon: "./assets/favicon.png",
   },
-  plugins: [],
+  plugins: [["expo-camera"]],
   extra: {
     eas: {
       projectId: "",

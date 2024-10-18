@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import { HomeStackParamList } from "../types";
 import EditProfileScreen from "../screens/EditProfileScreen";
+import QRCodeScreen from "../screens/QRCodeScreen";
+import FriendListScreen from "../screens/FriendListScreen";
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
@@ -14,6 +16,8 @@ const HomeNavigator = () => {
       screenOptions={{ headerShown: false, gestureEnabled: true }}
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="QRCode" component={QRCodeScreen} />
+      <HomeStack.Screen name="FriendList" component={FriendListScreen} />
       <HomeStack.Group
         screenOptions={{
           animation: "fade_from_bottom",

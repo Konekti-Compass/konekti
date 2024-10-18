@@ -24,8 +24,13 @@ const TabNavigator = () => {
   const getTabStyle = useCallback(
     (route: Partial<Route<string, object | undefined>>) => {
       const routeName = getFocusedRouteNameFromRoute(route);
-      if (routeName === "EditProfile") return false;
-
+      if (
+        routeName === "EditProfile" ||
+        routeName === "FriendList" ||
+        routeName === "QRCode"
+      ) {
+        return false;
+      }
       return true;
     },
     []

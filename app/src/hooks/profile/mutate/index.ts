@@ -2,9 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 
 import { supabase } from "../../../supabase";
 import { Profile, UseMutationResult } from "../../../types";
+import { decode } from "base64-arraybuffer";
 
 export type PostProfileResponse = Awaited<ReturnType<typeof postProfile>>;
 export type UpdateProfileResponse = Awaited<ReturnType<typeof updateProfile>>;
+export type PostAvatarResponse = Awaited<ReturnType<typeof postAvatar>>;
 export type DeleteProfileResponse = Awaited<ReturnType<typeof deleteProfile>>;
 
 const postProfile = async (profile: Profile["Insert"]) => {
@@ -38,6 +40,22 @@ const updateProfile = async (profile: Profile["Update"]) => {
   return data;
 };
 
+const postAvatar = async (base64: string) => {
+  const filePath = `avatar/${Math.random()}.png`;
+
+  const { data, error } = await supabase.storage
+    .from("image")
+    .upload(filePath, decode(base64), {
+      contentType: "image",
+      upsert: true,
+    });
+
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
 const deleteProfile = async (profileId: number) => {
   const { data, error } = await supabase
     .from("profile")
@@ -51,7 +69,6 @@ const deleteProfile = async (profileId: number) => {
   }
   return data;
 };
-
 
 export const usePostProfile = ({
   onSuccess,
@@ -69,6 +86,16 @@ export const useUpdateProfile = ({
 }: UseMutationResult<UpdateProfileResponse, Error>) =>
   useMutation({
     mutationFn: updateProfile,
+    onSuccess,
+    onError,
+  });
+
+export const usePostAvatar = ({
+  onSuccess,
+  onError,
+}: UseMutationResult<PostAvatarResponse, Error>) =>
+  useMutation({
+    mutationFn: postAvatar,
     onSuccess,
     onError,
   });

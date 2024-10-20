@@ -5,14 +5,15 @@ import { Profile, User } from "../../../types";
 import useAuth from "../../auth/useAuth";
 
 export type GetProfileResponse = Awaited<ReturnType<typeof getProfile>>;
-export type GetUserProfilesResponse = Awaited<ReturnType<typeof getUserProfiles>>;
+export type GetUserProfilesResponse = Awaited<
+  ReturnType<typeof getUserProfiles>
+>;
 
 const getProfile = async (profileId: number) => {
   const { data, error } = await supabase
     .from("profile")
     .select("*, user(*)")
-    .eq("profileId", profileId)
-    .returns<(Profile["Row"] & { user: User["Row"] })[]>();
+    .eq("profileId", profileId);
 
   if (error) {
     throw error;

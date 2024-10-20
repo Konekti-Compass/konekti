@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 
 import { Camera } from "expo-camera";
 
-import useAlert from "../hooks/sdk/useAlert";
+import useAlert from "../hooks/utils/useAlert";
 
 import { HomeStackScreenProps } from "../types";
 import QRCodeTemplate from "../components/templates/QRCodeTemplate";
@@ -27,11 +27,7 @@ const QRCodeScreen = ({ navigation }: HomeStackScreenProps<"QRCode">) => {
     navigation.goBack();
   }, []);
 
-  return (
-    <QRCodeTemplate
-      goBackNavigationHandler={goBackNavigationHandler}
-    />
-  );
+  return <QRCodeTemplate goBackNavigationHandler={goBackNavigationHandler} />;
 };
 
 export default QRCodeScreen;

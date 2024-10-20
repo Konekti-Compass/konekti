@@ -7,7 +7,7 @@ import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
-import useAlert from "../hooks/sdk/useAlert";
+import useAlert from "../hooks/utils/useAlert";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();

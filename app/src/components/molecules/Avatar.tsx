@@ -12,10 +12,10 @@ import {
 import { supabaseUrl } from "../../supabase";
 
 type AvatarProps = {
-  text: string | undefined;
+  text: string | null | undefined;
   uri: string | null | undefined;
   isLoading?: boolean;
-  updatedAt: string | undefined;
+  updatedAt: string | null | undefined;
   size?: string;
   fontSize?: string;
   color: string | null | undefined;

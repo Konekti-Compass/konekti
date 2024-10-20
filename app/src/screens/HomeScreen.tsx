@@ -1,36 +1,34 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import { useFocusEffect } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 
 import HomeTemplate from "../components/templates/HomeTemplate";
-import useImage from "../hooks/sdk/useImage";
-import { usePostAvatar, useUpdateUser } from "../hooks/user/mutate";
-import { useQueryUser } from "../hooks/user/query";
+import useImage from "../hooks/utils/useImage";
+import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
 import { supabase } from "../supabase";
-import useAlert from "../hooks/sdk/useAlert";
+import useAlert from "../hooks/utils/useAlert";
 import { useQueryUserProfiles } from "../hooks/profile/query";
 
-import { HomeStackScreenProps } from "../types";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { wait } from "../functions";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
 
   const focusRef = useRef(true);
 
-  const [profileIndex, setIsProfileIndex] = useState(0);
-  const [isRefetching, setIsRefetching] = useState(false);
+  const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
 
-  const {
-    data: user,
-    isLoading: isLoadingUser,
-    refetch: refetchUser,
-  } = useQueryUser();
+  const [profileId, setProfileId] = useState(-1);
+  const [isLoadingProfileId, setIsLoadingProfileId] = useState(false);
+  const [isRefetching, setIsRefetching] = useState(false);
 
   const {
     data: profiles,
     isLoading: isLoadingProfiles,
-    refetch: refetchProfile,
+    refetch: refetchProfiles,
   } = useQueryUserProfiles();
 
   useFocusEffect(
@@ -40,20 +38,61 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
         return;
       }
 
-      refetchUser();
-      refetchProfile();
+      refetchProfiles();
     }, [])
   );
 
-  const { mutateAsync: mutateAsyncUpdateUser, isPending: isLoadingUpdateUser } =
-    useUpdateUser({
-      onSuccess: async () => {
-        await refetchUser();
-      },
-      onError: () => {
-        showAlert({ status: "error", text: "エラーが発生しました" });
-      },
-    });
+  useEffect(() => {
+    (async () => {
+      if (profileId !== -1) {
+        await AsyncStorage.setItem("@profileId", profileId.toString());
+      }
+    })();
+  }, [profileId]);
+
+  useEffect(() => {
+    (async () => {
+      if (profileId === -1) {
+        setIsLoadingProfileId(true);
+        const profileId = await AsyncStorage.getItem("@profileId");
+        if (profileId) {
+          setProfileId(Number(profileId));
+        }
+        setIsLoadingProfileId(false);
+      }
+    })();
+  }, [profileId]);
+
+  useEffect(() => {
+    (async () => {
+      if (params?.profileId) {
+        if (params?.profileId === -1) {
+          if (profiles?.length) {
+            setProfileId(profiles[0].profileId);
+          } else {
+            setProfileId(-1);
+          }
+        } else {
+          setIsLoadingProfileId(true);
+          setProfileId(params.profileId);
+          await wait(1);
+          setIsLoadingProfileId(false);
+        }
+      }
+    })();
+  }, [params, profiles]);
+
+  const {
+    mutateAsync: mutateAsyncUpdateProfile,
+    isPending: isLoadingUpdateProfile,
+  } = useUpdateProfile({
+    onSuccess: async () => {
+      await refetchProfiles();
+    },
+    onError: () => {
+      showAlert({ status: "error", text: "エラーが発生しました" });
+    },
+  });
 
   const { mutateAsync: mutateAsyncSignOut, isPending: isLoadingSignOut } =
     useSignOut({
@@ -66,15 +105,13 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     usePostAvatar({
       onSuccess: async ({ path }) => {
         const { data } = supabase.storage.from("image").getPublicUrl(path);
-        if (user) {
-          await mutateAsyncUpdateUser({
-            userId: user.userId,
-            avatarUrl: data.publicUrl,
-          });
+        if (profiles?.length) {
+          await mutateAsyncUpdateProfile({
+            profileId,
+            avatarUrl: data.publicUrl          });
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
         showAlert({ status: "error", text: "エラーが発生しました" });
       },
     });
@@ -95,22 +132,29 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   const refetch = useCallback(async () => {
     setIsRefetching(true);
-    await refetchUser();
+    await refetchProfiles();
     setIsRefetching(false);
   }, []);
 
   const deleteAvatar = useCallback(async () => {
-    if (user) {
-      await mutateAsyncUpdateUser({ userId: user.userId, avatarUrl: null });
+    if (profiles?.length) {
+      await mutateAsyncUpdateProfile({
+        ProfileId: profiles[profileId].profileId,
+        avatarUrl: null,
+      });
     }
-  }, [user]);
+  }, [profiles, profileId]);
 
   const signOut = useCallback(async () => {
     await mutateAsyncSignOut();
   }, []);
 
-  const editProfileNavigationHandler = useCallback(() => {
-    navigation.navigate("EditProfile");
+  const postProfileNavigationHandler = useCallback(() => {
+    navigation.navigate("PostProfile");
+  }, []);
+
+  const editProfileNavigationHandler = useCallback((profileId: number) => {
+    navigation.navigate("EditProfile", { profileId });
   }, []);
 
   const qrCodeNavigationHandler = useCallback(() => {
@@ -123,17 +167,20 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   return (
     <HomeTemplate
-      profileIndex={profileIndex}
-      user={user}
+      profileId={profileId}
+      profile={profiles?.find((profile) => profile.profileId === profileId)}
       profiles={profiles}
       refetch={refetch}
       pickImageByCamera={pickImageByCamera}
       pickImageByLibrary={pickImageByLibrary}
-      isLoading={isLoadingUser || isLoadingProfiles}
+      isLoading={isLoadingProfileId || isLoadingProfiles}
       isRefetching={isRefetching}
-      isLoadingAvatar={isLoadingPostAvatar || isLoadingUpdateUser}
+      isLoadingSignOut={isLoadingSignOut}
+      isLoadingAvatar={isLoadingPostAvatar || isLoadingUpdateProfile}
       deleteAvatar={deleteAvatar}
       signOut={signOut}
+      setProfileId={setProfileId}
+      postProfileNavigationHandler={postProfileNavigationHandler}
       editProfileNavigationHandler={editProfileNavigationHandler}
       friendListNavigationHandler={friendListNavigationHandler}
       qrCodeNavigationHandler={qrCodeNavigationHandler}

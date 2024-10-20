@@ -39,8 +39,9 @@ export type TabParamList = {
 };
 
 export type HomeStackParamList = {
-  Home: undefined;
-  EditProfile: undefined;
+  Home: { profileId?: number };
+  PostProfile: undefined;
+  EditProfile: { profileId: number };
   QRCode: undefined;
   FriendList: undefined;
 };

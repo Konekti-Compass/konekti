@@ -8,7 +8,6 @@ import {
   Icon,
   IconButton,
   Link,
-  useColorModeValue,
   useDisclose,
   VStack,
 } from "native-base";
@@ -22,8 +21,6 @@ type QRCodeTemplateProps = {
 
 const QRCodeTemplate = memo(
   ({ goBackNavigationHandler }: QRCodeTemplateProps) => {
-    const iconColor = useColorModeValue("muted.600", "muted.100");
-
     const { width } = useWindowDimensions();
 
     const { isOpen, onOpen, onClose } = useDisclose();
@@ -38,37 +35,6 @@ const QRCodeTemplate = memo(
             style={{ width: "100%", height: "100%" }}
           >
             <Box position="relative" flex={1}>
-              <HStack
-                px="2"
-                alignItems="center"
-                justifyContent="space-between"
-                position="absolute"
-                safeAreaTop
-              >
-                <IconButton
-                  onPress={goBackNavigationHandler}
-                  icon={
-                    <Icon
-                      as={<Feather name="chevron-left" />}
-                      size="2xl"
-                      color={iconColor}
-                    />
-                  }
-                  variant="unstyled"
-                />
-                <Box />
-                <IconButton
-                  onPress={goBackNavigationHandler}
-                  icon={
-                    <Icon
-                      as={<Feather name="x" />}
-                      size="xl"
-                      color={iconColor}
-                    />
-                  }
-                  variant="unstyled"
-                />
-              </HStack>
               <Box
                 position="absolute"
                 top="0px"
@@ -113,8 +79,35 @@ const QRCodeTemplate = memo(
                 h="320px"
                 borderColor="white"
                 borderWidth="5px"
-                rounded="24"
+                rounded="20"
               />
+              <HStack
+                px="2"
+                w="100%"
+                alignItems="center"
+                justifyContent="space-between"
+                position="absolute"
+                safeAreaTop
+              >
+                <IconButton
+                  onPress={goBackNavigationHandler}
+                  icon={
+                    <Icon
+                      as={<Feather name="chevron-left" />}
+                      size="2xl"
+                      color="white"
+                    />
+                  }
+                  variant="unstyled"
+                />
+                <IconButton
+                  onPress={goBackNavigationHandler}
+                  icon={
+                    <Icon as={<Feather name="x" />} size="xl" color="white" />
+                  }
+                  variant="unstyled"
+                />
+              </HStack>
             </Box>
           </CameraView>
         </Box>

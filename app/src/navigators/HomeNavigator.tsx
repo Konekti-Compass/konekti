@@ -7,6 +7,7 @@ import { HomeStackParamList } from "../types";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import QRCodeScreen from "../screens/QRCodeScreen";
 import FriendListScreen from "../screens/FriendListScreen";
+import PostProfileScreen from "../screens/PostProfileScreen";
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
@@ -24,6 +25,7 @@ const HomeNavigator = () => {
           animationDuration: 150,
         }}
       >
+        <HomeStack.Screen name="PostProfile" component={PostProfileScreen} />
         <HomeStack.Screen name="EditProfile" component={EditProfileScreen} />
       </HomeStack.Group>
     </HomeStack.Navigator>

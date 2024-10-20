@@ -85,7 +85,10 @@ export type Database = {
       }
       profile: {
         Row: {
+          avatarUrl: string | null
+          color: string
           createdAt: string
+          displayName: string
           hobby: string
           introduction: string
           name: string
@@ -95,7 +98,10 @@ export type Database = {
           userId: string
         }
         Insert: {
+          avatarUrl?: string | null
+          color: string
           createdAt?: string
+          displayName: string
           hobby: string
           introduction: string
           name: string
@@ -105,7 +111,10 @@ export type Database = {
           userId: string
         }
         Update: {
+          avatarUrl?: string | null
+          color?: string
           createdAt?: string
+          displayName?: string
           hobby?: string
           introduction?: string
           name?: string

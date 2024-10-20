@@ -7,7 +7,7 @@ import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
-import useAlert from "../hooks/sdk/useAlert";
+import useAlert from "../hooks/utils/useAlert";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();
@@ -30,12 +30,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   } = useSignUpWithEmail({
     onSuccess: async ({ user }) => {
       if (user && user.identities && user.identities.length > 0) {
-        mutateAsyncPostUser({
-          userId: user.id,
-          name: "ユーザー",
-          color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
-        });
-
+        mutateAsyncPostUser({ userId: user.id });
         // showAlert({ status: "success", text: "確認メールを送信しました" });
       } else {
         showAlert({ status: "error", text: "既にアカウントが存在します" });
@@ -61,12 +56,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
       if (data?.user) {
         const user = await mutateAsyncSearchUser(data?.user?.id);
         if (!user.length) {
-          mutateAsyncPostUser({
-            userId: data.user.id,
-            name: data.user.user_metadata?.name ?? "ユーザー",
-            avatarUrl: data.user.user_metadata?.avatar_url,
-            color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
-          });
+          mutateAsyncPostUser({ userId: data.user.id });
         }
       }
     },

@@ -174,7 +174,7 @@ const SignInTemplate = memo(
                 isLoading={isLoading}
               >
                 <Text bold color="white" fontSize="md">
-                  サインイン
+                  ログイン
                 </Text>
               </Button>
               <HStack mt="3" alignItems="center" space="2">

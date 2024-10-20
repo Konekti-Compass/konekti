@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Database } from "./schema.d/ts";
 
 export type User = Database["public"]["Tables"]["user"];
+export type Profile = Database["public"]["Tables"]["profile"];
 
 export type UseQueryResult<T1, T2> = {
   onSuccess?: (response: T1) => void;
@@ -38,8 +39,9 @@ export type TabParamList = {
 };
 
 export type HomeStackParamList = {
-  Home: undefined;
-  EditProfile: undefined;
+  Home: { profileId?: number };
+  PostProfile: undefined;
+  EditProfile: { profileId: number };
   QRCode: undefined;
   FriendList: undefined;
 };

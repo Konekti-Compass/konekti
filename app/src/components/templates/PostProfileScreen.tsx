@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Feather } from "@expo/vector-icons";
 import {
@@ -17,13 +17,9 @@ import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Input from "../molecules/Input";
-import Overlay from "../molecules/Overlay";
-import { GetProfileResponse } from "../../hooks/profile/query";
-import { Alert } from "react-native";
 
-type EditProfileTemplateProps = {
-  profile: GetProfileResponse | undefined;
-  updateProfile: ({
+type PostProfileTemplateProps = {
+  postProfile: ({
     name,
     displayName,
     hobby,
@@ -36,10 +32,7 @@ type EditProfileTemplateProps = {
     talent: string;
     introduction: string;
   }) => Promise<void>;
-  deleteProfile: () => Promise<void>;
-  isLoading: boolean;
-  isLoadingUpdateProfile: boolean;
-  isLoadingDeleteProfile: boolean;
+  isLoadingPostProfile: boolean;
   goBackNavigationHandler: () => void;
 };
 
@@ -51,15 +44,11 @@ type FormValues = {
   introduction: string;
 };
 
-const EditProfileTemplate = ({
-  profile,
-  updateProfile,
-  deleteProfile,
-  isLoading,
-  isLoadingUpdateProfile,
-  isLoadingDeleteProfile,
+const PostProfileTemplate = ({
+  postProfile,
+  isLoadingPostProfile,
   goBackNavigationHandler,
-}: EditProfileTemplateProps) => {
+}: PostProfileTemplateProps) => {
   const textColor = useColorModeValue("muted.600", "muted.300");
   const iconColor = useColorModeValue("muted.600", "muted.100");
 
@@ -70,19 +59,8 @@ const EditProfileTemplate = ({
     formState: { errors },
   } = useForm<FormValues>();
 
-  useEffect(() => {
-    if (profile) {
-      setValue("name", profile.name);
-      profile.displayName && setValue("displayName", profile.displayName);
-      profile.talent && setValue("talent", profile.talent);
-      profile.hobby && setValue("hobby", profile.hobby);
-      profile.introduction && setValue("introduction", profile.introduction);
-    }
-  }, [profile]);
-
   return (
     <Box flex={1} safeAreaTop>
-      <Overlay isOpen={isLoading} />
       <HStack mb="4" px="2" alignItems="center" justifyContent="space-between">
         <IconButton
           onPress={goBackNavigationHandler}
@@ -95,7 +73,7 @@ const EditProfileTemplate = ({
           }
           variant="unstyled"
         />
-        <Heading>プロフィール編集</Heading>
+        <Heading>プロフィール作成</Heading>
         <IconButton
           onPress={goBackNavigationHandler}
           icon={<Icon as={<Feather name="x" />} size="xl" color={iconColor} />}
@@ -205,7 +183,7 @@ const EditProfileTemplate = ({
                   );
                 }}
                 rules={{
-                  required: "ユーザー名は入力してください",
+                  required: "ユーザー名を入力してください",
                   maxLength: {
                     value: 20,
                     message: "ユーザー名は20文字以上で入力してください",
@@ -359,56 +337,30 @@ const EditProfileTemplate = ({
               />
             </FormControl>
           </VStack>
-          <VStack mt="12" space="6">
-            <Button
-              size="lg"
-              rounded="xl"
-              colorScheme="brand"
-              isLoading={isLoadingUpdateProfile}
-              onPress={handleSubmit(async (data) => {
-                await updateProfile({
-                  name: data.name,
-                  displayName: data.displayName,
-                  hobby: data.hobby,
-                  talent: data.talent,
-                  introduction: data.introduction,
-                });
-              })}
-            >
-              <Text bold color="white" fontSize="md">
-                保存する
-              </Text>
-            </Button>
-            <Button
-              size="lg"
-              rounded="xl"
-              colorScheme="brand"
-              variant="outline"
-              borderColor="brand.600"
-              isLoading={isLoadingDeleteProfile}
-              onPress={() =>
-                Alert.alert("プロフィール削除", "プロフィールを削除してもよろしいですか", [
-                  {
-                    text: "キャンセル",
-                    style: "cancel",
-                  },
-                  {
-                    text: "削除",
-                    onPress: async () => await deleteProfile(),
-                    style: "destructive",
-                  },
-                ])
-              }
-            >
-              <Text bold color="brand.600" fontSize="md">
-                削除する
-              </Text>
-            </Button>
-          </VStack>
+          <Button
+            mt="12"
+            size="lg"
+            rounded="xl"
+            colorScheme="brand"
+            isLoading={isLoadingPostProfile}
+            onPress={handleSubmit(async (data) => {
+              await postProfile({
+                name: data.name,
+                displayName: data.displayName,
+                hobby: data.hobby,
+                talent: data.talent,
+                introduction: data.introduction,
+              });
+            })}
+          >
+            <Text bold color="white" fontSize="md">
+              作成する
+            </Text>
+          </Button>
         </Box>
       </KeyboardAwareScrollView>
     </Box>
   );
 };
 
-export default EditProfileTemplate;
+export default PostProfileTemplate;

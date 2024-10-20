@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -82,40 +83,69 @@ export type Database = {
         }
         Relationships: []
       }
-      user: {
+      profile: {
         Row: {
           avatarUrl: string | null
-          belong: string | null
           color: string
           createdAt: string
-          hobby: string | null
+          displayName: string
+          hobby: string
+          introduction: string
           name: string
-          profile: string | null
-          talent: string | null
-          updatedAt: string
+          profileId: number
+          talent: string
+          updateAt: string
           userId: string
         }
         Insert: {
           avatarUrl?: string | null
-          belong?: string | null
           color: string
           createdAt?: string
-          hobby?: string | null
+          displayName: string
+          hobby: string
+          introduction: string
           name: string
-          profile?: string | null
-          talent?: string | null
-          updatedAt?: string
+          profileId?: number
+          talent: string
+          updateAt?: string
           userId: string
         }
         Update: {
           avatarUrl?: string | null
-          belong?: string | null
           color?: string
           createdAt?: string
-          hobby?: string | null
+          displayName?: string
+          hobby?: string
+          introduction?: string
           name?: string
-          profile?: string | null
-          talent?: string | null
+          profileId?: number
+          talent?: string
+          updateAt?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
+      user: {
+        Row: {
+          createdAt: string
+          updatedAt: string
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          updatedAt?: string
+          userId: string
+        }
+        Update: {
+          createdAt?: string
           updatedAt?: string
           userId?: string
         }

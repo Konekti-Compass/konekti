@@ -1,13 +1,11 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { useMutation } from "@tanstack/react-query";
-import { decode } from "base64-arraybuffer";
 
 import { supabase } from "../../../supabase";
 import { UseMutationResult, User } from "../../../types";
 
 export type PostUserResponse = Awaited<ReturnType<typeof postUser>>;
 export type UpdateUserResponse = Awaited<ReturnType<typeof updateUser>>;
-export type PostAvatarResponse = Awaited<ReturnType<typeof postAvatar>>;
 export type SearchUserResponse = Awaited<ReturnType<typeof searchUser>>;
 export type SearchUsersResponse = Awaited<ReturnType<typeof searchUsers>>;
 
@@ -35,22 +33,6 @@ const updateUser = async (user: User["Update"]) => {
     .eq("userId", user.userId)
     .select()
     .single();
-
-  if (error) {
-    throw error;
-  }
-  return data;
-};
-
-const postAvatar = async (base64: string) => {
-  const filePath = `avatar/${Math.random()}.png`;
-
-  const { data, error } = await supabase.storage
-    .from("image")
-    .upload(filePath, decode(base64), {
-      contentType: "image",
-      upsert: true,
-    });
 
   if (error) {
     throw error;
@@ -98,16 +80,6 @@ export const useUpdateUser = ({
 }: UseMutationResult<UpdateUserResponse, PostgrestError>) =>
   useMutation({
     mutationFn: updateUser,
-    onSuccess,
-    onError,
-  });
-
-export const usePostAvatar = ({
-  onSuccess,
-  onError,
-}: UseMutationResult<PostAvatarResponse, Error>) =>
-  useMutation({
-    mutationFn: postAvatar,
     onSuccess,
     onError,
   });

@@ -5,7 +5,7 @@ import { useSignInWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUser } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
-import useAlert from "../hooks/sdk/useAlert";
+import useAlert from "../hooks/utils/useAlert";
 
 const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();
@@ -43,12 +43,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
       if (data?.user) {
         const user = await mutateAsyncSearchUser(data?.user?.id);
         if (!user.length) {
-          mutateAsyncPostUser({
-            userId: data.user.id,
-            name: data.user.user_metadata?.name ?? "ユーザー",
-            avatarUrl: data.user.user_metadata?.avatar_url,
-            color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
-          });
+          mutateAsyncPostUser({ userId: data.user.id });
         }
       }
     },
@@ -57,7 +52,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     },
     onCancel: () => {
       showAlert({ status: "error", text: "キャンセルされました" });
-    }
+    },
   });
 
   const signInWithEmail = useCallback(

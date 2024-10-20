@@ -25,6 +25,7 @@ const TabNavigator = () => {
     (route: Partial<Route<string, object | undefined>>) => {
       const routeName = getFocusedRouteNameFromRoute(route);
       if (
+        routeName === "PostProfile" ||
         routeName === "EditProfile" ||
         routeName === "FriendList" ||
         routeName === "QRCode"

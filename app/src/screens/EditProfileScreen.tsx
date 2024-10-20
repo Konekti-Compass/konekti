@@ -1,57 +1,86 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
-import Alert from "../components/molecules/Alert";
 import EditProfileTemplate from "../components/templates/EditProfileTemplate";
-import { useUpdateUser } from "../hooks/user/mutate";
-import { useQueryUser } from "../hooks/user/query";
-import { HomeStackScreenProps } from "../types";
-import useAlert from "../hooks/sdk/useAlert";
+import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
+import { useQueryProfile } from "../hooks/profile/query";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
+import useAlert from "../hooks/utils/useAlert";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"EditProfile">) => {
   const { showAlert } = useAlert();
 
-  const { data: user, isLoading: isLoadingUser } = useQueryUser();
+  const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
 
-  const { mutateAsync: mutateAsyncUpdateUser, isPending: isLoadingUpdateUser } =
-    useUpdateUser({
-      onSuccess: () => {
-        showAlert({ status: "success", text: "保存しました" });
-        navigation.goBack();
-      },
-      onError: () => {
-        showAlert({ status: "error", text: "エラーが発生しました" });
-      },
-    });
+  const {
+    data: profile,
+    isLoading: isLoadingProfile,
+    refetch: refetchProfile,
+  } = useQueryProfile(params?.profileId);
 
-  const updateUser = useCallback(
+  useEffect(() => {
+    refetchProfile();
+  }, []);
+
+  const {
+    mutateAsync: mutateAsyncUpdateProfile,
+    isPending: isLoadingUpdateProfile,
+  } = useUpdateProfile({
+    onSuccess: () => {
+      showAlert({ status: "success", text: "保存しました" });
+      navigation.goBack();
+    },
+    onError: () => {
+      showAlert({ status: "error", text: "エラーが発生しました" });
+    },
+  });
+
+  const {
+    mutateAsync: mutateAsyncDeleteProfile,
+    isPending: isLoadingDeleteProfile,
+  } = useDeleteProfile({
+    onSuccess: async () => {
+      await AsyncStorage.removeItem("@profileId");
+      showAlert({ status: "success", text: "削除しました" });
+      navigation.navigate("Home", { profileId: -1 });
+    },
+    onError: () => {
+      showAlert({ status: "error", text: "エラーが発生しました" });
+    },
+  });
+
+  const updateProfile = useCallback(
     async ({
       name,
-      belong,
+      displayName,
       hobby,
       talent,
-      profile,
+      introduction,
     }: {
       name: string;
-      belong: string | null;
-      hobby: string | null;
-      talent: string | null;
-      profile: string | null;
+      displayName: string;
+      hobby: string;
+      talent: string;
+      introduction: string;
     }) => {
-      if (user) {
-        await mutateAsyncUpdateUser({
-          userId: user.userId,
-          name,
-          belong,
-          hobby,
-          talent,
-          profile,
-        });
-      }
+      await mutateAsyncUpdateProfile({
+        profileId: params.profileId,
+        name,
+        displayName,
+        hobby,
+        talent,
+        introduction,
+      });
     },
-    [user]
+    [params]
   );
+
+  const deleteProfile = useCallback(async () => {
+    await mutateAsyncDeleteProfile(params.profileId);
+  }, [params]);
 
   const goBackNavigationHandler = useCallback(() => {
     navigation.goBack();
@@ -59,10 +88,12 @@ const EditProfileScreen = ({
 
   return (
     <EditProfileTemplate
-      user={user}
-      updateUser={updateUser}
-      isLoading={isLoadingUser}
-      isLoadingUpdateUser={isLoadingUpdateUser}
+      profile={profile}
+      updateProfile={updateProfile}
+      deleteProfile={deleteProfile}
+      isLoading={isLoadingProfile}
+      isLoadingUpdateProfile={isLoadingUpdateProfile}
+      isLoadingDeleteProfile={isLoadingDeleteProfile}
       goBackNavigationHandler={goBackNavigationHandler}
     />
   );

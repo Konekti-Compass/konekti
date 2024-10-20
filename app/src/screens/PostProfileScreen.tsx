@@ -20,7 +20,8 @@ const PostProfileScreen = ({
       showAlert({ status: "success", text: "作成しました" });
       navigation.navigate("Home", { profileId: data.profileId });
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
       showAlert({ status: "error", text: "エラーが発生しました" });
     },
   });

@@ -108,7 +108,8 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
         if (profiles?.length) {
           await mutateAsyncUpdateProfile({
             profileId,
-            avatarUrl: data.publicUrl          });
+            avatarUrl: data.publicUrl,
+          });
         }
       },
       onError: () => {
@@ -168,7 +169,10 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   return (
     <HomeTemplate
       profileId={profileId}
-      profile={profiles?.find((profile) => profile.profileId === profileId)}
+      profile={
+        profiles?.find((profile) => profile.profileId === profileId) ??
+        profiles?.[0]
+      }
       profiles={profiles}
       refetch={refetch}
       pickImageByCamera={pickImageByCamera}

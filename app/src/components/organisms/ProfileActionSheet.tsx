@@ -33,7 +33,7 @@ const ProfileActionSheet = memo(
     return (
       <Actionsheet isOpen={isOpen} onClose={onClose}>
         <Actionsheet.Content>
-          {profiles?.length && profileId !== -1 && (
+          {profiles?.length && (
             <FlatList
               w="90%"
               h="64"

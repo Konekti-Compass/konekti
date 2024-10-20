@@ -9,7 +9,6 @@ import {
   Pressable,
   ScrollView,
   Skeleton,
-  Spinner,
   Text,
   VStack,
   useColorModeValue,
@@ -121,9 +120,9 @@ const HomeTemplate = ({
                 justifyContent="space-between"
               >
                 {isLoading ? (
-                  <Skeleton w="24" h="5" rounded="full" />
+                  <Skeleton w="24" h="6" rounded="full" />
                 ) : (
-                  <Text h="5" bold fontSize="lg">
+                  <Text h="6" bold fontSize="lg">
                     {profile?.name ?? "11"}
                   </Text>
                 )}
@@ -292,15 +291,15 @@ const HomeTemplate = ({
             <Pressable
               onPress={() =>
                 Alert.alert(
-                  "サインアウト",
-                  "サインアウトしてもよろしいですか",
+                  "ログアウト",
+                  "ログアウトしてもよろしいですか",
                   [
                     {
                       text: "キャンセル",
                       style: "cancel",
                     },
                     {
-                      text: "サインアウト",
+                      text: "ログアウト",
                       onPress: () => signOut(),
                       style: "destructive",
                     },

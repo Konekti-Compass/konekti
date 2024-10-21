@@ -111,6 +111,7 @@ const SignInTemplate = memo(
                 }}
               />
               <FormControl.ErrorMessage
+                mt="1"
                 leftIcon={<Icon as={<Feather name="alert-circle" />} />}
               >
                 {errors.email && <Text>{errors.email.message}</Text>}
@@ -156,6 +157,7 @@ const SignInTemplate = memo(
                 }}
               />
               <FormControl.ErrorMessage
+                mt="1"
                 leftIcon={<Icon as={<Feather name="alert-circle" />} />}
               >
                 {errors.password && <Text>{errors.password.message}</Text>}

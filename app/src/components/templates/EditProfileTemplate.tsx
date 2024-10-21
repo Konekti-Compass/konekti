@@ -138,8 +138,13 @@ const EditProfileTemplate = ({
                         value={value}
                         onChangeText={onChange}
                       />
-                      <HStack mt="1" justifyContent="space-between">
+                      <HStack
+                        mt="1"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <FormControl.ErrorMessage
+                          mt="0"
                           leftIcon={
                             <Icon as={<Feather name="alert-circle" />} />
                           }
@@ -155,7 +160,7 @@ const EditProfileTemplate = ({
                   required: "プロフィール名を入力してください",
                   maxLength: {
                     value: 20,
-                    message: "プロフィール名は20文字以上で入力してください",
+                    message: "プロフィール名は20文字以内で入力してください",
                   },
                 }}
               />
@@ -189,8 +194,13 @@ const EditProfileTemplate = ({
                         value={value}
                         onChangeText={onChange}
                       />
-                      <HStack mt="1" justifyContent="space-between">
+                      <HStack
+                        mt="1"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <FormControl.ErrorMessage
+                          mt="0"
                           leftIcon={
                             <Icon as={<Feather name="alert-circle" />} />
                           }
@@ -208,7 +218,7 @@ const EditProfileTemplate = ({
                   required: "ユーザー名は入力してください",
                   maxLength: {
                     value: 20,
-                    message: "ユーザー名は20文字以上で入力してください",
+                    message: "ユーザー名は20文字以内で入力してください",
                   },
                 }}
               />
@@ -242,8 +252,13 @@ const EditProfileTemplate = ({
                         value={value}
                         onChangeText={onChange}
                       />
-                      <HStack mt="1" justifyContent="space-between">
+                      <HStack
+                        mt="1"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <FormControl.ErrorMessage
+                          mt="0"
                           leftIcon={
                             <Icon as={<Feather name="alert-circle" />} />
                           }
@@ -259,7 +274,7 @@ const EditProfileTemplate = ({
                   required: "趣味を入力してください",
                   maxLength: {
                     value: 20,
-                    message: "趣味は20文字以上で入力してください",
+                    message: "趣味は20文字以内で入力してください",
                   },
                 }}
               />
@@ -293,8 +308,13 @@ const EditProfileTemplate = ({
                         value={value}
                         onChangeText={onChange}
                       />
-                      <HStack mt="1" justifyContent="space-between">
+                      <HStack
+                        mt="1"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <FormControl.ErrorMessage
+                          mt="0"
                           leftIcon={
                             <Icon as={<Feather name="alert-circle" />} />
                           }
@@ -312,7 +332,7 @@ const EditProfileTemplate = ({
                   required: "特技を入力してください",
                   maxLength: {
                     value: 20,
-                    message: "特技は20文字以上で入力してください",
+                    message: "特技は20文字以内で入力してください",
                   },
                 }}
               />
@@ -332,8 +352,13 @@ const EditProfileTemplate = ({
                         value={value}
                         onChangeText={onChange}
                       />
-                      <HStack mt="1" justifyContent="space-between">
+                      <HStack
+                        mt="1"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <FormControl.ErrorMessage
+                          mt="0"
                           leftIcon={
                             <Icon as={<Feather name="alert-circle" />} />
                           }
@@ -353,7 +378,7 @@ const EditProfileTemplate = ({
                   required: "自己紹介を入力してください",
                   maxLength: {
                     value: 100,
-                    message: "自己紹介は100文字以上で入力してください",
+                    message: "自己紹介は100文字以内で入力してください",
                   },
                 }}
               />
@@ -387,17 +412,21 @@ const EditProfileTemplate = ({
               borderColor="brand.600"
               isLoading={isLoadingDeleteProfile}
               onPress={() =>
-                Alert.alert("プロフィール削除", "プロフィールを削除してもよろしいですか", [
-                  {
-                    text: "キャンセル",
-                    style: "cancel",
-                  },
-                  {
-                    text: "削除",
-                    onPress: async () => await deleteProfile(),
-                    style: "destructive",
-                  },
-                ])
+                Alert.alert(
+                  "プロフィール削除",
+                  "プロフィールを削除してもよろしいですか",
+                  [
+                    {
+                      text: "キャンセル",
+                      style: "cancel",
+                    },
+                    {
+                      text: "削除",
+                      onPress: async () => await deleteProfile(),
+                      style: "destructive",
+                    },
+                  ]
+                )
               }
             >
               <Text bold color="brand.600" fontSize="md">

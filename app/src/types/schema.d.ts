@@ -39,17 +39,17 @@ export type Database = {
         Row: {
           belongCode: number | null
           belongId: string
-          userId: string | null
+          profileId: number
         }
         Insert: {
           belongCode?: number | null
           belongId?: string
-          userId?: string | null
+          profileId: number
         }
         Update: {
           belongCode?: number | null
           belongId?: string
-          userId?: string | null
+          profileId?: number
         }
         Relationships: [
           {
@@ -60,11 +60,11 @@ export type Database = {
             referencedColumns: ["belongCode"]
           },
           {
-            foreignKeyName: "belong_userId_fkey"
-            columns: ["userId"]
+            foreignKeyName: "belong_profileId_fkey"
+            columns: ["profileId"]
             isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["userId"]
+            referencedRelation: "profile"
+            referencedColumns: ["profileId"]
           },
         ]
       }

@@ -166,13 +166,23 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     navigation.navigate("FriendList");
   }, []);
 
+  const getProfile = useCallback(() => {
+    const profile = profiles?.find(
+      (profile) => profile.profileId === profileId
+    );
+    if (!profile) {
+      if (profiles?.length) {
+        setProfileId(profiles[0].profileId);
+        return profiles[0];
+      }
+    }
+    return profile;
+  }, [profiles, profileId]);
+
   return (
     <HomeTemplate
       profileId={profileId}
-      profile={
-        profiles?.find((profile) => profile.profileId === profileId) ??
-        profiles?.[0]
-      }
+      profile={getProfile()}
       profiles={profiles}
       refetch={refetch}
       pickImageByCamera={pickImageByCamera}

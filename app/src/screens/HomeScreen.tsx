@@ -13,6 +13,7 @@ import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { wait } from "../functions";
+import { useQueryBelongs } from "../hooks/belong/query";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
@@ -31,6 +32,12 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     refetch: refetchProfiles,
   } = useQueryUserProfiles();
 
+  const {
+    data: belongs,
+    isLoading: isLoadingBelongs,
+    refetch: refetchBelongs,
+  } = useQueryBelongs(profileId);
+
   useFocusEffect(
     useCallback(() => {
       if (focusRef.current) {
@@ -39,6 +46,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
       }
 
       refetchProfiles();
+      refetchBelongs();
     }, [])
   );
 
@@ -134,6 +142,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const refetch = useCallback(async () => {
     setIsRefetching(true);
     await refetchProfiles();
+    await refetchBelongs();
     setIsRefetching(false);
   }, []);
 
@@ -166,18 +175,29 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     navigation.navigate("FriendList");
   }, []);
 
+  const getProfile = useCallback(() => {
+    const profile = profiles?.find(
+      (profile) => profile.profileId === profileId
+    );
+    if (!profile) {
+      if (profiles?.length) {
+        setProfileId(profiles[0].profileId);
+        return profiles[0];
+      }
+    }
+    return profile;
+  }, [profiles, profileId]);
+
   return (
     <HomeTemplate
       profileId={profileId}
-      profile={
-        profiles?.find((profile) => profile.profileId === profileId) ??
-        profiles?.[0]
-      }
+      profile={getProfile()}
       profiles={profiles}
+      belongs={belongs}
       refetch={refetch}
       pickImageByCamera={pickImageByCamera}
       pickImageByLibrary={pickImageByLibrary}
-      isLoading={isLoadingProfileId || isLoadingProfiles}
+      isLoading={isLoadingProfileId || isLoadingProfiles || isLoadingBelongs}
       isRefetching={isRefetching}
       isLoadingSignOut={isLoadingSignOut}
       isLoadingAvatar={isLoadingPostAvatar || isLoadingUpdateProfile}

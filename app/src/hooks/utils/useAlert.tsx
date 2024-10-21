@@ -14,7 +14,6 @@ const useAlert = () => {
       toast.show({
         id: newId,
         duration: 3000,
-        avoidKeyboard: true,
         placement: "bottom",
         render: () => (
           <Alert

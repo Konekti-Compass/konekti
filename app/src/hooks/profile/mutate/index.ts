@@ -57,6 +57,7 @@ const postAvatar = async (base64: string) => {
 };
 
 const deleteProfile = async (profileId: number) => {
+  await supabase.from("belong").delete().eq("profileId", profileId);
   const { data, error } = await supabase
     .from("profile")
     .delete()

@@ -116,6 +116,7 @@ const SignUpTemplate = memo(
                 }}
               />
               <FormControl.ErrorMessage
+                mt="1"
                 leftIcon={<Icon as={<Feather name="alert-circle" />} />}
               >
                 {errors.email && <Text>{errors.email.message}</Text>}
@@ -157,7 +158,7 @@ const SignUpTemplate = memo(
                   required: "パスワードを入力してください",
                   minLength: {
                     value: 6,
-                    message: "パスワードは6文字以上で入力してください",
+                    message: "パスワードは6文字以内で入力してください",
                   },
                   pattern: {
                     value: /[a-zA-Z0-9.?/-]/,
@@ -166,6 +167,7 @@ const SignUpTemplate = memo(
                 }}
               />
               <FormControl.ErrorMessage
+                mt="1"
                 leftIcon={<Icon as={<Feather name="alert-circle" />} />}
               >
                 {errors.password && <Text>{errors.password.message}</Text>}

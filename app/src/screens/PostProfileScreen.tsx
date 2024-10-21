@@ -12,7 +12,7 @@ const PostProfileScreen = ({
 }: HomeStackScreenProps<"PostProfile">) => {
   const { showAlert } = useAlert();
 
-  const [belongs, setBelongs] = useState<string[]>([]);
+  const [belongNames, setBelongNames] = useState<string[]>([]);
 
   const { session } = useAuth();
 
@@ -29,7 +29,7 @@ const PostProfileScreen = ({
   } = usePostProfile({
     onSuccess: async (data) => {
       await Promise.all(
-        belongs.map(async (item) => {
+        belongNames.map(async (item) => {
           await mutateAsyncPostBelong({
             name: item,
             profileId: data.profileId,
@@ -79,8 +79,8 @@ const PostProfileScreen = ({
 
   return (
     <PostProfileTemplate
-      belongs={belongs}
-      setBelongs={setBelongs}
+      belongNames={belongNames}
+      setBelongNames={setBelongNames}
       postProfile={postProfile}
       isLoadingPostProfile={isLoadingPostProfile || isLoadingPostBelong}
       goBackNavigationHandler={goBackNavigationHandler}

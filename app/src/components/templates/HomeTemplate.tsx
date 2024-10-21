@@ -185,7 +185,7 @@ const HomeTemplate = ({
                           rounded="full"
                           bg="muted.200"
                         >
-                          <Text fontSize="2xs">{item.name}</Text>
+                          <Text fontWeight="600" fontSize="10px">{item.name}</Text>
                         </Box>
                       ))}
                     </HStack>

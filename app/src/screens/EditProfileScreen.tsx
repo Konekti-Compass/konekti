@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import EditProfileTemplate from "../components/templates/EditProfileTemplate";
 import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
@@ -7,11 +7,15 @@ import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUpdateBelong } from "../hooks/belong/mutate";
+import { useQueryBelongs } from "../hooks/belong/query";
 
 const EditProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"EditProfile">) => {
   const { showAlert } = useAlert();
+
+  const [belongNames, setBelongNames] = useState<string[]>([]);
 
   const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
 
@@ -21,15 +25,37 @@ const EditProfileScreen = ({
     refetch: refetchProfile,
   } = useQueryProfile(params?.profileId);
 
+  const {
+    data: belongs,
+    isLoading: isLoadingBelongs,
+    refetch: refetchBelongs,
+  } = useQueryBelongs(params?.profileId);
+
   useEffect(() => {
     refetchProfile();
+    refetchBelongs();
   }, []);
+
+  useEffect(() => {
+    if (belongs) {
+      setBelongNames(belongs.map((item) => item.name));
+    }
+  }, [belongs]);
+
+  const {
+    mutateAsync: mutateAsyncUpdateBelong,
+    isPending: isLoadingUpdateBelong,
+  } = useUpdateBelong({
+    onError: () => {
+      showAlert({ status: "error", text: "エラーが発生しました" });
+    },
+  });
 
   const {
     mutateAsync: mutateAsyncUpdateProfile,
     isPending: isLoadingUpdateProfile,
   } = useUpdateProfile({
-    onSuccess: () => {
+    onSuccess: async (data) => {
       showAlert({ status: "success", text: "保存しました" });
       navigation.goBack();
     },
@@ -90,10 +116,12 @@ const EditProfileScreen = ({
 
   return (
     <EditProfileTemplate
+      belongNames={belongNames}
+      setBelongNames={setBelongNames}
       profile={profile}
       updateProfile={updateProfile}
       deleteProfile={deleteProfile}
-      isLoading={isLoadingProfile}
+      isLoading={isLoadingProfile || isLoadingBelongs}
       isLoadingUpdateProfile={isLoadingUpdateProfile}
       isLoadingDeleteProfile={isLoadingDeleteProfile}
       goBackNavigationHandler={goBackNavigationHandler}

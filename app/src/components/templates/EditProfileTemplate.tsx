@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 
 import { Feather } from "@expo/vector-icons";
 import {
@@ -23,6 +23,8 @@ import { Alert } from "react-native";
 
 type EditProfileTemplateProps = {
   profile: GetProfileResponse | undefined;
+  belongNames: string[];
+  setBelongNames: Dispatch<SetStateAction<string[]>>;
   updateProfile: ({
     name,
     displayName,
@@ -46,6 +48,7 @@ type EditProfileTemplateProps = {
 type FormValues = {
   name: string;
   displayName: string;
+  belong: string;
   talent: string;
   hobby: string;
   introduction: string;
@@ -53,6 +56,8 @@ type FormValues = {
 
 const EditProfileTemplate = ({
   profile,
+  belongNames,
+  setBelongNames,
   updateProfile,
   deleteProfile,
   isLoading,
@@ -67,6 +72,7 @@ const EditProfileTemplate = ({
     control,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -219,6 +225,104 @@ const EditProfileTemplate = ({
                   maxLength: {
                     value: 20,
                     message: "ユーザー名は20文字以内で入力してください",
+                  },
+                }}
+              />
+            </FormControl>
+            <FormControl isInvalid={"belong" in errors}>
+              <FormControl.Label>
+                所属（スペースを押して確定）
+              </FormControl.Label>
+              <Controller
+                name="belong"
+                control={control}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <VStack>
+                      <Input
+                        isReadOnly
+                        returnKeyType="done"
+                        InputRightElement={
+                          <IconButton
+                            onPress={() => setValue("belong", "")}
+                            icon={
+                              <Icon
+                                as={<Feather name="x" />}
+                                size="4"
+                                color="muted.400"
+                              />
+                            }
+                            variant="unstyled"
+                            _pressed={{
+                              opacity: 0.5,
+                            }}
+                          />
+                        }
+                        value={value}
+                        onChangeText={(text) => {
+                          onChange(text);
+                          trigger("belong");
+                          if (text.endsWith(" ") || text.endsWith("　")) {
+                            if (
+                              text.slice(0, -1).length === 0 ||
+                              text.slice(0, -1).length > 8
+                            ) {
+                              return;
+                            }
+                            setBelongNames([...belongNames, text.slice(0, -1)]);
+                            setValue("belong", "");
+                          }
+                        }}
+                      />
+                      <FormControl.ErrorMessage
+                        mt="6px"
+                        leftIcon={<Icon as={<Feather name="alert-circle" />} />}
+                      >
+                        {errors.belong && <Text>{errors.belong.message}</Text>}
+                      </FormControl.ErrorMessage>
+                      <HStack flexWrap="wrap" mt="1" mb="2" space="2">
+                        {belongNames.map((item, index) => (
+                          <HStack
+                            key={index}
+                            alignItems="center"
+                            mt="6px"
+                            pr="8px"
+                            pl="10px"
+                            py="3px"
+                            space="1"
+                            rounded="full"
+                            bg="muted.200"
+                          >
+                            <Text fontWeight="600">{item}</Text>
+                            <IconButton
+                              variant="unstyled"
+                              p="3px"
+                              _pressed={{ opacity: 1 }}
+                              icon={<Icon as={<Feather />} name="x" size="3" />}
+                              onPress={() => {
+                                /* 
+                                setBelongNames(
+                                  belongNames.filter((_, i) => i !== index)
+                                );
+                                */
+                              }}
+                            />
+                          </HStack>
+                        ))}
+                      </HStack>
+                    </VStack>
+                  );
+                }}
+                rules={{
+                  validate: (value) => {
+                    if (!value && belongNames.length === 0) {
+                      return "所属を入力してください";
+                    }
+                    return true;
+                  },
+                  maxLength: {
+                    value: 9,
+                    message: "所属は8文字以内で入力してください",
                   },
                 }}
               />

@@ -13,14 +13,14 @@ import {
   Icon,
   useColorModeValue,
 } from "native-base";
-import { Controller, set, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Input from "../molecules/Input";
 
 type PostProfileTemplateProps = {
-  belongs: string[];
-  setBelongs: Dispatch<SetStateAction<string[]>>;
+  belongNames: string[];
+  setBelongNames: Dispatch<SetStateAction<string[]>>;
   postProfile: ({
     name,
     displayName,
@@ -48,8 +48,8 @@ type FormValues = {
 };
 
 const PostProfileTemplate = ({
-  belongs,
-  setBelongs,
+  belongNames,
+  setBelongNames,
   postProfile,
   isLoadingPostProfile,
   goBackNavigationHandler,
@@ -246,7 +246,7 @@ const PostProfileTemplate = ({
                             ) {
                               return;
                             }
-                            setBelongs([...belongs, text.slice(0, -1)]);
+                            setBelongNames([...belongNames, text.slice(0, -1)]);
                             setValue("belong", "");
                           }
                         }}
@@ -258,7 +258,7 @@ const PostProfileTemplate = ({
                         {errors.belong && <Text>{errors.belong.message}</Text>}
                       </FormControl.ErrorMessage>
                       <HStack flexWrap="wrap" mt="1" mb="2" space="2">
-                        {belongs.map((item, index) => (
+                        {belongNames.map((item, index) => (
                           <HStack
                             key={index}
                             alignItems="center"
@@ -277,8 +277,8 @@ const PostProfileTemplate = ({
                               _pressed={{ opacity: 1 }}
                               icon={<Icon as={<Feather />} name="x" size="3" />}
                               onPress={() => {
-                                setBelongs(
-                                  belongs.filter((_, i) => i !== index)
+                                setBelongNames(
+                                  belongNames.filter((_, i) => i !== index)
                                 );
                               }}
                             />
@@ -290,7 +290,7 @@ const PostProfileTemplate = ({
                 }}
                 rules={{
                   validate: (value) => {
-                    if (!value && belongs.length === 0) {
+                    if (!value && belongNames.length === 0) {
                       return "所属を入力してください";
                     }
                     return true;

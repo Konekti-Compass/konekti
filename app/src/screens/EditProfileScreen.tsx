@@ -66,6 +66,8 @@ const EditProfileScreen = ({
       talent: string;
       introduction: string;
     }) => {
+      if (!params) return;
+
       await mutateAsyncUpdateProfile({
         profileId: params.profileId,
         name,

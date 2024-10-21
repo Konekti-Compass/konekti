@@ -37,28 +37,21 @@ export type Database = {
     Tables: {
       belong: {
         Row: {
-          belongCode: number | null
           belongId: string
+          name: string
           profileId: number
         }
         Insert: {
-          belongCode?: number | null
           belongId?: string
+          name: string
           profileId: number
         }
         Update: {
-          belongCode?: number | null
           belongId?: string
+          name?: string
           profileId?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "belong_belongCode_fkey"
-            columns: ["belongCode"]
-            isOneToOne: false
-            referencedRelation: "belong_code"
-            referencedColumns: ["belongCode"]
-          },
           {
             foreignKeyName: "belong_profileId_fkey"
             columns: ["profileId"]
@@ -67,21 +60,6 @@ export type Database = {
             referencedColumns: ["profileId"]
           },
         ]
-      }
-      belong_code: {
-        Row: {
-          belongCode: number
-          name: string
-        }
-        Insert: {
-          belongCode?: number
-          name: string
-        }
-        Update: {
-          belongCode?: number
-          name?: string
-        }
-        Relationships: []
       }
       profile: {
         Row: {

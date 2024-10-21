@@ -8,6 +8,7 @@ import { Database } from "./schema.d/ts";
 
 export type User = Database["public"]["Tables"]["user"];
 export type Profile = Database["public"]["Tables"]["profile"];
+export type Belong = Database["public"]["Tables"]["belong"];
 
 export type UseQueryResult<T1, T2> = {
   onSuccess?: (response: T1) => void;

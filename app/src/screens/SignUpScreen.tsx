@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 
 import SignUpTemplate from "../components/templates/SignUpTemplate";
 import { useSignUpWithEmail } from "../hooks/auth/mutate";
-import { usePostUser, useSearchUser } from "../hooks/user/mutate";
+import { usePostUser, useSearchUserByUserId } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
 import useAlert from "../hooks/utils/useAlert";
@@ -12,8 +12,8 @@ import useAlert from "../hooks/utils/useAlert";
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();
 
-  const { mutateAsync: mutateAsyncSearchUser, isPending: isLoadingSearchUser } =
-    useSearchUser({
+  const { mutateAsync: mutateAsyncSearchUserByUserId, isPending: isLoadingSearchUserByUserId } =
+    useSearchUserByUserId({
       onError: () =>
         showAlert({ status: "error", text: "エラーが発生しました" }),
     });
@@ -54,7 +54,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { mutateAsync: mutateAsyncSignInWithGoogle } = useGoogleAuth({
     onSuccess: async (data) => {
       if (data?.user) {
-        const user = await mutateAsyncSearchUser(data?.user?.id);
+        const user = await mutateAsyncSearchUserByUserId(data?.user?.id);
         if (!user.length) {
           mutateAsyncPostUser({ userId: data.user.id });
         }
@@ -100,7 +100,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   return (
     <SignUpTemplate
       isLoading={
-        isLoadingSignUpWithEmail || isLoadingPostUser || isLoadingSearchUser
+        isLoadingSignUpWithEmail || isLoadingPostUser || isLoadingSearchUserByUserId
       }
       signUpWithEmail={signUpWithEmail}
       signUpWithGoogle={signUpWithGoogle}

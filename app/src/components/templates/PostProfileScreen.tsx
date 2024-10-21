@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import { Feather } from "@expo/vector-icons";
 import {
@@ -19,6 +19,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Input from "../molecules/Input";
 
 type PostProfileTemplateProps = {
+  belongs: string[];
+  setBelongs: Dispatch<SetStateAction<string[]>>;
   postProfile: ({
     name,
     displayName,
@@ -46,6 +48,8 @@ type FormValues = {
 };
 
 const PostProfileTemplate = ({
+  belongs,
+  setBelongs,
   postProfile,
   isLoadingPostProfile,
   goBackNavigationHandler,
@@ -60,8 +64,6 @@ const PostProfileTemplate = ({
     trigger,
     formState: { errors },
   } = useForm<FormValues>();
-
-  const [belongs, setBelongs] = React.useState<string[]>([]);
 
   return (
     <Box flex={1} safeAreaTop>

@@ -24,11 +24,13 @@ import { GetUserProfilesResponse } from "../../hooks/profile/query";
 import Overlay from "../molecules/Overlay";
 import ProfileActionSheet from "../organisms/ProfileActionSheet";
 import SkeletonSetting from "../organisms/SkeletonSetting";
+import { GetBelongsResponse } from "../../hooks/belong/query";
 
 type SettingTemplateProps = {
   profileId: number;
   profile: GetUserProfilesResponse[number] | undefined;
   profiles: GetUserProfilesResponse | undefined;
+  belongs: GetBelongsResponse | undefined;
   refetch: () => Promise<void>;
   pickImageByCamera: () => Promise<void>;
   pickImageByLibrary: () => Promise<void>;
@@ -49,6 +51,7 @@ const HomeTemplate = ({
   profileId,
   profile,
   profiles,
+  belongs,
   refetch,
   pickImageByCamera,
   pickImageByLibrary,
@@ -64,7 +67,6 @@ const HomeTemplate = ({
   friendListNavigationHandler,
   qrCodeNavigationHandler,
 }: SettingTemplateProps) => {
-  const textColor = useColorModeValue("muted.600", "muted.300");
   const iconColor = useColorModeValue("muted.500", "muted.100");
   const spinnerColor = useColorModeValue("#a3a3a3", "white");
 
@@ -143,7 +145,7 @@ const HomeTemplate = ({
                   </Pressable>
                 )}
               </HStack>
-              <HStack w="100%" mt="4" alignItems="center" space="2">
+              <HStack w="100%" mt="6" alignItems="flex-start" space="2">
                 <Box w="25%">
                   <Avatar
                     text={profile?.displayName.charAt(0)}
@@ -172,21 +174,28 @@ const HomeTemplate = ({
                     >
                       {profile?.displayName}
                     </Text>
-                    <Text
-                      h="4"
-                      color={textColor}
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                    >
-                      所属がありません
-                    </Text>
+                    <HStack flexWrap="wrap" mt="1" mb="2" space="5px">
+                      {belongs?.map((item, index) => (
+                        <Box
+                          key={index}
+                          alignItems="center"
+                          mt="6px"
+                          px="8px"
+                          py="3px"
+                          rounded="full"
+                          bg="muted.200"
+                        >
+                          <Text fontSize="2xs">{item.name}</Text>
+                        </Box>
+                      ))}
+                    </HStack>
                   </VStack>
                 )}
               </HStack>
               {isLoading ? (
                 <Skeleton.Text mt="6" lines={4} />
               ) : (
-                <VStack w="100%" mt="6" space="5" px="1">
+                <VStack w="100%" mt="2" space="5" px="1">
                   <VStack alignItems="flex-start">
                     <Text bold fontSize="sm" color="muted.400">
                       趣味
@@ -290,21 +299,17 @@ const HomeTemplate = ({
             </Pressable>
             <Pressable
               onPress={() =>
-                Alert.alert(
-                  "ログアウト",
-                  "ログアウトしてもよろしいですか",
-                  [
-                    {
-                      text: "キャンセル",
-                      style: "cancel",
-                    },
-                    {
-                      text: "ログアウト",
-                      onPress: () => signOut(),
-                      style: "destructive",
-                    },
-                  ]
-                )
+                Alert.alert("ログアウト", "ログアウトしてもよろしいですか", [
+                  {
+                    text: "キャンセル",
+                    style: "cancel",
+                  },
+                  {
+                    text: "ログアウト",
+                    onPress: () => signOut(),
+                    style: "destructive",
+                  },
+                ])
               }
               _pressed={{
                 opacity: 0.5,

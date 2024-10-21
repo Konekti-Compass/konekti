@@ -1,27 +1,45 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import PostProfileTemplate from "../components/templates/PostProfileScreen";
 import { usePostProfile } from "../hooks/profile/mutate";
 import { HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
 import useAuth from "../hooks/auth/useAuth";
+import { usePostBelong } from "../hooks/belong/mutate";
 
 const PostProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"PostProfile">) => {
   const { showAlert } = useAlert();
 
+  const [belongs, setBelongs] = useState<string[]>([]);
+
   const { session } = useAuth();
+
+  const { mutateAsync: mutateAsyncPostBelong, isPending: isLoadingPostBelong } =
+    usePostBelong({
+      onError: () => {
+        showAlert({ status: "error", text: "エラーが発生しました" });
+      },
+    });
+
   const {
     mutateAsync: mutateAsyncPostProfile,
     isPending: isLoadingPostProfile,
   } = usePostProfile({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await Promise.all(
+        belongs.map(async (item) => {
+          await mutateAsyncPostBelong({
+            name: item,
+            profileId: data.profileId,
+          });
+        })
+      );
       showAlert({ status: "success", text: "作成しました" });
       navigation.navigate("Home", { profileId: data.profileId });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       showAlert({ status: "error", text: "エラーが発生しました" });
     },
   });
@@ -40,6 +58,8 @@ const PostProfileScreen = ({
       talent: string;
       introduction: string;
     }) => {
+      if (!session) return;
+
       await mutateAsyncPostProfile({
         name,
         displayName,
@@ -47,7 +67,7 @@ const PostProfileScreen = ({
         talent,
         introduction,
         color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
-        userId: session?.user.id,
+        userId: session.user.id,
       });
     },
     [session]
@@ -59,8 +79,10 @@ const PostProfileScreen = ({
 
   return (
     <PostProfileTemplate
+      belongs={belongs}
+      setBelongs={setBelongs}
       postProfile={postProfile}
-      isLoadingPostProfile={isLoadingPostProfile}
+      isLoadingPostProfile={isLoadingPostProfile || isLoadingPostBelong}
       goBackNavigationHandler={goBackNavigationHandler}
     />
   );

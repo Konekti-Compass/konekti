@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 
 import SignIn from "../components/templates/SignInTemplate";
 import { useSignInWithEmail } from "../hooks/auth/mutate";
-import { usePostUser, useSearchUser } from "../hooks/user/mutate";
+import { usePostUser, useSearchUserByUserId } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
 import useGoogleAuth from "../hooks/auth/useGoogleAuth";
 import useAlert from "../hooks/utils/useAlert";
@@ -10,8 +10,8 @@ import useAlert from "../hooks/utils/useAlert";
 const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();
 
-  const { mutateAsync: mutateAsyncSearchUser, isPending: isLoadingSearchUser } =
-    useSearchUser({
+  const { mutateAsync: mutateAsyncSearchUserByUserId, isPending: isLoadingSearchUserByUserId } =
+    useSearchUserByUserId({
       onError: () =>
         showAlert({ status: "error", text: "エラーが発生しました" }),
     });
@@ -41,7 +41,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   const { mutateAsync: mutateAsyncSignInWithGoogle } = useGoogleAuth({
     onSuccess: async (data) => {
       if (data?.user) {
-        const user = await mutateAsyncSearchUser(data?.user?.id);
+        const user = await mutateAsyncSearchUserByUserId(data?.user?.id);
         if (!user.length) {
           mutateAsyncPostUser({ userId: data.user.id });
         }
@@ -77,7 +77,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
   return (
     <SignIn
       isLoading={
-        isLoadingSignInWithEmail || isLoadingPostUser || isLoadingSearchUser
+        isLoadingSignInWithEmail || isLoadingPostUser || isLoadingSearchUserByUserId
       }
       signInWithEmail={signInWithEmail}
       signInWithGoogle={signInWithGoogle}

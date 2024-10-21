@@ -6,8 +6,7 @@ import { UseMutationResult, User } from "../../../types";
 
 export type PostUserResponse = Awaited<ReturnType<typeof postUser>>;
 export type UpdateUserResponse = Awaited<ReturnType<typeof updateUser>>;
-export type SearchUserResponse = Awaited<ReturnType<typeof searchUser>>;
-export type SearchUsersResponse = Awaited<ReturnType<typeof searchUsers>>;
+export type SearchUserByUserIdResponse = Awaited<ReturnType<typeof searchUserByUserId>>;
 
 const postUser = async (user: User["Insert"]) => {
   const { data, error } = await supabase
@@ -40,23 +39,11 @@ const updateUser = async (user: User["Update"]) => {
   return data;
 };
 
-const searchUser = async (userId: string) => {
+const searchUserByUserId = async (userId: string) => {
   const { data, error } = await supabase
     .from("user")
     .select()
     .eq("userId", userId);
-
-  if (error) {
-    throw error;
-  }
-  return data;
-};
-
-const searchUsers = async (query: string) => {
-  const { data, error } = await supabase
-    .from("user")
-    .select("*")
-    .ilike("name", `%${query}%`);
 
   if (error) {
     throw error;
@@ -84,22 +71,12 @@ export const useUpdateUser = ({
     onError,
   });
 
-export const useSearchUser = ({
+export const useSearchUserByUserId = ({
   onSuccess,
   onError,
-}: UseMutationResult<SearchUserResponse, PostgrestError>) =>
+}: UseMutationResult<SearchUserByUserIdResponse, PostgrestError>) =>
   useMutation({
-    mutationFn: searchUser,
-    onSuccess,
-    onError,
-  });
-
-export const useSearchUsers = ({
-  onSuccess,
-  onError,
-}: UseMutationResult<SearchUsersResponse, PostgrestError>) =>
-  useMutation({
-    mutationFn: searchUsers,
+    mutationFn: searchUserByUserId,
     onSuccess,
     onError,
   });

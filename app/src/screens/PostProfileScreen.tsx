@@ -4,7 +4,7 @@ import PostProfileTemplate from "../components/templates/PostProfileScreen";
 import { usePostProfile } from "../hooks/profile/mutate";
 import { HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../hooks/utils/useAuth";
 import { usePostBelong } from "../hooks/belong/mutate";
 
 const PostProfileScreen = ({

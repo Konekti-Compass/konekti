@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./contexts/AuthProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RootComponent from "./components/RootComponent";
+import { ProfileIdProvider } from "./contexts/ProfileIdProvider";
 
 LogBox.ignoreAllLogs();
 
@@ -67,7 +68,9 @@ const App = () => {
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <RootComponent />
+          <ProfileIdProvider>
+            <RootComponent />
+          </ProfileIdProvider>
         </AuthProvider>
       </QueryClientProvider>
     </NativeBaseProvider>

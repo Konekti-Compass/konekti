@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "../../../supabase";
-import { Profile, User } from "../../../types";
-import useAuth from "../../auth/useAuth";
+import useAuth from "../../utils/useAuth";
 
-export type GetProfileResponse = Awaited<ReturnType<typeof getProfile>>;
-export type GetUserProfilesResponse = Awaited<
-  ReturnType<typeof getUserProfiles>
+export type GetProfileByProfileIdResponse = Awaited<ReturnType<typeof getProfileByProfileId>>;
+export type GetProfilesByUserIdResponse = Awaited<
+  ReturnType<typeof getProfilesByUserId>
 >;
 
-const getProfile = async (profileId: number) => {
+const getProfileByProfileId = async (profileId: number) => {
   const { data, error } = await supabase
     .from("profile")
     .select("*, user(*)")
@@ -21,7 +20,7 @@ const getProfile = async (profileId: number) => {
   return data[0];
 };
 
-const getUserProfiles = async (userId: string | undefined) => {
+const getProfilesByUserId = async (userId: string | undefined) => {
   if (!userId) {
     return [];
   }
@@ -38,17 +37,17 @@ const getUserProfiles = async (userId: string | undefined) => {
   return data;
 };
 
-export const useQueryProfile = (profileId: number) =>
+export const useQueryProfileByProfileId = (profileId: number) =>
   useQuery({
-    queryKey: ["profile", profileId],
-    queryFn: async () => await getProfile(profileId),
+    queryKey: ["profile_by_profile_id", profileId],
+    queryFn: async () => await getProfileByProfileId(profileId),
   });
 
-export const useQueryUserProfiles = () => {
+export const useQueryProfilesByUserId = () => {
   const { session } = useAuth();
 
   return useQuery({
-    queryKey: ["profiles", session?.user.id],
-    queryFn: async () => await getUserProfiles(session?.user.id),
+    queryKey: ["profiles_by_user_id", session?.user.id],
+    queryFn: async () => await getProfilesByUserId(session?.user.id),
   });
 };

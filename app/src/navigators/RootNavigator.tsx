@@ -3,7 +3,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Center, Spinner } from "native-base";
 
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../hooks/utils/useAuth";
 import { RootStackParamList } from "../types";
 
 import AuthNavigator from "./AuthNavigator";

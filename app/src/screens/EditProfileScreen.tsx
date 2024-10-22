@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import EditProfileTemplate from "../components/templates/EditProfileTemplate";
 import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
-import { useQueryProfile } from "../hooks/profile/query";
+import { useQueryProfileByProfileId } from "../hooks/profile/query";
 import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUpdateBelong } from "../hooks/belong/mutate";
-import { useQueryBelongs } from "../hooks/belong/query";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 
 const EditProfileScreen = ({
   navigation,
@@ -23,13 +23,13 @@ const EditProfileScreen = ({
     data: profile,
     isLoading: isLoadingProfile,
     refetch: refetchProfile,
-  } = useQueryProfile(params?.profileId);
+  } = useQueryProfileByProfileId(params?.profileId);
 
   const {
     data: belongs,
     isLoading: isLoadingBelongs,
     refetch: refetchBelongs,
-  } = useQueryBelongs(params?.profileId);
+  } = useQueryBelongsByProfileId(params?.profileId);
 
   useEffect(() => {
     refetchProfile();

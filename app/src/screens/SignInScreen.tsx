@@ -4,7 +4,7 @@ import SignIn from "../components/templates/SignInTemplate";
 import { useSignInWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUserByUserId } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
-import useGoogleAuth from "../hooks/auth/useGoogleAuth";
+import useGoogleAuth from "../hooks/utils/useGoogleAuth";
 import useAlert from "../hooks/utils/useAlert";
 
 const SignInScreen = ({ navigation }: AuthStackScreenProps) => {

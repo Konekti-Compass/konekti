@@ -7,36 +7,40 @@ import useImage from "../hooks/utils/useImage";
 import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
 import { supabase } from "../supabase";
 import useAlert from "../hooks/utils/useAlert";
-import { useQueryUserProfiles } from "../hooks/profile/query";
+import { useQueryProfilesByUserId } from "../hooks/profile/query";
 
 import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { wait } from "../functions";
-import { useQueryBelongs } from "../hooks/belong/query";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
+import useProfileId from "../hooks/utils/useProfileId";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
 
   const focusRef = useRef(true);
 
-  const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
+  const { params } = useRoute<RouteProp<HomeStackParamList, "Home">>();
 
-  const [profileId, setProfileId] = useState(-1);
-  const [isLoadingProfileId, setIsLoadingProfileId] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
+
+  const {
+    profileId,
+    setProfileId,
+    isLoading: isLoadingProfileId,
+  } = useProfileId();
 
   const {
     data: profiles,
     isLoading: isLoadingProfiles,
     refetch: refetchProfiles,
-  } = useQueryUserProfiles();
+  } = useQueryProfilesByUserId();
 
   const {
     data: belongs,
     isLoading: isLoadingBelongs,
     refetch: refetchBelongs,
-  } = useQueryBelongs(profileId);
+  } = useQueryBelongsByProfileId(profileId);
 
   useFocusEffect(
     useCallback(() => {
@@ -52,39 +56,16 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   useEffect(() => {
     (async () => {
-      if (profileId !== -1) {
-        await AsyncStorage.setItem("@profileId", profileId.toString());
-      }
-    })();
-  }, [profileId]);
-
-  useEffect(() => {
-    (async () => {
-      if (profileId === -1) {
-        setIsLoadingProfileId(true);
-        const profileId = await AsyncStorage.getItem("@profileId");
-        if (profileId) {
-          setProfileId(Number(profileId));
-        }
-        setIsLoadingProfileId(false);
-      }
-    })();
-  }, [profileId]);
-
-  useEffect(() => {
-    (async () => {
       if (params?.profileId) {
-        if (params?.profileId === -1) {
+        await wait(1);
+        if (params.profileId === -1) {
           if (profiles?.length) {
             setProfileId(profiles[0].profileId);
           } else {
             setProfileId(-1);
           }
         } else {
-          setIsLoadingProfileId(true);
           setProfileId(params.profileId);
-          await wait(1);
-          setIsLoadingProfileId(false);
         }
       }
     })();

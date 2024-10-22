@@ -6,17 +6,18 @@ import SignUpTemplate from "../components/templates/SignUpTemplate";
 import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUserByUserId } from "../hooks/user/mutate";
 import { AuthStackScreenProps } from "../types";
-import useGoogleAuth from "../hooks/auth/useGoogleAuth";
+import useGoogleAuth from "../hooks/utils/useGoogleAuth";
 import useAlert from "../hooks/utils/useAlert";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();
 
-  const { mutateAsync: mutateAsyncSearchUserByUserId, isPending: isLoadingSearchUserByUserId } =
-    useSearchUserByUserId({
-      onError: () =>
-        showAlert({ status: "error", text: "エラーが発生しました" }),
-    });
+  const {
+    mutateAsync: mutateAsyncSearchUserByUserId,
+    isPending: isLoadingSearchUserByUserId,
+  } = useSearchUserByUserId({
+    onError: () => showAlert({ status: "error", text: "エラーが発生しました" }),
+  });
 
   const { mutateAsync: mutateAsyncPostUser, isPending: isLoadingPostUser } =
     usePostUser({
@@ -100,7 +101,9 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   return (
     <SignUpTemplate
       isLoading={
-        isLoadingSignUpWithEmail || isLoadingPostUser || isLoadingSearchUserByUserId
+        isLoadingSignUpWithEmail ||
+        isLoadingPostUser ||
+        isLoadingSearchUserByUserId
       }
       signUpWithEmail={signUpWithEmail}
       signUpWithGoogle={signUpWithGoogle}

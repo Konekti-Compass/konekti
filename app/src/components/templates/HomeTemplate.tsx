@@ -20,17 +20,17 @@ import ImageActionSheet from "../organisms/ImageActionSheet";
 import Fab from "../molecules/Fab";
 import { Feather } from "@expo/vector-icons";
 import { Alert, RefreshControl } from "react-native";
-import { GetUserProfilesResponse } from "../../hooks/profile/query";
+import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
 import Overlay from "../molecules/Overlay";
 import ProfileActionSheet from "../organisms/ProfileActionSheet";
 import SkeletonSetting from "../organisms/SkeletonSetting";
-import { GetBelongsResponse } from "../../hooks/belong/query";
+import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
 
 type SettingTemplateProps = {
   profileId: number;
-  profile: GetUserProfilesResponse[number] | undefined;
-  profiles: GetUserProfilesResponse | undefined;
-  belongs: GetBelongsResponse | undefined;
+  profile: GetProfilesByUserIdResponse[number] | undefined;
+  profiles: GetProfilesByUserIdResponse | undefined;
+  belongs: GetBelongsByProfileIdResponse | undefined;
   refetch: () => Promise<void>;
   pickImageByCamera: () => Promise<void>;
   pickImageByLibrary: () => Promise<void>;

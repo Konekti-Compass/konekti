@@ -18,11 +18,11 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import Input from "../molecules/Input";
 import Overlay from "../molecules/Overlay";
-import { GetProfileResponse } from "../../hooks/profile/query";
+import { GetProfileByProfileIdResponse } from "../../hooks/profile/query";
 import { Alert } from "react-native";
 
 type EditProfileTemplateProps = {
-  profile: GetProfileResponse | undefined;
+  profile: GetProfileByProfileIdResponse | undefined;
   belongNames: string[];
   setBelongNames: Dispatch<SetStateAction<string[]>>;
   updateProfile: ({

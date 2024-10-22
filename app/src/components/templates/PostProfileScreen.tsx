@@ -242,8 +242,14 @@ const PostProfileTemplate = ({
                           if (text.endsWith(" ") || text.endsWith("　")) {
                             if (
                               text.slice(0, -1).length === 0 ||
-                              text.slice(0, -1).length > 8
+                              text.slice(0, -1).length > 8 ||
+                              text.slice(0, -1).includes(" ") ||
+                              text.slice(0, -1).includes("　")
                             ) {
+                              return;
+                            }
+                            if (tags.includes(text.slice(0, -1))) {
+                              setValue("belong", "");
                               return;
                             }
                             setTags([...tags, text.slice(0, -1)]);

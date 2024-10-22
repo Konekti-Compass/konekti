@@ -9,7 +9,6 @@ import {
   Icon,
   Text,
   useColorModeValue,
-  VStack,
 } from "native-base";
 
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";

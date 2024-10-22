@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "../../../supabase";
 
-export type GetBelongsByProfileIdResponse = Awaited<ReturnType<typeof getBelongsByProfileId>>;
+export type GetBelongsByProfileIdResponse = Awaited<
+  ReturnType<typeof getBelongsByProfileId>
+>;
 
 const getBelongsByProfileId = async (profileId: number | undefined) => {
   if (!profileId) {
@@ -11,7 +13,7 @@ const getBelongsByProfileId = async (profileId: number | undefined) => {
 
   const { data, error } = await supabase
     .from("belong")
-    .select("*")
+    .select("*, belongCode:belong_code(*)")
     .eq("profileId", profileId);
 
   if (error) {
@@ -25,5 +27,4 @@ export const useQueryBelongsByProfileId = (profileId: number | undefined) => {
     queryKey: ["belongs_by_profile_id", profileId],
     queryFn: async () => await getBelongsByProfileId(profileId),
   });
-}
-
+};

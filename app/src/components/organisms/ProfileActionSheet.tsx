@@ -10,12 +10,12 @@ import {
   Center,
   Pressable,
 } from "native-base";
-import { GetUserProfilesResponse } from "../../hooks/profile/query";
+import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
 
 type ProfileActionSheetProps = {
   isOpen: boolean;
   onClose: () => void;
-  profiles: GetUserProfilesResponse | undefined;
+  profiles: GetProfilesByUserIdResponse | undefined;
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
 };
@@ -38,7 +38,7 @@ const ProfileActionSheet = memo(
               w="90%"
               h="64"
               data={profiles}
-              renderItem={({ item}) => (
+              renderItem={({ item }) => (
                 <Pressable
                   py="2"
                   onPress={() => {
@@ -57,7 +57,11 @@ const ProfileActionSheet = memo(
                       <Box
                         size="2.5"
                         rounded="full"
-                        bg={profileId === item.profileId ? "brand.600" : "muted.300"}
+                        bg={
+                          profileId === item.profileId
+                            ? "brand.600"
+                            : "muted.300"
+                        }
                       />
                     </Center>
                     <Text bold fontSize="md" color={textColor}>

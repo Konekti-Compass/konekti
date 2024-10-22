@@ -11,7 +11,6 @@ import { useQueryProfilesByUserId } from "../hooks/profile/query";
 
 import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
-import { wait } from "../functions";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 import useProfileId from "../hooks/utils/useProfileId";
 
@@ -55,20 +54,17 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   );
 
   useEffect(() => {
-    (async () => {
-      if (params?.profileId) {
-        await wait(1);
-        if (params.profileId === -1) {
-          if (profiles?.length) {
-            setProfileId(profiles[0].profileId);
-          } else {
-            setProfileId(-1);
-          }
+    if (params?.profileId) {
+      if (params.profileId === -1) {
+        if (profiles?.length) {
+          setProfileId(profiles[0].profileId);
         } else {
-          setProfileId(params.profileId);
+          setProfileId(-1);
         }
+      } else {
+        setProfileId(params.profileId);
       }
-    })();
+    }
   }, [params, profiles]);
 
   const {

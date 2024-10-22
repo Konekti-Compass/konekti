@@ -6,16 +6,9 @@ import { Belong, UseMutationResult } from "../../../types";
 export type PostBelongResponse = Awaited<ReturnType<typeof postBelong>>;
 export type UpdateBelongResponse = Awaited<ReturnType<typeof updateBelong>>;
 export type DeleteBelongResponse = Awaited<ReturnType<typeof deleteBelong>>;
-export type SearchBelongByNameResponse = Awaited<
-  ReturnType<typeof searchBelongByName>
->;
 
 const postBelong = async (belong: Belong["Insert"]) => {
-  const { data, error } = await supabase
-    .from("belong")
-    .insert(belong)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("belong").insert(belong).select();
 
   if (error) {
     throw error;
@@ -41,25 +34,12 @@ const updateBelong = async (belong: Belong["Update"]) => {
   return data;
 };
 
-const deleteBelong = async (belongId: number) => {
+const deleteBelong = async (belongId: string) => {
   const { data, error } = await supabase
     .from("belong")
     .delete()
     .eq("belongId", belongId)
     .select()
-    .single();
-
-  if (error) {
-    throw error;
-  }
-  return data;
-};
-
-const searchBelongByName = async (name: string) => {
-  const { data, error } = await supabase
-    .from("belong")
-    .select()
-    .eq("name", name)
     .single();
 
   if (error) {
@@ -94,16 +74,6 @@ export const useDeleteBelong = ({
 }: UseMutationResult<DeleteBelongResponse, Error>) =>
   useMutation({
     mutationFn: deleteBelong,
-    onSuccess,
-    onError,
-  });
-
-export const useSearchBelongByName = ({
-  onSuccess,
-  onError,
-}: UseMutationResult<SearchBelongByNameResponse, Error>) =>
-  useMutation({
-    mutationFn: searchBelongByName,
     onSuccess,
     onError,
   });

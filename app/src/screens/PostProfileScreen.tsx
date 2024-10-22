@@ -12,7 +12,7 @@ const PostProfileScreen = ({
 }: HomeStackScreenProps<"PostProfile">) => {
   const { showAlert } = useAlert();
 
-  const [belongNames, setBelongNames] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   const { session } = useAuth();
 
@@ -29,17 +29,18 @@ const PostProfileScreen = ({
   } = usePostProfile({
     onSuccess: async (data) => {
       await Promise.all(
-        belongNames.map(async (item) => {
+        tags.map(async (item) => {
           await mutateAsyncPostBelong({
-            name: item,
             profileId: data.profileId,
+            name: item,
           });
         })
       );
       showAlert({ status: "success", text: "作成しました" });
       navigation.navigate("Home", { profileId: data.profileId });
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
       showAlert({ status: "error", text: "エラーが発生しました" });
     },
   });
@@ -79,8 +80,8 @@ const PostProfileScreen = ({
 
   return (
     <PostProfileTemplate
-      belongNames={belongNames}
-      setBelongNames={setBelongNames}
+      tags={tags}
+      setTags={setTags}
       postProfile={postProfile}
       isLoadingPostProfile={isLoadingPostProfile || isLoadingPostBelong}
       goBackNavigationHandler={goBackNavigationHandler}

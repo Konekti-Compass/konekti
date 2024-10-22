@@ -23,8 +23,8 @@ import { Alert } from "react-native";
 
 type EditProfileTemplateProps = {
   profile: GetProfileByProfileIdResponse | undefined;
-  belongNames: string[];
-  setBelongNames: Dispatch<SetStateAction<string[]>>;
+  tags: string[];
+  setTags: Dispatch<SetStateAction<string[]>>;
   updateProfile: ({
     name,
     displayName,
@@ -56,8 +56,8 @@ type FormValues = {
 
 const EditProfileTemplate = ({
   profile,
-  belongNames,
-  setBelongNames,
+  tags,
+  setTags,
   updateProfile,
   deleteProfile,
   isLoading,
@@ -269,7 +269,7 @@ const EditProfileTemplate = ({
                             ) {
                               return;
                             }
-                            setBelongNames([...belongNames, text.slice(0, -1)]);
+                            setTags([...tags, text.slice(0, -1)]);
                             setValue("belong", "");
                           }
                         }}
@@ -281,7 +281,7 @@ const EditProfileTemplate = ({
                         {errors.belong && <Text>{errors.belong.message}</Text>}
                       </FormControl.ErrorMessage>
                       <HStack flexWrap="wrap" mt="1" mb="2" space="2">
-                        {belongNames.map((item, index) => (
+                        {tags.map((item, index) => (
                           <HStack
                             key={index}
                             alignItems="center"
@@ -301,8 +301,8 @@ const EditProfileTemplate = ({
                               icon={<Icon as={<Feather />} name="x" size="3" />}
                               onPress={() => {
                                 /* 
-                                setBelongNames(
-                                  belongNames.filter((_, i) => i !== index)
+                                setTags(
+                                  tags.filter((_, i) => i !== index)
                                 );
                                 */
                               }}
@@ -315,7 +315,7 @@ const EditProfileTemplate = ({
                 }}
                 rules={{
                   validate: (value) => {
-                    if (!value && belongNames.length === 0) {
+                    if (!value && tags.length === 0) {
                       return "所属を入力してください";
                     }
                     return true;

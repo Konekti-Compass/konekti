@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { useColorModeValue } from "native-base";
 
 import RootNavigator from "../navigators/RootNavigator";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const RootComponent = () => {
   const lightTheme = {
@@ -48,8 +49,10 @@ const RootComponent = () => {
         },
       }}
     >
-      <StatusBar style={useColorModeValue("dark", "light")} />
-      <RootNavigator />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar style={useColorModeValue("dark", "light")} />
+        <RootNavigator />
+      </GestureHandlerRootView>
     </NavigationContainer>
   );
 };

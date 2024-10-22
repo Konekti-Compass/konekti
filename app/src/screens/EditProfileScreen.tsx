@@ -7,7 +7,6 @@ import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useUpdateBelong } from "../hooks/belong/mutate";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 
 const EditProfileScreen = ({
@@ -15,7 +14,7 @@ const EditProfileScreen = ({
 }: HomeStackScreenProps<"EditProfile">) => {
   const { showAlert } = useAlert();
 
-  const [belongNames, setBelongNames] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
 
@@ -38,24 +37,15 @@ const EditProfileScreen = ({
 
   useEffect(() => {
     if (belongs) {
-      setBelongNames(belongs.map((item) => item.name));
+      setTags(belongs.map((item) => item.belongCode?.name || ""));
     }
   }, [belongs]);
-
-  const {
-    mutateAsync: mutateAsyncUpdateBelong,
-    isPending: isLoadingUpdateBelong,
-  } = useUpdateBelong({
-    onError: () => {
-      showAlert({ status: "error", text: "エラーが発生しました" });
-    },
-  });
 
   const {
     mutateAsync: mutateAsyncUpdateProfile,
     isPending: isLoadingUpdateProfile,
   } = useUpdateProfile({
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       showAlert({ status: "success", text: "保存しました" });
       navigation.goBack();
     },
@@ -116,8 +106,8 @@ const EditProfileScreen = ({
 
   return (
     <EditProfileTemplate
-      belongNames={belongNames}
-      setBelongNames={setBelongNames}
+      tags={tags}
+      setTags={setTags}
       profile={profile}
       updateProfile={updateProfile}
       deleteProfile={deleteProfile}

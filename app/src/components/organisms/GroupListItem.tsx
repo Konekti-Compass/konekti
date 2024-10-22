@@ -13,14 +13,14 @@ import { Swipeable, TouchableHighlight } from "react-native-gesture-handler";
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
 import Avatar from "../molecules/Avatar";
 
-type BelongListItemProps = {
+type GroupListItemProps = {
   item: GetBelongsByProfileIdResponse[number];
   onPress: () => void;
   onPressRight: () => void;
 };
 
-const BelongListItem = memo(
-  ({ item, onPressRight, onPress }: BelongListItemProps) => {
+const GroupListItem = memo(
+  ({ item, onPressRight, onPress }: GroupListItemProps) => {
     const bgColor = useColorModeValue("white", "#171717");
     const pressedColor = useColorModeValue("#f5f5f5", "#262626");
     const textColor = useColorModeValue("muted.600", "muted.300");
@@ -50,7 +50,7 @@ const BelongListItem = memo(
           underlayColor={pressedColor}
         >
           <VStack alignItems="center">
-            <HStack w="80%" h="20" alignItems="center" space="3">
+            <HStack w="80%" h="24" alignItems="center" space="3">
               <Avatar
                 size="md"
                 fontSize="2xl"
@@ -82,4 +82,4 @@ const BelongListItem = memo(
   }
 );
 
-export default BelongListItem;
+export default GroupListItem;

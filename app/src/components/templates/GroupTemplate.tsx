@@ -1,21 +1,29 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { RefreshControl } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import {
   Box,
+  Center,
   FlatList,
   Heading,
   Icon,
+  Pressable,
   Text,
   useColorModeValue,
 } from "native-base";
 
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
-import BelongItem from "../organisms/BelongItem";
+import GroupListItem from "../organisms/GroupListItem";
 import Fab from "../molecules/Fab";
+import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
+import SkeletonGroupList from "../organisms/SkeletonGroupList";
 
 type GroupTemplateProps = {
+  profileId: number;
+  setProfileId: Dispatch<SetStateAction<number>>;
+  profile: GetProfilesByUserIdResponse[number] | undefined;
+  profiles: GetProfilesByUserIdResponse | undefined;
   belongs: GetBelongsByProfileIdResponse | undefined;
   deleteBelong: (belongId: string) => Promise<void>;
   refetch: () => Promise<void>;
@@ -26,6 +34,10 @@ type GroupTemplateProps = {
 };
 
 const GroupTemplate = ({
+  profileId,
+  setProfileId,
+  profile,
+  profiles,
   belongs,
   deleteBelong,
   refetch,
@@ -35,21 +47,48 @@ const GroupTemplate = ({
   profileListNavigationHandler,
 }: GroupTemplateProps) => {
   const spinnerColor = useColorModeValue("#a3a3a3", "white");
+  const bgColor = useColorModeValue("muted.200", "muted.700");
+  const textColor = useColorModeValue("muted.600", "muted.300");
 
   return (
     <Box flex={1} alignItems="center" safeAreaTop>
-      <Heading w="80%" mt="2" mb="6" textAlign="start">
+      <Heading w="80%" mt="2">
         グループ
       </Heading>
+      <Box mt="6" w="80%" h="12" alignItems="center ">
+        <FlatList
+          w="100%"
+          horizontal
+          data={profiles}
+          renderItem={({ item }) => (
+            <Pressable mr="2" onPress={() => setProfileId(item.profileId)}>
+              <Center
+                px="10px"
+                py="6px"
+                rounded="full"
+                bg={item.profileId === profileId ? "brand.600" : bgColor}
+              >
+                <Text
+                  bold
+                  color={item.profileId === profileId ? "white" : textColor}
+                >
+                  {item.name}
+                </Text>
+              </Center>
+            </Pressable>
+          )}
+          keyExtractor={(item) => item.profileId.toString()}
+        />
+      </Box>
       {isLoading ? (
-        <Box />
+        <SkeletonGroupList rows={5} />
       ) : (
         <FlatList
           w="100%"
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
           data={belongs}
           renderItem={({ item }) => (
-            <BelongItem
+            <GroupListItem
               item={item}
               onPress={() => {
                 profileListNavigationHandler(item.belongId);

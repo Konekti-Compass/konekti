@@ -7,6 +7,7 @@ import { useDeleteBelong } from "../hooks/belong/mutate";
 import { useFocusEffect } from "@react-navigation/native";
 import useAlert from "../hooks/utils/useAlert";
 import { GroupStackScreenProps } from "../types";
+import { useQueryProfilesByUserId } from "../hooks/profile/query";
 
 const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
   const { showAlert } = useAlert();
@@ -15,7 +16,17 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
 
   const [isRefetching, setIsRefetching] = useState(false);
 
-  const { profileId } = useProfileId();
+  const {
+    profileId,
+    setProfileId,
+    isLoading: isLoadingProfileId,
+  } = useProfileId();
+
+  const {
+    data: profiles,
+    isLoading: isLoadingProfiles,
+    refetch: refetchProfiles,
+  } = useQueryProfilesByUserId();
 
   const {
     data: belongs,
@@ -30,6 +41,7 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
         return;
       }
 
+      refetchProfiles();
       refetchBelongs();
     }, [])
   );
@@ -42,6 +54,7 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
 
   const refetch = useCallback(async () => {
     setIsRefetching(true);
+    await refetchProfiles();
     await refetchBelongs();
     setIsRefetching(false);
   }, []);
@@ -61,12 +74,29 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
 
   const profileListNavigationHandler = useCallback(() => {}, []);
 
+  const getProfile = useCallback(() => {
+    const profile = profiles?.find(
+      (profile) => profile.profileId === profileId
+    );
+    if (!profile) {
+      if (profiles?.length) {
+        setProfileId(profiles[0].profileId);
+        return profiles[0];
+      }
+    }
+    return profile;
+  }, [profiles, profileId]);
+
   return (
     <GroupTemplate
+      profileId={profileId}
+      setProfileId={setProfileId}
+      profile={getProfile()}
+      profiles={profiles}
       belongs={belongs}
       deleteBelong={deleteBelong}
       refetch={refetch}
-      isLoading={isLoadingBelongs}
+      isLoading={isLoadingProfiles || isLoadingProfileId || isLoadingBelongs}
       isRefetching={isRefetching}
       postProfileNavigationHandler={postProfileNavigationHandler}
       profileListNavigationHandler={profileListNavigationHandler}

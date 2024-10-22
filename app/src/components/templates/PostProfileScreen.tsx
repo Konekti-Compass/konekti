@@ -280,9 +280,7 @@ const PostProfileTemplate = ({
                                   <Icon as={<Feather />} name="x" size="3" />
                                 }
                                 onPress={() => {
-                                  setTags(
-                                    tags.filter((_, i) => i !== index)
-                                  );
+                                  setTags(tags.filter((_, i) => i !== index));
                                 }}
                               />
                             </HStack>

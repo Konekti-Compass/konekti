@@ -59,14 +59,14 @@ const GroupTemplate = ({
             />
           )}
           ListEmptyComponent={
-            <VStack mt="6" alignItems="center" space="2">
+            <Box mt="6" alignItems="center">
               <Text bold fontSize="md">
                 参加しているグループがありません。
               </Text>
-              <Text bold fontSize="md">
+              <Text mt="2" bold fontSize="md">
                 右下のボタンから参加しましょう。
               </Text>
-            </VStack>
+            </Box>
           }
           refreshing={isRefetching}
           onRefresh={refetch}

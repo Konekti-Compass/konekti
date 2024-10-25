@@ -50,7 +50,7 @@ export type HomeStackParamList = {
 };
 
 export type GroupStackParamList = {
-  Group: undefined;
+  GroupList: undefined;
   ProfileList: { code: number };
 };
 

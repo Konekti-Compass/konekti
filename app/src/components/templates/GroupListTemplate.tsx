@@ -19,7 +19,7 @@ import Fab from "../molecules/Fab";
 import GroupListItem from "../organisms/GroupListItem";
 import SkeletonGroupList from "../organisms/SkeletonGroupList";
 
-type GroupTemplateProps = {
+type GroupListTemplateProps = {
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
   profiles: GetProfilesByUserIdResponse | undefined;
@@ -32,7 +32,7 @@ type GroupTemplateProps = {
   profileListNavigationHandler: (code: number) => void;
 };
 
-const GroupTemplate = ({
+const GroupListTemplate = ({
   profileId,
   setProfileId,
   profiles,
@@ -43,7 +43,7 @@ const GroupTemplate = ({
   isRefetching,
   postProfileNavigationHandler,
   profileListNavigationHandler,
-}: GroupTemplateProps) => {
+}: GroupListTemplateProps) => {
   const spinnerColor = useColorModeValue("#a3a3a3", "white");
   const bgColor = useColorModeValue("muted.200", "muted.700");
   const textColor = useColorModeValue("muted.600", "muted.300");
@@ -130,4 +130,4 @@ const GroupTemplate = ({
   );
 };
 
-export default GroupTemplate;
+export default GroupListTemplate;

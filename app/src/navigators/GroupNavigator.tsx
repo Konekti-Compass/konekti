@@ -2,7 +2,7 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import GroupScreen from "../screens/GroupScreen";
+import GroupListScreen from "../screens/GroupListScreen";
 import ProfileListScreen from "../screens/ProfileListScreen";
 import { GroupStackParamList } from "../types";
 
@@ -13,7 +13,7 @@ const GroupNavigator = () => {
     <GroupStack.Navigator
       screenOptions={{ headerShown: false, gestureEnabled: true }}
     >
-      <GroupStack.Screen name="Group" component={GroupScreen} />
+      <GroupStack.Screen name="GroupList" component={GroupListScreen} />
       <GroupStack.Screen name="ProfileList" component={ProfileListScreen} />
     </GroupStack.Navigator>
   );

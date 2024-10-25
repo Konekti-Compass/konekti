@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 
 import { useFocusEffect } from "@react-navigation/native";
 
-import GroupTemplate from "../components/templates/GroupTemplate";
+import GroupListTemplate from "../components/templates/GroupListTemplate";
 import { useDeleteBelong } from "../hooks/belong/mutate";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 import { useQueryProfilesByUserId } from "../hooks/profile/query";
@@ -10,7 +10,9 @@ import useAlert from "../hooks/utils/useAlert";
 import useProfileId from "../hooks/utils/useProfileId";
 import { GroupStackScreenProps } from "../types";
 
-const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
+const GroupListScreen = ({
+  navigation,
+}: GroupStackScreenProps<"GroupList">) => {
   const { showAlert } = useAlert();
 
   const focusRef = useRef(true);
@@ -82,7 +84,7 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
   }, []);
 
   return (
-    <GroupTemplate
+    <GroupListTemplate
       profileId={profileId}
       setProfileId={setProfileId}
       profiles={profiles}
@@ -97,4 +99,4 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
   );
 };
 
-export default GroupScreen;
+export default GroupListScreen;

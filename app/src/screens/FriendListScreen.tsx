@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Center } from "native-base";
 
 const FriendListScreen = () => {

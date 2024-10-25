@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
+import { Alert, RefreshControl } from "react-native";
 
+import { Feather } from "@expo/vector-icons";
 import {
   Box,
   Center,
@@ -15,22 +17,21 @@ import {
   useDisclose,
 } from "native-base";
 
+import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
+import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
 import Avatar from "../molecules/Avatar";
-import ImageActionSheet from "../organisms/ImageActionSheet";
 import Fab from "../molecules/Fab";
-import { Feather } from "@expo/vector-icons";
-import { Alert, RefreshControl } from "react-native";
-import { GetUserProfilesResponse } from "../../hooks/profile/query";
 import Overlay from "../molecules/Overlay";
+import ImageActionSheet from "../organisms/ImageActionSheet";
 import ProfileActionSheet from "../organisms/ProfileActionSheet";
 import SkeletonSetting from "../organisms/SkeletonSetting";
-import { GetBelongsResponse } from "../../hooks/belong/query";
 
 type SettingTemplateProps = {
   profileId: number;
-  profile: GetUserProfilesResponse[number] | undefined;
-  profiles: GetUserProfilesResponse | undefined;
-  belongs: GetBelongsResponse | undefined;
+  setProfileId: Dispatch<SetStateAction<number>>;
+  profile: GetProfilesByUserIdResponse[number] | undefined;
+  profiles: GetProfilesByUserIdResponse | undefined;
+  belongs: GetBelongsByProfileIdResponse | undefined;
   refetch: () => Promise<void>;
   pickImageByCamera: () => Promise<void>;
   pickImageByLibrary: () => Promise<void>;
@@ -39,7 +40,6 @@ type SettingTemplateProps = {
   isLoadingSignOut: boolean;
   isLoadingAvatar: boolean;
   deleteAvatar: () => Promise<void>;
-  setProfileId: Dispatch<SetStateAction<number>>;
   signOut: () => Promise<void>;
   postProfileNavigationHandler: () => void;
   editProfileNavigationHandler: (profileId: number) => void;
@@ -49,6 +49,7 @@ type SettingTemplateProps = {
 
 const HomeTemplate = ({
   profileId,
+  setProfileId,
   profile,
   profiles,
   belongs,
@@ -61,7 +62,6 @@ const HomeTemplate = ({
   isLoadingAvatar,
   deleteAvatar,
   signOut,
-  setProfileId,
   postProfileNavigationHandler,
   editProfileNavigationHandler,
   friendListNavigationHandler,
@@ -99,12 +99,12 @@ const HomeTemplate = ({
         profileId={profileId}
         setProfileId={setProfileId}
       />
-      <Heading mt="2" mb="6" w="80%" textAlign="start">
+      <Heading mt="2" mb="6" w="80%">
         ホーム
       </Heading>
       <ScrollView
         w="100%"
-        contentContainerStyle={{ alignItems: "center", paddingBottom: 160 }}
+        contentContainerStyle={{ alignItems: "center", paddingBottom: 180 }}
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -154,7 +154,7 @@ const HomeTemplate = ({
                     size="16"
                     fontSize="3xl"
                     isLoading={isLoading || isLoadingAvatar}
-                    updatedAt={profile?.updateAt}
+                    updatedAt={profile?.updatedAt}
                     onPress={onOpenImageActionSheet}
                   />
                 </Box>
@@ -164,7 +164,7 @@ const HomeTemplate = ({
                     <Skeleton w="40" h="4" rounded="full" />
                   </VStack>
                 ) : (
-                  <VStack w="75%" space="2">
+                  <VStack w="75%" space="1">
                     <Text
                       fontSize="xl"
                       bold
@@ -174,7 +174,7 @@ const HomeTemplate = ({
                     >
                       {profile?.displayName}
                     </Text>
-                    <HStack flexWrap="wrap" mt="1" mb="2" space="5px">
+                    <HStack flexWrap="wrap" mb="2" space="4px">
                       {belongs?.map((item, index) => (
                         <Box
                           key={index}
@@ -185,7 +185,9 @@ const HomeTemplate = ({
                           rounded="full"
                           bg="muted.200"
                         >
-                          <Text fontWeight="600" fontSize="10px">{item.name}</Text>
+                          <Text fontWeight="600" fontSize="10px">
+                            {item.belongCode?.name}
+                          </Text>
                         </Box>
                       ))}
                     </HStack>

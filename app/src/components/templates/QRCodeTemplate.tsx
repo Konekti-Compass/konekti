@@ -1,6 +1,8 @@
 import React, { memo } from "react";
+import { useWindowDimensions } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
+import { CameraView } from "expo-camera";
 import {
   Box,
   Text,
@@ -11,9 +13,8 @@ import {
   useDisclose,
   VStack,
 } from "native-base";
-import { CameraView } from "expo-camera";
+
 import QRCodeActionSheet from "../organisms/QRCodeActionSheet";
-import { useWindowDimensions } from "react-native";
 
 type QRCodeTemplateProps = {
   goBackNavigationHandler: () => void;
@@ -31,7 +32,7 @@ const QRCodeTemplate = memo(
         <Box w={`${width}px`} h="540px">
           <CameraView
             barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-            onBarcodeScanned={({ data }) => {}}
+            onBarcodeScanned={() => {}}
             style={{ width: "100%", height: "100%" }}
           >
             <Box position="relative" flex={1}>
@@ -127,7 +128,7 @@ const QRCodeTemplate = memo(
         </VStack>
       </Box>
     );
-  }
+  },
 );
 
 export default QRCodeTemplate;

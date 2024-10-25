@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import EditProfileTemplate from "../components/templates/EditProfileTemplate";
-import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
-import { useQueryProfile } from "../hooks/profile/query";
-import { HomeStackParamList, HomeStackScreenProps } from "../types";
-import useAlert from "../hooks/utils/useAlert";
-import { useRoute, RouteProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useUpdateBelong } from "../hooks/belong/mutate";
-import { useQueryBelongs } from "../hooks/belong/query";
+import { useRoute, RouteProp } from "@react-navigation/native";
+
+import EditProfileTemplate from "../components/templates/EditProfileTemplate";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
+import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
+import { useQueryProfileByProfileId } from "../hooks/profile/query";
+import useAlert from "../hooks/utils/useAlert";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
 
 const EditProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"EditProfile">) => {
   const { showAlert } = useAlert();
 
-  const [belongNames, setBelongNames] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
 
@@ -23,13 +23,13 @@ const EditProfileScreen = ({
     data: profile,
     isLoading: isLoadingProfile,
     refetch: refetchProfile,
-  } = useQueryProfile(params?.profileId);
+  } = useQueryProfileByProfileId(params?.profileId);
 
   const {
     data: belongs,
     isLoading: isLoadingBelongs,
     refetch: refetchBelongs,
-  } = useQueryBelongs(params?.profileId);
+  } = useQueryBelongsByProfileId(params?.profileId);
 
   useEffect(() => {
     refetchProfile();
@@ -38,24 +38,15 @@ const EditProfileScreen = ({
 
   useEffect(() => {
     if (belongs) {
-      setBelongNames(belongs.map((item) => item.name));
+      setTags(belongs.map((item) => item.belongCode?.name || ""));
     }
   }, [belongs]);
-
-  const {
-    mutateAsync: mutateAsyncUpdateBelong,
-    isPending: isLoadingUpdateBelong,
-  } = useUpdateBelong({
-    onError: () => {
-      showAlert({ status: "error", text: "エラーが発生しました" });
-    },
-  });
 
   const {
     mutateAsync: mutateAsyncUpdateProfile,
     isPending: isLoadingUpdateProfile,
   } = useUpdateProfile({
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       showAlert({ status: "success", text: "保存しました" });
       navigation.goBack();
     },
@@ -103,7 +94,7 @@ const EditProfileScreen = ({
         introduction,
       });
     },
-    [params]
+    [params],
   );
 
   const deleteProfile = useCallback(async () => {
@@ -116,8 +107,8 @@ const EditProfileScreen = ({
 
   return (
     <EditProfileTemplate
-      belongNames={belongNames}
-      setBelongNames={setBelongNames}
+      tags={tags}
+      setTags={setTags}
       profile={profile}
       updateProfile={updateProfile}
       deleteProfile={deleteProfile}

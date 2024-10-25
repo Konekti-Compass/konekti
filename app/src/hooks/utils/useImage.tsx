@@ -43,7 +43,7 @@ const useImage = ({ onSuccess, onDisable, onError }: UseImageType) => {
           {
             compress: 0.5,
             base64: true,
-          }
+          },
         );
         onSuccess &&
           onSuccess({
@@ -56,7 +56,7 @@ const useImage = ({ onSuccess, onDisable, onError }: UseImageType) => {
           });
         setUri(manipulatorResult.uri);
       }
-    } catch (error) {
+    } catch {
       onError && onError();
     } finally {
       setIsLoading(false);
@@ -85,7 +85,7 @@ const useImage = ({ onSuccess, onDisable, onError }: UseImageType) => {
           {
             compress: 0.5,
             base64: true,
-          }
+          },
         );
         onSuccess &&
           onSuccess({
@@ -98,7 +98,7 @@ const useImage = ({ onSuccess, onDisable, onError }: UseImageType) => {
           });
         setUri(manipulatorResult.uri);
       }
-    } catch (error) {
+    } catch {
       onError && onError();
     } finally {
       setIsLoading(false);

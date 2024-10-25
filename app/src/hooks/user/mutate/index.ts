@@ -6,7 +6,9 @@ import { UseMutationResult, User } from "../../../types";
 
 export type PostUserResponse = Awaited<ReturnType<typeof postUser>>;
 export type UpdateUserResponse = Awaited<ReturnType<typeof updateUser>>;
-export type SearchUserByUserIdResponse = Awaited<ReturnType<typeof searchUserByUserId>>;
+export type SearchUserByUserIdResponse = Awaited<
+  ReturnType<typeof searchUserByUserId>
+>;
 
 const postUser = async (user: User["Insert"]) => {
   const { data, error } = await supabase

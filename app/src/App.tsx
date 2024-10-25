@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LogBox, useColorScheme } from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   ColorMode,
   extendTheme,
   NativeBaseProvider,
   StorageManager,
 } from "native-base";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./contexts/AuthProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import RootComponent from "./components/RootComponent";
+import { AuthProvider } from "./contexts/AuthProvider";
+import { ProfileIdProvider } from "./contexts/ProfileIdProvider";
 
 LogBox.ignoreAllLogs();
 
@@ -67,7 +70,9 @@ const App = () => {
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <RootComponent />
+          <ProfileIdProvider>
+            <RootComponent />
+          </ProfileIdProvider>
         </AuthProvider>
       </QueryClientProvider>
     </NativeBaseProvider>

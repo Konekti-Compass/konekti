@@ -31,7 +31,7 @@ const Fab = memo(
         }}
       </Pressable>
     );
-  }
+  },
 );
 
 export default Fab;

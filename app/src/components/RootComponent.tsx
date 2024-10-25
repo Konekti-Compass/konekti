@@ -8,6 +8,7 @@ import {
 import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
 import { useColorModeValue } from "native-base";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import RootNavigator from "../navigators/RootNavigator";
 
@@ -39,7 +40,7 @@ const RootComponent = () => {
             "url",
             ({ url }: { url: string }) => {
               listener(url);
-            }
+            },
           );
 
           return () => {
@@ -48,8 +49,10 @@ const RootComponent = () => {
         },
       }}
     >
-      <StatusBar style={useColorModeValue("dark", "light")} />
-      <RootNavigator />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar style={useColorModeValue("dark", "light")} />
+        <RootNavigator />
+      </GestureHandlerRootView>
     </NavigationContainer>
   );
 };

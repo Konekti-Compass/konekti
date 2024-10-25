@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from "react";
 
 import PostProfileTemplate from "../components/templates/PostProfileScreen";
-import { usePostProfile } from "../hooks/profile/mutate";
-import { HomeStackScreenProps } from "../types";
-import useAlert from "../hooks/utils/useAlert";
-import useAuth from "../hooks/auth/useAuth";
 import { usePostBelong } from "../hooks/belong/mutate";
+import { usePostProfile } from "../hooks/profile/mutate";
+import useAlert from "../hooks/utils/useAlert";
+import useAuth from "../hooks/utils/useAuth";
+import { HomeStackScreenProps } from "../types";
 
 const PostProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"PostProfile">) => {
   const { showAlert } = useAlert();
 
-  const [belongNames, setBelongNames] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   const { session } = useAuth();
 
@@ -29,12 +29,12 @@ const PostProfileScreen = ({
   } = usePostProfile({
     onSuccess: async (data) => {
       await Promise.all(
-        belongNames.map(async (item) => {
+        tags.map(async (item) => {
           await mutateAsyncPostBelong({
-            name: item,
             profileId: data.profileId,
+            name: item,
           });
-        })
+        }),
       );
       showAlert({ status: "success", text: "作成しました" });
       navigation.navigate("Home", { profileId: data.profileId });
@@ -70,7 +70,7 @@ const PostProfileScreen = ({
         userId: session.user.id,
       });
     },
-    [session]
+    [session],
   );
 
   const goBackNavigationHandler = useCallback(() => {
@@ -79,8 +79,8 @@ const PostProfileScreen = ({
 
   return (
     <PostProfileTemplate
-      belongNames={belongNames}
-      setBelongNames={setBelongNames}
+      tags={tags}
+      setTags={setTags}
       postProfile={postProfile}
       isLoadingPostProfile={isLoadingPostProfile || isLoadingPostBelong}
       goBackNavigationHandler={goBackNavigationHandler}

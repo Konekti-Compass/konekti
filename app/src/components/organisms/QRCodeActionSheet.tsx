@@ -32,7 +32,7 @@ const QRCodeActionSheet = memo(
         </Actionsheet.Content>
       </Actionsheet>
     );
-  }
+  },
 );
 
 export default QRCodeActionSheet;

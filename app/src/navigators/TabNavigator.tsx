@@ -8,10 +8,10 @@ import { Icon, Text, useColorModeValue } from "native-base";
 
 import { TabParamList } from "../types";
 
-import HomeNavigator from "./HomeNavigator";
 import GroupNavigator from "./GroupNavigator";
-import SearchNavigator from "./SearchNavigator";
+import HomeNavigator from "./HomeNavigator";
 import RecordNavigator from "./RecordNavigator";
+import SearchNavigator from "./SearchNavigator";
 import SettingNavigator from "./SettingNavigator";
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -34,7 +34,7 @@ const TabNavigator = () => {
       }
       return true;
     },
-    []
+    [],
   );
 
   return (

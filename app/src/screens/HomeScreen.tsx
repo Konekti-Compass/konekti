@@ -3,40 +3,42 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 
 import HomeTemplate from "../components/templates/HomeTemplate";
-import useImage from "../hooks/utils/useImage";
-import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
-import { supabase } from "../supabase";
-import useAlert from "../hooks/utils/useAlert";
-import { useQueryUserProfiles } from "../hooks/profile/query";
-
-import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { wait } from "../functions";
-import { useQueryBelongs } from "../hooks/belong/query";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
+import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
+import { useQueryProfilesByUserId } from "../hooks/profile/query";
+import useAlert from "../hooks/utils/useAlert";
+import useImage from "../hooks/utils/useImage";
+import useProfileId from "../hooks/utils/useProfileId";
+import { supabase } from "../supabase";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();
 
   const focusRef = useRef(true);
 
-  const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
+  const { params } = useRoute<RouteProp<HomeStackParamList, "Home">>();
 
-  const [profileId, setProfileId] = useState(-1);
-  const [isLoadingProfileId, setIsLoadingProfileId] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
+
+  const {
+    profileId,
+    setProfileId,
+    isLoading: isLoadingProfileId,
+  } = useProfileId();
 
   const {
     data: profiles,
     isLoading: isLoadingProfiles,
     refetch: refetchProfiles,
-  } = useQueryUserProfiles();
+  } = useQueryProfilesByUserId();
 
   const {
     data: belongs,
     isLoading: isLoadingBelongs,
     refetch: refetchBelongs,
-  } = useQueryBelongs(profileId);
+  } = useQueryBelongsByProfileId(profileId);
 
   useFocusEffect(
     useCallback(() => {
@@ -47,47 +49,21 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
       refetchProfiles();
       refetchBelongs();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
-    (async () => {
-      if (profileId !== -1) {
-        await AsyncStorage.setItem("@profileId", profileId.toString());
-      }
-    })();
-  }, [profileId]);
-
-  useEffect(() => {
-    (async () => {
-      if (profileId === -1) {
-        setIsLoadingProfileId(true);
-        const profileId = await AsyncStorage.getItem("@profileId");
-        if (profileId) {
-          setProfileId(Number(profileId));
-        }
-        setIsLoadingProfileId(false);
-      }
-    })();
-  }, [profileId]);
-
-  useEffect(() => {
-    (async () => {
-      if (params?.profileId) {
-        if (params?.profileId === -1) {
-          if (profiles?.length) {
-            setProfileId(profiles[0].profileId);
-          } else {
-            setProfileId(-1);
-          }
+    if (params?.profileId) {
+      if (params.profileId === -1) {
+        if (profiles?.length) {
+          setProfileId(profiles[0].profileId);
         } else {
-          setIsLoadingProfileId(true);
-          setProfileId(params.profileId);
-          await wait(1);
-          setIsLoadingProfileId(false);
+          setProfileId(-1);
         }
+      } else {
+        setProfileId(params.profileId);
       }
-    })();
+    }
   }, [params, profiles]);
 
   const {
@@ -113,12 +89,10 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     usePostAvatar({
       onSuccess: async ({ path }) => {
         const { data } = supabase.storage.from("image").getPublicUrl(path);
-        if (profiles?.length) {
-          await mutateAsyncUpdateProfile({
-            profileId,
-            avatarUrl: data.publicUrl,
-          });
-        }
+        await mutateAsyncUpdateProfile({
+          profileId,
+          avatarUrl: data.publicUrl,
+        });
       },
       onError: () => {
         showAlert({ status: "error", text: "エラーが発生しました" });
@@ -177,7 +151,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   const getProfile = useCallback(() => {
     const profile = profiles?.find(
-      (profile) => profile.profileId === profileId
+      (profile) => profile.profileId === profileId,
     );
     if (!profile) {
       if (profiles?.length) {

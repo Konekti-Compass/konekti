@@ -19,8 +19,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Input from "../molecules/Input";
 
 type PostProfileTemplateProps = {
-  belongNames: string[];
-  setBelongNames: Dispatch<SetStateAction<string[]>>;
+  tags: string[];
+  setTags: Dispatch<SetStateAction<string[]>>;
   postProfile: ({
     name,
     displayName,
@@ -48,8 +48,8 @@ type FormValues = {
 };
 
 const PostProfileTemplate = ({
-  belongNames,
-  setBelongNames,
+  tags,
+  setTags,
   postProfile,
   isLoadingPostProfile,
   goBackNavigationHandler,
@@ -242,11 +242,17 @@ const PostProfileTemplate = ({
                           if (text.endsWith(" ") || text.endsWith("　")) {
                             if (
                               text.slice(0, -1).length === 0 ||
-                              text.slice(0, -1).length > 8
+                              text.slice(0, -1).length > 8 ||
+                              text.slice(0, -1).includes(" ") ||
+                              text.slice(0, -1).includes("　")
                             ) {
                               return;
                             }
-                            setBelongNames([...belongNames, text.slice(0, -1)]);
+                            if (tags.includes(text.slice(0, -1))) {
+                              setValue("belong", "");
+                              return;
+                            }
+                            setTags([...tags, text.slice(0, -1)]);
                             setValue("belong", "");
                           }
                         }}
@@ -258,39 +264,41 @@ const PostProfileTemplate = ({
                         {errors.belong && <Text>{errors.belong.message}</Text>}
                       </FormControl.ErrorMessage>
                       <HStack flexWrap="wrap" mt="1" mb="2" space="2">
-                        {belongNames.map((item, index) => (
-                          <HStack
-                            key={index}
-                            alignItems="center"
-                            mt="6px"
-                            pr="8px"
-                            pl="10px"
-                            py="3px"
-                            space="1"
-                            rounded="full"
-                            bg="muted.200"
-                          >
-                            <Text fontWeight="600">{item}</Text>
-                            <IconButton
-                              variant="unstyled"
-                              p="3px"
-                              _pressed={{ opacity: 1 }}
-                              icon={<Icon as={<Feather />} name="x" size="3" />}
-                              onPress={() => {
-                                setBelongNames(
-                                  belongNames.filter((_, i) => i !== index)
-                                );
-                              }}
-                            />
-                          </HStack>
-                        ))}
+                        {tags.map((item, index) => {
+                          return (
+                            <HStack
+                              key={index}
+                              alignItems="center"
+                              mt="6px"
+                              pr="8px"
+                              pl="10px"
+                              py="3px"
+                              space="1"
+                              rounded="full"
+                              bg="muted.200"
+                            >
+                              <Text fontWeight="600">{item}</Text>
+                              <IconButton
+                                variant="unstyled"
+                                p="3px"
+                                _pressed={{ opacity: 1 }}
+                                icon={
+                                  <Icon as={<Feather />} name="x" size="3" />
+                                }
+                                onPress={() => {
+                                  setTags(tags.filter((_, i) => i !== index));
+                                }}
+                              />
+                            </HStack>
+                          );
+                        })}
                       </HStack>
                     </VStack>
                   );
                 }}
                 rules={{
                   validate: (value) => {
-                    if (!value && belongNames.length === 0) {
+                    if (!value && tags.length === 0) {
                       return "所属を入力してください";
                     }
                     return true;

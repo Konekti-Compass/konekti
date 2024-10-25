@@ -4,11 +4,13 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { Database } from "./schema.d/ts";
 
 export type User = Database["public"]["Tables"]["user"];
 export type Profile = Database["public"]["Tables"]["profile"];
 export type Belong = Database["public"]["Tables"]["belong"];
+export type BelongCode = Database["public"]["Tables"]["belong_code"];
 
 export type UseQueryResult<T1, T2> = {
   onSuccess?: (response: T1) => void;
@@ -48,7 +50,8 @@ export type HomeStackParamList = {
 };
 
 export type GroupStackParamList = {
-  Group: undefined;
+  GroupList: undefined;
+  ProfileList: { code: number };
 };
 
 export type SearchStackParamList = {
@@ -107,7 +110,7 @@ export type RecordStackScreenProps<Screen extends keyof RecordStackParamList> =
   >;
 
 export type SettingStackScreenProps<
-  Screen extends keyof SettingStackParamList
+  Screen extends keyof SettingStackParamList,
 > = CompositeScreenProps<
   BottomTabScreenProps<SettingStackParamList, Screen>,
   CompositeScreenProps<

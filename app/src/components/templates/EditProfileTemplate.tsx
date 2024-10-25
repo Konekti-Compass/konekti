@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { Alert } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import {
@@ -16,15 +17,14 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { GetProfileByProfileIdResponse } from "../../hooks/profile/query";
 import Input from "../molecules/Input";
 import Overlay from "../molecules/Overlay";
-import { GetProfileResponse } from "../../hooks/profile/query";
-import { Alert } from "react-native";
 
 type EditProfileTemplateProps = {
-  profile: GetProfileResponse | undefined;
-  belongNames: string[];
-  setBelongNames: Dispatch<SetStateAction<string[]>>;
+  profile: GetProfileByProfileIdResponse | undefined;
+  tags: string[];
+  setTags: Dispatch<SetStateAction<string[]>>;
   updateProfile: ({
     name,
     displayName,
@@ -56,8 +56,8 @@ type FormValues = {
 
 const EditProfileTemplate = ({
   profile,
-  belongNames,
-  setBelongNames,
+  tags,
+  setTags,
   updateProfile,
   deleteProfile,
   isLoading,
@@ -269,7 +269,7 @@ const EditProfileTemplate = ({
                             ) {
                               return;
                             }
-                            setBelongNames([...belongNames, text.slice(0, -1)]);
+                            setTags([...tags, text.slice(0, -1)]);
                             setValue("belong", "");
                           }
                         }}
@@ -281,7 +281,7 @@ const EditProfileTemplate = ({
                         {errors.belong && <Text>{errors.belong.message}</Text>}
                       </FormControl.ErrorMessage>
                       <HStack flexWrap="wrap" mt="1" mb="2" space="2">
-                        {belongNames.map((item, index) => (
+                        {tags.map((item, index) => (
                           <HStack
                             key={index}
                             alignItems="center"
@@ -301,8 +301,8 @@ const EditProfileTemplate = ({
                               icon={<Icon as={<Feather />} name="x" size="3" />}
                               onPress={() => {
                                 /* 
-                                setBelongNames(
-                                  belongNames.filter((_, i) => i !== index)
+                                setTags(
+                                  tags.filter((_, i) => i !== index)
                                 );
                                 */
                               }}
@@ -315,7 +315,7 @@ const EditProfileTemplate = ({
                 }}
                 rules={{
                   validate: (value) => {
-                    if (!value && belongNames.length === 0) {
+                    if (!value && tags.length === 0) {
                       return "所属を入力してください";
                     }
                     return true;
@@ -529,7 +529,7 @@ const EditProfileTemplate = ({
                       onPress: async () => await deleteProfile(),
                       style: "destructive",
                     },
-                  ]
+                  ],
                 )
               }
             >

@@ -1,5 +1,6 @@
-import { useToast } from "native-base";
 import React, { useCallback } from "react";
+
+import { useToast } from "native-base";
 
 import Alert from "../../components/molecules/Alert";
 
@@ -24,7 +25,7 @@ const useAlert = () => {
         ),
       });
     },
-    [toast]
+    [toast],
   );
 
   return {

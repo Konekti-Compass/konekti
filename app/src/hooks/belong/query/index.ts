@@ -2,16 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "../../../supabase";
 
-export type GetBelongsResponse = Awaited<ReturnType<typeof getBelongs>>;
+export type GetBelongsByProfileIdResponse = Awaited<
+  ReturnType<typeof getBelongsByProfileId>
+>;
+export type GetBelongsByCodeResponse = Awaited<
+  ReturnType<typeof getBelongsByCode>
+>;
 
-const getBelongs = async (profileId: number | undefined) => {
+const getBelongsByProfileId = async (profileId: number | undefined) => {
   if (!profileId) {
     return [];
   }
 
   const { data, error } = await supabase
     .from("belong")
-    .select("*")
+    .select("*, belongCode:belong_code(*)")
     .eq("profileId", profileId);
 
   if (error) {
@@ -20,9 +25,28 @@ const getBelongs = async (profileId: number | undefined) => {
   return data;
 };
 
-export const useQueryBelongs = (profileId: number | undefined) => {
+const getBelongsByCode = async (code: number) => {
+  const { data, error } = await supabase
+    .from("belong")
+    .select("*, profile:profile(*)")
+    .eq("code", code);
+
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
+export const useQueryBelongsByProfileId = (profileId: number | undefined) => {
   return useQuery({
-    queryKey: ["belongs", profileId],
-    queryFn: async () => await getBelongs(profileId),
+    queryKey: ["belongs_by_profile_id", profileId],
+    queryFn: async () => await getBelongsByProfileId(profileId),
+  });
+};
+
+export const useQueryBelongsByCode = (code: number) => {
+  return useQuery({
+    queryKey: ["belongs_by_code", code],
+    queryFn: async () => await getBelongsByCode(code),
   });
 };

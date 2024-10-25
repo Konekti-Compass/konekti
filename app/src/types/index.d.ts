@@ -25,6 +25,7 @@ export type UseMutationResult<T1, T2> = {
 export type RootStackParamList = {
   TabNavigator: NavigatorScreenParams<TabParamList> | undefined;
   AuthNavigator: NavigatorScreenParams<AuthStackParamList> | undefined;
+  ProfileDetail: { profileId: number };
 };
 
 export type AuthStackParamList = {

@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
 
-import * as WebBrowser from "expo-web-browser";
+import { User, Session } from "@supabase/supabase-js";
 import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
 
 import { supabase } from "../../supabase";
-import { User, Session } from "@supabase/supabase-js";
 
 type UseGoogleAuthType = {
   onSuccess?: (
@@ -22,11 +22,7 @@ type UseGoogleAuthType = {
   onCancel?: () => void;
 };
 
-const useGoogleAuth = ({
-  onSuccess,
-  onError,
-  onCancel,
-}: UseGoogleAuthType) => {
+const useGoogleAuth = ({ onSuccess, onError, onCancel }: UseGoogleAuthType) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -41,7 +37,7 @@ const useGoogleAuth = ({
     setIsLoading(true);
     try {
       const redirectURL = Linking.createURL("redirect");
-      console.log(redirectURL)
+      console.log(redirectURL);
 
       const { data } = await supabase.auth.signInWithOAuth({
         provider: "google",

@@ -1,13 +1,14 @@
 import React, { useCallback, useRef, useState } from "react";
-import useProfileId from "../hooks/utils/useProfileId";
-import GroupTemplate from "../components/templates/GroupTemplate";
-import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 
-import { useDeleteBelong } from "../hooks/belong/mutate";
 import { useFocusEffect } from "@react-navigation/native";
-import useAlert from "../hooks/utils/useAlert";
-import { GroupStackScreenProps } from "../types";
+
+import GroupTemplate from "../components/templates/GroupTemplate";
+import { useDeleteBelong } from "../hooks/belong/mutate";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 import { useQueryProfilesByUserId } from "../hooks/profile/query";
+import useAlert from "../hooks/utils/useAlert";
+import useProfileId from "../hooks/utils/useProfileId";
+import { GroupStackScreenProps } from "../types";
 
 const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
   const { showAlert } = useAlert();
@@ -80,24 +81,10 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
     navigation.navigate("ProfileList", { code });
   }, []);
 
-  const getProfile = useCallback(() => {
-    const profile = profiles?.find(
-      (profile) => profile.profileId === profileId
-    );
-    if (!profile) {
-      if (profiles?.length) {
-        setProfileId(profiles[0].profileId);
-        return profiles[0];
-      }
-    }
-    return profile;
-  }, [profiles, profileId]);
-
   return (
     <GroupTemplate
       profileId={profileId}
       setProfileId={setProfileId}
-      profile={getProfile()}
       profiles={profiles}
       belongs={belongs}
       deleteBelong={deleteBelong}

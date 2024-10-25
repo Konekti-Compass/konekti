@@ -5,9 +5,9 @@ import * as Linking from "expo-linking";
 import SignUpTemplate from "../components/templates/SignUpTemplate";
 import { useSignUpWithEmail } from "../hooks/auth/mutate";
 import { usePostUser, useSearchUserByUserId } from "../hooks/user/mutate";
-import { AuthStackScreenProps } from "../types";
-import useGoogleAuth from "../hooks/utils/useGoogleAuth";
 import useAlert from "../hooks/utils/useAlert";
+import useGoogleAuth from "../hooks/utils/useGoogleAuth";
+import { AuthStackScreenProps } from "../types";
 
 const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
   const { showAlert } = useAlert();

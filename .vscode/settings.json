@@ -1,4 +1,3 @@
 {
-  "editor.tabSize": 2,
-  "eslint.workingDirectories": [{ "mode": "auto" }]
+  "editor.tabSize": 2
 }

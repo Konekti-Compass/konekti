@@ -2,12 +2,12 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from "../screens/HomeScreen";
-import { HomeStackParamList } from "../types";
 import EditProfileScreen from "../screens/EditProfileScreen";
-import QRCodeScreen from "../screens/QRCodeScreen";
 import FriendListScreen from "../screens/FriendListScreen";
+import HomeScreen from "../screens/HomeScreen";
 import PostProfileScreen from "../screens/PostProfileScreen";
+import QRCodeScreen from "../screens/QRCodeScreen";
+import { HomeStackParamList } from "../types";
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 

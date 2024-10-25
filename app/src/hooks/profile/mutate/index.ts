@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
+import { decode } from "base64-arraybuffer";
 
 import { supabase } from "../../../supabase";
 import { Profile, UseMutationResult } from "../../../types";
-import { decode } from "base64-arraybuffer";
 
 export type PostProfileResponse = Awaited<ReturnType<typeof postProfile>>;
 export type UpdateProfileResponse = Awaited<ReturnType<typeof updateProfile>>;

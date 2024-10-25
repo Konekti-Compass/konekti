@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../supabase";
 import useAuth from "../../utils/useAuth";
 
-export type GetProfileByProfileIdResponse = Awaited<ReturnType<typeof getProfileByProfileId>>;
+export type GetProfileByProfileIdResponse = Awaited<
+  ReturnType<typeof getProfileByProfileId>
+>;
 export type GetProfilesByUserIdResponse = Awaited<
   ReturnType<typeof getProfilesByUserId>
 >;

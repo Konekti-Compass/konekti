@@ -1,8 +1,9 @@
 import React, { useCallback, useRef, useState } from "react";
-import ProfileListTemplate from "../components/templates/ProfileListTemplate";
-import { useQueryBelongsByCode } from "../hooks/belong/query";
 
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
+
+import ProfileListTemplate from "../components/templates/ProfileListTemplate";
+import { useQueryBelongsByCode } from "../hooks/belong/query";
 import { GroupStackParamList, GroupStackScreenProps } from "../types";
 
 const ProfileListScreen = ({

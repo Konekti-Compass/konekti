@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute, RouteProp } from "@react-navigation/native";
+
 import EditProfileTemplate from "../components/templates/EditProfileTemplate";
+import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 import { useDeleteProfile, useUpdateProfile } from "../hooks/profile/mutate";
 import { useQueryProfileByProfileId } from "../hooks/profile/query";
-import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
-import { useRoute, RouteProp } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQueryBelongsByProfileId } from "../hooks/belong/query";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
 
 const EditProfileScreen = ({
   navigation,

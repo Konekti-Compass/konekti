@@ -1,6 +1,8 @@
 import React, { memo } from "react";
+import { useWindowDimensions } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
+import { CameraView } from "expo-camera";
 import {
   Box,
   Text,
@@ -11,9 +13,8 @@ import {
   useDisclose,
   VStack,
 } from "native-base";
-import { CameraView } from "expo-camera";
+
 import QRCodeActionSheet from "../organisms/QRCodeActionSheet";
-import { useWindowDimensions } from "react-native";
 
 type QRCodeTemplateProps = {
   goBackNavigationHandler: () => void;

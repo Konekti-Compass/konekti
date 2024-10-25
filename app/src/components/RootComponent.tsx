@@ -8,9 +8,9 @@ import {
 import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
 import { useColorModeValue } from "native-base";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import RootNavigator from "../navigators/RootNavigator";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const RootComponent = () => {
   const lightTheme = {

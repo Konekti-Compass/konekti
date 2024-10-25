@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 
 import PostProfileTemplate from "../components/templates/PostProfileScreen";
+import { usePostBelong } from "../hooks/belong/mutate";
 import { usePostProfile } from "../hooks/profile/mutate";
-import { HomeStackScreenProps } from "../types";
 import useAlert from "../hooks/utils/useAlert";
 import useAuth from "../hooks/utils/useAuth";
-import { usePostBelong } from "../hooks/belong/mutate";
+import { HomeStackScreenProps } from "../types";
 
 const PostProfileScreen = ({
   navigation,

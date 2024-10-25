@@ -14,15 +14,14 @@ import {
 } from "native-base";
 
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
-import GroupListItem from "../organisms/GroupListItem";
-import Fab from "../molecules/Fab";
 import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
+import Fab from "../molecules/Fab";
+import GroupListItem from "../organisms/GroupListItem";
 import SkeletonGroupList from "../organisms/SkeletonGroupList";
 
 type GroupTemplateProps = {
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
-  profile: GetProfilesByUserIdResponse[number] | undefined;
   profiles: GetProfilesByUserIdResponse | undefined;
   belongs: GetBelongsByProfileIdResponse | undefined;
   deleteBelong: (belongId: string) => Promise<void>;
@@ -36,7 +35,6 @@ type GroupTemplateProps = {
 const GroupTemplate = ({
   profileId,
   setProfileId,
-  profile,
   profiles,
   belongs,
   deleteBelong,
@@ -91,8 +89,8 @@ const GroupTemplate = ({
             <GroupListItem
               item={item}
               onPress={() => {
-                if(item.code) {
-                  profileListNavigationHandler(item.code)
+                if (item.code) {
+                  profileListNavigationHandler(item.code);
                 }
               }}
               onPressRight={() => deleteBelong(item.belongId)}

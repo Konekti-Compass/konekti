@@ -5,7 +5,6 @@ import { Feather } from "@expo/vector-icons";
 import {
   Box,
   FlatList,
-  Heading,
   HStack,
   Icon,
   IconButton,
@@ -15,9 +14,9 @@ import {
 } from "native-base";
 
 import { GetBelongsByCodeResponse } from "../../hooks/belong/query";
-import SkeletonGroupList from "../organisms/SkeletonGroupList";
 import SearchBar from "../molecules/SearchBar";
 import ProfileListItem from "../organisms/ProfileListItem";
+import SkeletonGroupList from "../organisms/SkeletonGroupList";
 
 type ProfileListTemplateProps = {
   belongs: GetBelongsByCodeResponse | undefined;

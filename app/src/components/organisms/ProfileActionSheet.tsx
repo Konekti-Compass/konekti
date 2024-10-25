@@ -10,6 +10,7 @@ import {
   Center,
   Pressable,
 } from "native-base";
+
 import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
 
 type ProfileActionSheetProps = {

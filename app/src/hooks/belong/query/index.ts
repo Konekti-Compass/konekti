@@ -35,7 +35,7 @@ const getBelongsByCode = async (code: number) => {
     throw error;
   }
   return data;
-}
+};
 
 export const useQueryBelongsByProfileId = (profileId: number | undefined) => {
   return useQuery({

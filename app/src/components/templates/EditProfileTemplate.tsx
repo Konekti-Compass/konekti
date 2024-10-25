@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { Alert } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import {
@@ -16,10 +17,9 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { GetProfileByProfileIdResponse } from "../../hooks/profile/query";
 import Input from "../molecules/Input";
 import Overlay from "../molecules/Overlay";
-import { GetProfileByProfileIdResponse } from "../../hooks/profile/query";
-import { Alert } from "react-native";
 
 type EditProfileTemplateProps = {
   profile: GetProfileByProfileIdResponse | undefined;

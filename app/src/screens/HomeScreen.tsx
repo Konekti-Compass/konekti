@@ -3,16 +3,15 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 
 import HomeTemplate from "../components/templates/HomeTemplate";
-import useImage from "../hooks/utils/useImage";
-import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
-import { supabase } from "../supabase";
-import useAlert from "../hooks/utils/useAlert";
-import { useQueryProfilesByUserId } from "../hooks/profile/query";
-
-import { HomeStackParamList, HomeStackScreenProps } from "../types";
 import { useSignOut } from "../hooks/auth/mutate";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
+import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
+import { useQueryProfilesByUserId } from "../hooks/profile/query";
+import useAlert from "../hooks/utils/useAlert";
+import useImage from "../hooks/utils/useImage";
 import useProfileId from "../hooks/utils/useProfileId";
+import { supabase } from "../supabase";
+import { HomeStackParamList, HomeStackScreenProps } from "../types";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const { showAlert } = useAlert();

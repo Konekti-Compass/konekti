@@ -1,9 +1,10 @@
 import React from "react";
 
 import { VStack, HStack, Divider, Text, useColorModeValue } from "native-base";
+import { TouchableHighlight } from "react-native-gesture-handler";
+
 import { GetBelongsByCodeResponse } from "../../hooks/belong/query";
 import Avatar from "../molecules/Avatar";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
 type ProfileListItemProps = {
   item: GetBelongsByCodeResponse[number];

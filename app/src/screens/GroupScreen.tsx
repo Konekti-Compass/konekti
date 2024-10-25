@@ -47,6 +47,10 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
   );
 
   const { mutateAsync: mutateAsyncDeleteBelong } = useDeleteBelong({
+    onSuccess: () => {
+      showAlert({ status: "success", text: "所属を削除しました" });
+      refetch();
+    },
     onError: () => {
       showAlert({ status: "error", text: "エラーが発生しました" });
     },
@@ -72,7 +76,9 @@ const GroupScreen = ({ navigation }: GroupStackScreenProps<"Group">) => {
     });
   }, []);
 
-  const profileListNavigationHandler = useCallback(() => {}, []);
+  const profileListNavigationHandler = useCallback((code: number) => {
+    navigation.navigate("ProfileList", { code });
+  }, []);
 
   const getProfile = useCallback(() => {
     const profile = profiles?.find(

@@ -30,7 +30,7 @@ type GroupTemplateProps = {
   isLoading: boolean;
   isRefetching: boolean;
   postProfileNavigationHandler: () => void;
-  profileListNavigationHandler: (belongId: string) => void;
+  profileListNavigationHandler: (code: number) => void;
 };
 
 const GroupTemplate = ({
@@ -55,7 +55,7 @@ const GroupTemplate = ({
       <Heading w="80%" mt="2">
         グループ
       </Heading>
-      <Box mt="6" w="80%" h="12" alignItems="center ">
+      <Box mt="6" w="80%" h="12" alignItems="center">
         <FlatList
           w="100%"
           horizontal
@@ -91,7 +91,9 @@ const GroupTemplate = ({
             <GroupListItem
               item={item}
               onPress={() => {
-                profileListNavigationHandler(item.belongId);
+                if(item.code) {
+                  profileListNavigationHandler(item.code)
+                }
               }}
               onPressRight={() => deleteBelong(item.belongId)}
             />

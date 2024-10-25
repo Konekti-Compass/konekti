@@ -50,6 +50,7 @@ export type HomeStackParamList = {
 
 export type GroupStackParamList = {
   Group: undefined;
+  ProfileList: {code: number};
 };
 
 export type SearchStackParamList = {

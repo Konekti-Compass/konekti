@@ -87,9 +87,15 @@ const EditProfileTemplate = ({
   }, [profile]);
 
   return (
-    <Box flex={1} safeAreaTop>
+    <Box flex={1} alignItems="center" safeAreaTop>
       <Overlay isOpen={isLoading} />
-      <HStack mb="4" px="2" alignItems="center" justifyContent="space-between">
+      <HStack
+        w="100%"
+        mb="4"
+        px="4"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <IconButton
           onPress={goBackNavigationHandler}
           icon={
@@ -529,7 +535,7 @@ const EditProfileTemplate = ({
                       onPress: async () => await deleteProfile(),
                       style: "destructive",
                     },
-                  ],
+                  ]
                 )
               }
             >

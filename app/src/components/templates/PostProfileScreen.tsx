@@ -66,8 +66,14 @@ const PostProfileTemplate = ({
   } = useForm<FormValues>();
 
   return (
-    <Box flex={1} safeAreaTop>
-      <HStack mb="4" px="2" alignItems="center" justifyContent="space-between">
+    <Box flex={1} alignItems="center" safeAreaTop>
+      <HStack
+        w="100%"
+        mb="4"
+        px="4"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <IconButton
           onPress={goBackNavigationHandler}
           icon={

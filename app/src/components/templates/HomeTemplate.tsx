@@ -125,7 +125,7 @@ const HomeTemplate = ({
                   <Skeleton w="24" h="6" rounded="full" />
                 ) : (
                   <Text h="6" bold fontSize="lg">
-                    {profile?.name ?? "11"}
+                    {profile?.name}
                   </Text>
                 )}
                 {!isLoading && (

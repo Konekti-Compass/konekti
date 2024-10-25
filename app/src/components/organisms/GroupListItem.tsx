@@ -80,7 +80,7 @@ const GroupListItem = memo(
         </TouchableHighlight>
       </Swipeable>
     );
-  }
+  },
 );
 
 export default GroupListItem;

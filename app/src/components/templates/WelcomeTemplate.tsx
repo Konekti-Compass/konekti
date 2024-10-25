@@ -38,7 +38,7 @@ const WelcomeTemplate = memo(
         </Text>
       </Pressable>
     );
-  }
+  },
 );
 
 export default WelcomeTemplate;

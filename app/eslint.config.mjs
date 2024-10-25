@@ -20,6 +20,11 @@ export default [
       import: importPlugin,
       "unused-imports": unusedImports,
     },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
     rules: {
       "unused-imports/no-unused-imports": "error",
       "import/order": [
@@ -65,7 +70,6 @@ export default [
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-unused-expressions": "off",
     },
   },

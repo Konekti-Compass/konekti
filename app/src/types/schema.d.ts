@@ -80,6 +80,7 @@ export type Database = {
         Row: {
           code: number;
           color: string;
+          count: number | null;
           createdAt: string;
           description: string | null;
           imageUrl: string | null;
@@ -89,6 +90,7 @@ export type Database = {
         Insert: {
           code?: number;
           color: string;
+          count?: number | null;
           createdAt?: string;
           description?: string | null;
           imageUrl?: string | null;
@@ -98,6 +100,7 @@ export type Database = {
         Update: {
           code?: number;
           color?: string;
+          count?: number | null;
           createdAt?: string;
           description?: string | null;
           imageUrl?: string | null;
@@ -117,7 +120,7 @@ export type Database = {
           name: string;
           profileId: number;
           talent: string;
-          updateAt: string;
+          updatedAt: string;
           userId: string;
         };
         Insert: {
@@ -130,7 +133,7 @@ export type Database = {
           name: string;
           profileId?: number;
           talent: string;
-          updateAt?: string;
+          updatedAt?: string;
           userId: string;
         };
         Update: {
@@ -143,7 +146,7 @@ export type Database = {
           name?: string;
           profileId?: number;
           talent?: string;
-          updateAt?: string;
+          updatedAt?: string;
           userId?: string;
         };
         Relationships: [

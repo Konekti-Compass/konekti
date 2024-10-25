@@ -29,7 +29,7 @@ const ProfileListScreen = ({
       }
 
       refetchBelongs();
-    }, [])
+    }, []),
   );
 
   const refetch = useCallback(async () => {
@@ -39,6 +39,7 @@ const ProfileListScreen = ({
   }, []);
 
   const profileDetailNavigationHandler = (profileId: number) => {
+    console.log(profileId);
     // navigation.navigate("ProfileDetail", { profileId });
   };
 

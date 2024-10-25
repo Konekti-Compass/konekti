@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
       refetchProfiles();
       refetchBelongs();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -89,12 +89,10 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     usePostAvatar({
       onSuccess: async ({ path }) => {
         const { data } = supabase.storage.from("image").getPublicUrl(path);
-        if (profiles?.length) {
-          await mutateAsyncUpdateProfile({
-            profileId,
-            avatarUrl: data.publicUrl,
-          });
-        }
+        await mutateAsyncUpdateProfile({
+          profileId,
+          avatarUrl: data.publicUrl,
+        });
       },
       onError: () => {
         showAlert({ status: "error", text: "エラーが発生しました" });
@@ -153,7 +151,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   const getProfile = useCallback(() => {
     const profile = profiles?.find(
-      (profile) => profile.profileId === profileId
+      (profile) => profile.profileId === profileId,
     );
     if (!profile) {
       if (profiles?.length) {

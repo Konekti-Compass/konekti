@@ -60,7 +60,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     async (email: string, password: string) => {
       await mutateAsyncSignInWithEmail({ email, password });
     },
-    []
+    [],
   );
 
   const signInWithGoogle = useCallback(async () => {

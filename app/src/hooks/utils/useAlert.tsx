@@ -25,7 +25,7 @@ const useAlert = () => {
         ),
       });
     },
-    [toast]
+    [toast],
   );
 
   return {

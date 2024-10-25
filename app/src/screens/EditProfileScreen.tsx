@@ -94,7 +94,7 @@ const EditProfileScreen = ({
         introduction,
       });
     },
-    [params]
+    [params],
   );
 
   const deleteProfile = useCallback(async () => {

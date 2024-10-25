@@ -154,7 +154,7 @@ const HomeTemplate = ({
                     size="16"
                     fontSize="3xl"
                     isLoading={isLoading || isLoadingAvatar}
-                    updatedAt={profile?.updateAt}
+                    updatedAt={profile?.updatedAt}
                     onPress={onOpenImageActionSheet}
                   />
                 </Box>

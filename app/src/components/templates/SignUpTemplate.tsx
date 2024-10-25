@@ -181,7 +181,7 @@ const SignUpTemplate = memo(
                 rounded="xl"
                 colorScheme="brand"
                 onPress={handleSubmit((data) =>
-                  signUpWithEmail(data.email, data.password)
+                  signUpWithEmail(data.email, data.password),
                 )}
                 isLoading={isLoading}
               >
@@ -234,7 +234,7 @@ const SignUpTemplate = memo(
         </KeyboardAwareScrollView>
       </VStack>
     );
-  }
+  },
 );
 
 export default SignUpTemplate;

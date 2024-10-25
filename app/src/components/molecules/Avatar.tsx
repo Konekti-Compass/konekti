@@ -60,7 +60,7 @@ const Avatar = memo(
         )}
       </Pressable>
     );
-  }
+  },
 );
 
 export default Avatar;

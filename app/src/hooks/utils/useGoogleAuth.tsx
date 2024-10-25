@@ -16,7 +16,7 @@ type UseGoogleAuthType = {
       | {
           user: null;
           session: null;
-        }
+        },
   ) => void;
   onError?: (error: Error) => void;
   onCancel?: () => void;
@@ -51,7 +51,7 @@ const useGoogleAuth = ({ onSuccess, onError, onCancel }: UseGoogleAuthType) => {
         redirectURL,
         {
           showInRecents: true,
-        }
+        },
       );
 
       if (result.type === "success") {

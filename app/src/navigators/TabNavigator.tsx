@@ -34,7 +34,7 @@ const TabNavigator = () => {
       }
       return true;
     },
-    []
+    [],
   );
 
   return (

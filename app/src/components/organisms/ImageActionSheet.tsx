@@ -74,7 +74,7 @@ const ImageActionSheet = memo(
         </Actionsheet.Content>
       </Actionsheet>
     );
-  }
+  },
 );
 
 export default ImageActionSheet;

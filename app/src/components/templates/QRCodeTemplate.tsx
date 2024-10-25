@@ -32,7 +32,7 @@ const QRCodeTemplate = memo(
         <Box w={`${width}px`} h="540px">
           <CameraView
             barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-            onBarcodeScanned={({ data }) => {}}
+            onBarcodeScanned={() => {}}
             style={{ width: "100%", height: "100%" }}
           >
             <Box position="relative" flex={1}>
@@ -128,7 +128,7 @@ const QRCodeTemplate = memo(
         </VStack>
       </Box>
     );
-  }
+  },
 );
 
 export default QRCodeTemplate;

@@ -34,7 +34,7 @@ const PostProfileScreen = ({
             profileId: data.profileId,
             name: item,
           });
-        })
+        }),
       );
       showAlert({ status: "success", text: "作成しました" });
       navigation.navigate("Home", { profileId: data.profileId });
@@ -70,7 +70,7 @@ const PostProfileScreen = ({
         userId: session.user.id,
       });
     },
-    [session]
+    [session],
   );
 
   const goBackNavigationHandler = useCallback(() => {

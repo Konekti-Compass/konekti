@@ -83,7 +83,7 @@ const SignUpScreen = ({ navigation }: AuthStackScreenProps) => {
         },
       });
     },
-    []
+    [],
   );
 
   const signUpWithGoogle = useCallback(async () => {

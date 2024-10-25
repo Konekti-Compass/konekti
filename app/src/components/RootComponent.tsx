@@ -40,7 +40,7 @@ const RootComponent = () => {
             "url",
             ({ url }: { url: string }) => {
               listener(url);
-            }
+            },
           );
 
           return () => {

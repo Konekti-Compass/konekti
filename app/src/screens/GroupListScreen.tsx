@@ -46,7 +46,7 @@ const GroupListScreen = ({
 
       refetchProfiles();
       refetchBelongs();
-    }, [])
+    }, []),
   );
 
   const { mutateAsync: mutateAsyncDeleteBelong } = useDeleteBelong({

@@ -529,7 +529,7 @@ const EditProfileTemplate = ({
                       onPress: async () => await deleteProfile(),
                       style: "destructive",
                     },
-                  ]
+                  ],
                 )
               }
             >

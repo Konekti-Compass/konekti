@@ -76,7 +76,7 @@ const ProfileActionSheet = memo(
         </Actionsheet.Content>
       </Actionsheet>
     );
-  }
+  },
 );
 
 export default ProfileActionSheet;

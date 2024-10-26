@@ -53,6 +53,17 @@ const QRCodeTemplate = ({
           <Box w="100%" h="100%" position="relative">
             <Box
               position="absolute"
+              top={`${(540 - 320) / 2 + 25}px`}
+              left={`${(width - 320) / 2}px`}
+              w="320px"
+              h="320px"
+              borderColor="white"
+              borderWidth="5px"
+              rounded="20"
+              zIndex={1}
+            />
+            <Box
+              position="absolute"
               top="0px"
               left="0px"
               bottom="0px"
@@ -91,17 +102,7 @@ const QRCodeTemplate = ({
               opacity="0.4"
               zIndex={0}
             />
-            <Box
-              position="absolute"
-              top={`${(540 - 320) / 2 + 25}px`}
-              left={`${(width - 320) / 2}px`}
-              w="320px"
-              h="320px"
-              borderColor="white"
-              borderWidth="5px"
-              rounded="20"
-              zIndex={1}
-            />
+
             <HStack
               px="2"
               w="100%"

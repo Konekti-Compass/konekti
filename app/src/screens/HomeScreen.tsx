@@ -6,7 +6,7 @@ import HomeTemplate from "../components/templates/HomeTemplate";
 import { useSignOut } from "../hooks/auth/mutate";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
 import { usePostAvatar, useUpdateProfile } from "../hooks/profile/mutate";
-import { useQueryProfilesByUserId } from "../hooks/profile/query";
+import { useQueryProfilesByAuthorId } from "../hooks/profile/query";
 import useAlert from "../hooks/utils/useAlert";
 import useImage from "../hooks/utils/useImage";
 import useProfileId from "../hooks/utils/useProfileId";
@@ -14,13 +14,11 @@ import { supabase } from "../supabase";
 import { HomeStackParamList, HomeStackScreenProps } from "../types";
 
 const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
-  const { showAlert } = useAlert();
-
   const focusRef = useRef(true);
-
+  const [isRefetching, setIsRefetching] = useState(false);
   const { params } = useRoute<RouteProp<HomeStackParamList, "Home">>();
 
-  const [isRefetching, setIsRefetching] = useState(false);
+  const { showAlert } = useAlert();
 
   const {
     profileId,
@@ -32,7 +30,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
     data: profiles,
     isLoading: isLoadingProfiles,
     refetch: refetchProfiles,
-  } = useQueryProfilesByUserId();
+  } = useQueryProfilesByAuthorId();
 
   const {
     data: belongs,
@@ -49,7 +47,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
       refetchProfiles();
       refetchBelongs();
-    }, []),
+    }, [])
   );
 
   useEffect(() => {
@@ -123,7 +121,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
   const deleteAvatar = useCallback(async () => {
     if (profiles?.length) {
       await mutateAsyncUpdateProfile({
-        ProfileId: profiles[profileId].profileId,
+        profileId: profiles[profileId].profileId,
         avatarUrl: null,
       });
     }
@@ -151,7 +149,7 @@ const HomeScreen = ({ navigation }: HomeStackScreenProps<"Home">) => {
 
   const getProfile = useCallback(() => {
     const profile = profiles?.find(
-      (profile) => profile.profileId === profileId,
+      (profile) => profile.profileId === profileId
     );
     if (!profile) {
       if (profiles?.length) {

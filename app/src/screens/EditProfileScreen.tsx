@@ -13,11 +13,10 @@ import { HomeStackParamList, HomeStackScreenProps } from "../types";
 const EditProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"EditProfile">) => {
-  const { showAlert } = useAlert();
-
   const [tags, setTags] = useState<string[]>([]);
-
   const { params } = useRoute<RouteProp<HomeStackParamList, "EditProfile">>();
+
+  const { showAlert } = useAlert();
 
   const {
     data: profile,
@@ -46,7 +45,7 @@ const EditProfileScreen = ({
     mutateAsync: mutateAsyncUpdateProfile,
     isPending: isLoadingUpdateProfile,
   } = useUpdateProfile({
-    onSuccess: async () => {
+    onSuccess: () => {
       showAlert({ status: "success", text: "保存しました" });
       navigation.goBack();
     },
@@ -83,18 +82,18 @@ const EditProfileScreen = ({
       talent: string;
       introduction: string;
     }) => {
-      if (!params) return;
-
-      await mutateAsyncUpdateProfile({
-        profileId: params.profileId,
-        name,
-        displayName,
-        hobby,
-        talent,
-        introduction,
-      });
+      if (params) {
+        await mutateAsyncUpdateProfile({
+          profileId: params.profileId,
+          name,
+          displayName,
+          hobby,
+          talent,
+          introduction,
+        });
+      }
     },
-    [params],
+    [params]
   );
 
   const deleteProfile = useCallback(async () => {

@@ -14,7 +14,7 @@ import {
 } from "native-base";
 
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
-import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
+import { GetProfilesByAuthorIdResponse } from "../../hooks/profile/query";
 import Fab from "../molecules/Fab";
 import GroupListItem from "../organisms/GroupListItem";
 import SkeletonGroupList from "../organisms/SkeletonGroupList";
@@ -22,7 +22,7 @@ import SkeletonGroupList from "../organisms/SkeletonGroupList";
 type GroupListTemplateProps = {
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
-  profiles: GetProfilesByUserIdResponse | undefined;
+  profiles: GetProfilesByAuthorIdResponse | undefined;
   belongs: GetBelongsByProfileIdResponse | undefined;
   deleteBelong: (belongId: string) => Promise<void>;
   refetch: () => Promise<void>;
@@ -44,40 +44,42 @@ const GroupListTemplate = ({
   postProfileNavigationHandler,
   profileListNavigationHandler,
 }: GroupListTemplateProps) => {
-  const spinnerColor = useColorModeValue("#a3a3a3", "white");
   const bgColor = useColorModeValue("muted.200", "muted.700");
   const textColor = useColorModeValue("muted.600", "muted.300");
+  const spinnerColor = useColorModeValue("#a3a3a3", "white");
 
   return (
     <Box flex={1} alignItems="center" safeAreaTop>
       <Heading w="80%" mt="2">
         グループ
       </Heading>
-      <Box mt="6" w="80%" h="12" alignItems="center">
-        <FlatList
-          w="100%"
-          horizontal
-          data={profiles}
-          renderItem={({ item }) => (
-            <Pressable mr="2" onPress={() => setProfileId(item.profileId)}>
-              <Center
-                px="10px"
-                py="6px"
-                rounded="full"
-                bg={item.profileId === profileId ? "brand.600" : bgColor}
-              >
-                <Text
-                  bold
-                  color={item.profileId === profileId ? "white" : textColor}
+      {!!profiles?.length && (
+        <Box mt="6" w="80%" h="12" alignItems="center">
+          <FlatList
+            w="100%"
+            horizontal
+            data={profiles}
+            renderItem={({ item }) => (
+              <Pressable mr="2" onPress={() => setProfileId(item.profileId)}>
+                <Center
+                  px="10px"
+                  py="6px"
+                  rounded="full"
+                  bg={item.profileId === profileId ? "brand.600" : bgColor}
                 >
-                  {item.name}
-                </Text>
-              </Center>
-            </Pressable>
-          )}
-          keyExtractor={(item) => item.profileId.toString()}
-        />
-      </Box>
+                  <Text
+                    bold
+                    color={item.profileId === profileId ? "white" : textColor}
+                  >
+                    {item.name}
+                  </Text>
+                </Center>
+              </Pressable>
+            )}
+            keyExtractor={(item) => item.profileId.toString()}
+          />
+        </Box>
+      )}
       {isLoading ? (
         <SkeletonGroupList rows={5} />
       ) : (
@@ -97,7 +99,7 @@ const GroupListTemplate = ({
             />
           )}
           ListEmptyComponent={
-            <Box mt="6" alignItems="center">
+            <Box mt="12" alignItems="center">
               <Text bold fontSize="md">
                 参加しているグループがありません。
               </Text>

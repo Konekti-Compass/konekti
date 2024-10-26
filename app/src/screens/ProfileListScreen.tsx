@@ -1,19 +1,20 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useMemo } from "react";
 
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 
 import ProfileListTemplate from "../components/templates/ProfileListTemplate";
 import { useQueryBelongsByCode } from "../hooks/belong/query";
+import useAuth from "../hooks/utils/useAuth";
 import { GroupStackParamList, GroupStackScreenProps } from "../types";
 
 const ProfileListScreen = ({
   navigation,
 }: GroupStackScreenProps<"ProfileList">) => {
   const focusRef = useRef(true);
-
+  const [isRefetching, setIsRefetching] = useState(false);
   const { params } = useRoute<RouteProp<GroupStackParamList, "ProfileList">>();
 
-  const [isRefetching, setIsRefetching] = useState(false);
+  const { session } = useAuth();
 
   const {
     data: belongs,
@@ -29,7 +30,7 @@ const ProfileListScreen = ({
       }
 
       refetchBelongs();
-    }, []),
+    }, [])
   );
 
   const refetch = useCallback(async () => {
@@ -39,21 +40,26 @@ const ProfileListScreen = ({
   }, []);
 
   const profileDetailNavigationHandler = (profileId: number) => {
-    console.log(profileId);
-    // navigation.navigate("ProfileDetail", { profileId });
+    navigation.navigate("ProfileDetail", { profileId });
   };
 
-  const searchProfileNavigationHandler = () => {
+  const searchProfileNavigationHandler = useCallback(() => {
     // navigation.navigate("SearchProfile");
-  };
+  }, []);
 
-  const goBackNavigationHandler = () => {
+  const goBackNavigationHandler = useCallback(() => {
     navigation.goBack();
-  };
+  }, []);
 
   return (
     <ProfileListTemplate
-      belongs={belongs}
+      belongs={useMemo(
+        () =>
+          belongs?.filter(
+            (item) => item.profile?.authorId !== session?.user.id
+          ),
+        [belongs, session]
+      )}
       refetch={refetch}
       isLoading={isLoadingBelongs}
       isRefetching={isRefetching}

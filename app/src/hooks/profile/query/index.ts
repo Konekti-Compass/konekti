@@ -6,8 +6,8 @@ import useAuth from "../../utils/useAuth";
 export type GetProfileByProfileIdResponse = Awaited<
   ReturnType<typeof getProfileByProfileId>
 >;
-export type GetProfilesByUserIdResponse = Awaited<
-  ReturnType<typeof getProfilesByUserId>
+export type GetProfilesByAuthorIdResponse = Awaited<
+  ReturnType<typeof getProfilesByAuthorId>
 >;
 
 const getProfileByProfileId = async (profileId: number) => {
@@ -19,19 +19,19 @@ const getProfileByProfileId = async (profileId: number) => {
   if (error) {
     throw error;
   }
-  return data[0];
+  return data[0] ?? null;
 };
 
-const getProfilesByUserId = async (userId: string | undefined) => {
-  if (!userId) {
+const getProfilesByAuthorId = async (authorId: string | undefined) => {
+  if (!authorId) {
     return [];
   }
 
   const { data, error } = await supabase
     .from("profile")
     .select("*")
-    .eq("userId", userId)
-    .order("createdAt", { ascending: false });
+    .eq("authorId", authorId)
+    .order("updatedAt", { ascending: false });
 
   if (error) {
     throw error;
@@ -45,11 +45,11 @@ export const useQueryProfileByProfileId = (profileId: number) =>
     queryFn: async () => await getProfileByProfileId(profileId),
   });
 
-export const useQueryProfilesByUserId = () => {
+export const useQueryProfilesByAuthorId = () => {
   const { session } = useAuth();
 
   return useQuery({
-    queryKey: ["profiles_by_user_id", session?.user.id],
-    queryFn: async () => await getProfilesByUserId(session?.user.id),
+    queryKey: ["profiles_by_author_id", session?.user.id],
+    queryFn: async () => await getProfilesByAuthorId(session?.user.id),
   });
 };

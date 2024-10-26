@@ -17,7 +17,8 @@ const getBelongsByProfileId = async (profileId: number | undefined) => {
   const { data, error } = await supabase
     .from("belong")
     .select("*, belongCode:belong_code(*)")
-    .eq("profileId", profileId);
+    .eq("profileId", profileId)
+    .order("updatedAt", { ascending: false });
 
   if (error) {
     throw error;
@@ -29,7 +30,8 @@ const getBelongsByCode = async (code: number) => {
   const { data, error } = await supabase
     .from("belong")
     .select("*, profile:profile(*)")
-    .eq("code", code);
+    .eq("code", code)
+    .order("updatedAt", { ascending: false });
 
   if (error) {
     throw error;

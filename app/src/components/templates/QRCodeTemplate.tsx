@@ -14,25 +14,35 @@ import {
   VStack,
 } from "native-base";
 
+import Overlay from "../molecules/Overlay";
 import QRCodeActionSheet from "../organisms/QRCodeActionSheet";
 
 type QRCodeTemplateProps = {
+  isLoadingSearchProfileByProfileId: boolean;
+  searchProfileByProfileId: (profileId: number) => Promise<void>;
   goBackNavigationHandler: () => void;
 };
 
 const QRCodeTemplate = memo(
-  ({ goBackNavigationHandler }: QRCodeTemplateProps) => {
+  ({
+    isLoadingSearchProfileByProfileId,
+    searchProfileByProfileId,
+    goBackNavigationHandler,
+  }: QRCodeTemplateProps) => {
     const { width } = useWindowDimensions();
 
     const { isOpen, onOpen, onClose } = useDisclose();
 
     return (
       <Box flex={1}>
+        <Overlay isOpen={isLoadingSearchProfileByProfileId} />
         <QRCodeActionSheet value="test" isOpen={isOpen} onClose={onClose} />
         <Box w={`${width}px`} h="540px">
           <CameraView
             barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-            onBarcodeScanned={() => {}}
+            onBarcodeScanned={({ data }) =>
+              searchProfileByProfileId(Number(data))
+            }
             style={{ width: "100%", height: "100%" }}
           >
             <Box position="relative" flex={1}>

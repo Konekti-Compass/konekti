@@ -10,11 +10,10 @@ import { HomeStackScreenProps } from "../types";
 const PostProfileScreen = ({
   navigation,
 }: HomeStackScreenProps<"PostProfile">) => {
-  const { showAlert } = useAlert();
-
   const [tags, setTags] = useState<string[]>([]);
 
   const { session } = useAuth();
+  const { showAlert } = useAlert();
 
   const { mutateAsync: mutateAsyncPostBelong, isPending: isLoadingPostBelong } =
     usePostBelong({
@@ -28,16 +27,18 @@ const PostProfileScreen = ({
     isPending: isLoadingPostProfile,
   } = usePostProfile({
     onSuccess: async (data) => {
-      await Promise.all(
-        tags.map(async (item) => {
-          await mutateAsyncPostBelong({
-            profileId: data.profileId,
-            name: item,
-          });
-        }),
-      );
-      showAlert({ status: "success", text: "作成しました" });
-      navigation.navigate("Home", { profileId: data.profileId });
+      if (data) {
+        await Promise.all(
+          tags.map(async (item) => {
+            await mutateAsyncPostBelong({
+              profileId: data.profileId,
+              name: item,
+            });
+          })
+        );
+        showAlert({ status: "success", text: "作成しました" });
+        navigation.navigate("Home", { profileId: data.profileId });
+      }
     },
     onError: () => {
       showAlert({ status: "error", text: "エラーが発生しました" });
@@ -58,19 +59,19 @@ const PostProfileScreen = ({
       talent: string;
       introduction: string;
     }) => {
-      if (!session) return;
-
-      await mutateAsyncPostProfile({
-        name,
-        displayName,
-        hobby,
-        talent,
-        introduction,
-        color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
-        userId: session.user.id,
-      });
+      if (session) {
+        await mutateAsyncPostProfile({
+          name,
+          displayName,
+          hobby,
+          talent,
+          introduction,
+          color: `hsl(${Math.floor(Math.random() * 360)}, 60%, 60%)`,
+          authorId: session.user.id,
+        });
+      }
     },
-    [session],
+    [session]
   );
 
   const goBackNavigationHandler = useCallback(() => {

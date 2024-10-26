@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import GroupListTemplate from "../components/templates/GroupListTemplate";
 import { useDeleteBelong } from "../hooks/belong/mutate";
 import { useQueryBelongsByProfileId } from "../hooks/belong/query";
-import { useQueryProfilesByUserId } from "../hooks/profile/query";
+import { useQueryProfilesByAuthorId } from "../hooks/profile/query";
 import useAlert from "../hooks/utils/useAlert";
 import useProfileId from "../hooks/utils/useProfileId";
 import { GroupStackScreenProps } from "../types";
@@ -13,11 +13,10 @@ import { GroupStackScreenProps } from "../types";
 const GroupListScreen = ({
   navigation,
 }: GroupStackScreenProps<"GroupList">) => {
-  const { showAlert } = useAlert();
-
   const focusRef = useRef(true);
-
   const [isRefetching, setIsRefetching] = useState(false);
+
+  const { showAlert } = useAlert();
 
   const {
     profileId,
@@ -29,7 +28,7 @@ const GroupListScreen = ({
     data: profiles,
     isLoading: isLoadingProfiles,
     refetch: refetchProfiles,
-  } = useQueryProfilesByUserId();
+  } = useQueryProfilesByAuthorId();
 
   const {
     data: belongs,
@@ -46,7 +45,7 @@ const GroupListScreen = ({
 
       refetchProfiles();
       refetchBelongs();
-    }, []),
+    }, [])
   );
 
   const { mutateAsync: mutateAsyncDeleteBelong } = useDeleteBelong({

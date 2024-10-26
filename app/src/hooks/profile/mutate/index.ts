@@ -8,18 +8,20 @@ export type PostProfileResponse = Awaited<ReturnType<typeof postProfile>>;
 export type UpdateProfileResponse = Awaited<ReturnType<typeof updateProfile>>;
 export type PostAvatarResponse = Awaited<ReturnType<typeof postAvatar>>;
 export type DeleteProfileResponse = Awaited<ReturnType<typeof deleteProfile>>;
+export type SearchProfileByProfileIdResponse = Awaited<
+  ReturnType<typeof searchProfileByProfileId>
+>;
 
 const postProfile = async (profile: Profile["Insert"]) => {
   const { data, error } = await supabase
     .from("profile")
     .insert(profile)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const updateProfile = async (profile: Profile["Update"]) => {
@@ -31,13 +33,12 @@ const updateProfile = async (profile: Profile["Update"]) => {
     .from("profile")
     .update(profile)
     .eq("profileId", profile.profileId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const postAvatar = async (base64: string) => {
@@ -62,13 +63,24 @@ const deleteProfile = async (profileId: number) => {
     .from("profile")
     .delete()
     .eq("profileId", profileId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
+};
+
+const searchProfileByProfileId = async (profileId: number) => {
+  const { data, error } = await supabase
+    .from("profile")
+    .select("*")
+    .eq("profileId", profileId);
+
+  if (error) {
+    throw error;
+  }
+  return data[0] ?? null;
 };
 
 export const usePostProfile = ({
@@ -107,6 +119,16 @@ export const useDeleteProfile = ({
 }: UseMutationResult<DeleteProfileResponse, Error>) =>
   useMutation({
     mutationFn: deleteProfile,
+    onSuccess,
+    onError,
+  });
+
+export const useSearchProfileByProfileId = ({
+  onSuccess,
+  onError,
+}: UseMutationResult<SearchProfileByProfileIdResponse, Error>) =>
+  useMutation({
+    mutationFn: searchProfileByProfileId,
     onSuccess,
     onError,
   });

@@ -18,7 +18,7 @@ import {
 } from "native-base";
 
 import { GetBelongsByProfileIdResponse } from "../../hooks/belong/query";
-import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
+import { GetProfilesByAuthorIdResponse } from "../../hooks/profile/query";
 import Avatar from "../molecules/Avatar";
 import Fab from "../molecules/Fab";
 import Overlay from "../molecules/Overlay";
@@ -29,8 +29,8 @@ import SkeletonSetting from "../organisms/SkeletonSetting";
 type SettingTemplateProps = {
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
-  profile: GetProfilesByUserIdResponse[number] | undefined;
-  profiles: GetProfilesByUserIdResponse | undefined;
+  profile: GetProfilesByAuthorIdResponse[number] | undefined;
+  profiles: GetProfilesByAuthorIdResponse | undefined;
   belongs: GetBelongsByProfileIdResponse | undefined;
   refetch: () => Promise<void>;
   pickImageByCamera: () => Promise<void>;

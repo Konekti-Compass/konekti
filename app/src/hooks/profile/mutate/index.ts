@@ -16,13 +16,12 @@ const postProfile = async (profile: Profile["Insert"]) => {
   const { data, error } = await supabase
     .from("profile")
     .insert(profile)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const updateProfile = async (profile: Profile["Update"]) => {
@@ -34,13 +33,12 @@ const updateProfile = async (profile: Profile["Update"]) => {
     .from("profile")
     .update(profile)
     .eq("profileId", profile.profileId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const postAvatar = async (base64: string) => {
@@ -65,26 +63,24 @@ const deleteProfile = async (profileId: number) => {
     .from("profile")
     .delete()
     .eq("profileId", profileId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const searchProfileByProfileId = async (profileId: number) => {
   const { data, error } = await supabase
     .from("profile")
     .select("*")
-    .eq("profileId", profileId)
-    .single();
+    .eq("profileId", profileId);
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 export const usePostProfile = ({

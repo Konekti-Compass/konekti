@@ -27,14 +27,13 @@ const TabNavigator = () => {
       if (
         routeName === "PostProfile" ||
         routeName === "EditProfile" ||
-        routeName === "FriendList" ||
         routeName === "QRCode"
       ) {
         return false;
       }
       return true;
     },
-    [],
+    []
   );
 
   return (

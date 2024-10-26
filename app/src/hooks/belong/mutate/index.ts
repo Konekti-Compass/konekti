@@ -25,13 +25,12 @@ const updateBelong = async (belong: Belong["Update"]) => {
     .from("belong")
     .update(belong)
     .eq("belongId", belong.belongId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const deleteBelong = async (belongId: string) => {
@@ -39,13 +38,12 @@ const deleteBelong = async (belongId: string) => {
     .from("belong")
     .delete()
     .eq("belongId", belongId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 export const usePostBelong = ({

@@ -11,12 +11,12 @@ import {
   Pressable,
 } from "native-base";
 
-import { GetProfilesByUserIdResponse } from "../../hooks/profile/query";
+import { GetProfilesByAuthorIdResponse } from "../../hooks/profile/query";
 
 type ProfileActionSheetProps = {
   isOpen: boolean;
   onClose: () => void;
-  profiles: GetProfilesByUserIdResponse | undefined;
+  profiles: GetProfilesByAuthorIdResponse | undefined;
   profileId: number;
   setProfileId: Dispatch<SetStateAction<number>>;
 };
@@ -76,7 +76,7 @@ const ProfileActionSheet = memo(
         </Actionsheet.Content>
       </Actionsheet>
     );
-  },
+  }
 );
 
 export default ProfileActionSheet;

@@ -11,16 +11,12 @@ export type SearchUserByUserIdResponse = Awaited<
 >;
 
 const postUser = async (user: User["Insert"]) => {
-  const { data, error } = await supabase
-    .from("user")
-    .insert(user)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("user").insert(user).select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const updateUser = async (user: User["Update"]) => {
@@ -32,13 +28,12 @@ const updateUser = async (user: User["Update"]) => {
     .from("user")
     .update(user)
     .eq("userId", user.userId)
-    .select()
-    .single();
+    .select();
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 const searchUserByUserId = async (userId: string) => {

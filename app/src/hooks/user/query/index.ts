@@ -15,13 +15,12 @@ const getUserByUserId = async (userId: string | undefined) => {
   const { data, error } = await supabase
     .from("user")
     .select("*")
-    .eq("userId", userId)
-    .single();
+    .eq("userId", userId);
 
   if (error) {
     throw error;
   }
-  return data;
+  return data[0] ?? null;
 };
 
 export const useQueryUserByUserId = () => {

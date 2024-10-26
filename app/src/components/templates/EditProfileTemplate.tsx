@@ -115,6 +115,7 @@ const EditProfileTemplate = ({
         />
       </HStack>
       <KeyboardAwareScrollView
+        style={{ width: "100%" }}
         contentContainerStyle={{ flexGrow: 1 }}
         enableResetScrollToCoords={false}
         keyboardShouldPersistTaps="handled"

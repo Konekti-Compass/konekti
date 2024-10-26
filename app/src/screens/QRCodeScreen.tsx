@@ -33,7 +33,9 @@ const QRCodeScreen = ({ navigation }: HomeStackScreenProps<"QRCode">) => {
     isPending: isLoadingSearchProfileByProfileId,
   } = useSearchProfileByProfileId({
     onSuccess: async (data) => {
-      navigation.navigate("ProfileDetail", { profileId: data.profileId });
+      if (data) {
+        navigation.navigate("ProfileDetail", { profileId: data.profileId });
+      }
     },
     onError: () => {
       showAlert({ status: "error", text: "エラーが発生しました" });

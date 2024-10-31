@@ -94,7 +94,7 @@ const ProfileDetailTemplate = ({
         }
       >
         <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg="muted.100">
-          <ScrollView px="5">
+          <ScrollView px="5" nestedScrollEnabled={true}>
             <HStack w="100%" mt="2" alignItems="flex-start" space="2">
               <Box w="25%">
                 <Avatar

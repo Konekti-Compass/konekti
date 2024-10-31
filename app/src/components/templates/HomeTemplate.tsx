@@ -115,7 +115,7 @@ const HomeTemplate = ({
       >
         <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg="muted.100">
           {isLoading || profile ? (
-            <ScrollView px="5">
+            <ScrollView px="5" nestedScrollEnabled={true}>
               <HStack
                 w="100%"
                 alignItems="center"

@@ -39,26 +39,26 @@ export type Database = {
         Row: {
           belongId: string
           code: number | null
-          createdAt: string
+          createdAt: string | null
           name: string
-          profileId: number
-          updatedAt: string
+          profileId: number | null
+          updatedAt: string | null
         }
         Insert: {
           belongId?: string
           code?: number | null
-          createdAt?: string
+          createdAt?: string | null
           name: string
-          profileId: number
-          updatedAt?: string
+          profileId?: number | null
+          updatedAt?: string | null
         }
         Update: {
           belongId?: string
           code?: number | null
-          createdAt?: string
+          createdAt?: string | null
           name?: string
-          profileId?: number
-          updatedAt?: string
+          profileId?: number | null
+          updatedAt?: string | null
         }
         Relationships: [
           {
@@ -69,7 +69,7 @@ export type Database = {
             referencedColumns: ["code"]
           },
           {
-            foreignKeyName: "belong_profileId_fkey"
+            foreignKeyName: "belong_profileid_fkey"
             columns: ["profileId"]
             isOneToOne: false
             referencedRelation: "profile"
@@ -82,58 +82,58 @@ export type Database = {
           code: number
           color: string
           count: number | null
-          createdAt: string
+          createdAt: string | null
           description: string | null
           imageUrl: string | null
           name: string
-          updatedAt: string
+          updatedAt: string | null
         }
         Insert: {
           code?: number
           color: string
           count?: number | null
-          createdAt?: string
+          createdAt?: string | null
           description?: string | null
           imageUrl?: string | null
           name: string
-          updatedAt?: string
+          updatedAt?: string | null
         }
         Update: {
           code?: number
           color?: string
           count?: number | null
-          createdAt?: string
+          createdAt?: string | null
           description?: string | null
           imageUrl?: string | null
           name?: string
-          updatedAt?: string
+          updatedAt?: string | null
         }
         Relationships: []
       }
       friend: {
         Row: {
-          createdAt: string
+          createdAt: string | null
           friendId: number
           mutual: boolean
-          receiverId: number
-          senderId: number
-          updatedAt: string
+          receiverId: number | null
+          senderId: number | null
+          updatedAt: string | null
         }
         Insert: {
-          createdAt?: string
+          createdAt?: string | null
           friendId?: number
-          mutual?: boolean
-          receiverId: number
-          senderId: number
-          updatedAt?: string
+          mutual: boolean
+          receiverId?: number | null
+          senderId?: number | null
+          updatedAt?: string | null
         }
         Update: {
-          createdAt?: string
+          createdAt?: string | null
           friendId?: number
           mutual?: boolean
-          receiverId?: number
-          senderId?: number
-          updatedAt?: string
+          receiverId?: number | null
+          senderId?: number | null
+          updatedAt?: string | null
         }
         Relationships: [
           {
@@ -144,7 +144,7 @@ export type Database = {
             referencedColumns: ["profileId"]
           },
           {
-            foreignKeyName: "friend_senderId_fkey"
+            foreignKeyName: "friend_senderid_fkey"
             columns: ["senderId"]
             isOneToOne: false
             referencedRelation: "profile"
@@ -154,47 +154,47 @@ export type Database = {
       }
       profile: {
         Row: {
-          authorId: string
+          authorId: string | null
           avatarUrl: string | null
           color: string
-          createdAt: string
+          createdAt: string | null
           displayName: string
           hobby: string
           introduction: string
           name: string
           profileId: number
           talent: string
-          updatedAt: string
+          updatedAt: string | null
         }
         Insert: {
-          authorId: string
+          authorId?: string | null
           avatarUrl?: string | null
           color: string
-          createdAt?: string
+          createdAt?: string | null
           displayName: string
           hobby: string
           introduction: string
           name: string
           profileId?: number
           talent: string
-          updatedAt?: string
+          updatedAt?: string | null
         }
         Update: {
-          authorId?: string
+          authorId?: string | null
           avatarUrl?: string | null
           color?: string
-          createdAt?: string
+          createdAt?: string | null
           displayName?: string
           hobby?: string
           introduction?: string
           name?: string
           profileId?: number
           talent?: string
-          updatedAt?: string
+          updatedAt?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "profile_authorId_fkey"
+            foreignKeyName: "profile_authorid_fkey"
             columns: ["authorId"]
             isOneToOne: false
             referencedRelation: "user"
@@ -204,18 +204,18 @@ export type Database = {
       }
       user: {
         Row: {
-          createdAt: string
-          updatedAt: string
+          createdAt: string | null
+          updatedAt: string | null
           userId: string
         }
         Insert: {
-          createdAt?: string
-          updatedAt?: string
+          createdAt?: string | null
+          updatedAt?: string | null
           userId: string
         }
         Update: {
-          createdAt?: string
-          updatedAt?: string
+          createdAt?: string | null
+          updatedAt?: string | null
           userId?: string
         }
         Relationships: []

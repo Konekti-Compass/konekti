@@ -19,19 +19,18 @@ import FriendListItem from "../organisms/FriendListItem";
 import SkeletonGroupList from "../organisms/SkeletonGroupList";
 
 type FriendListTemplateProps = {
+  profileId: number;
   friends: GetFriendsByProfileIdResponse | undefined;
   refetch: () => Promise<void>;
   isLoading: boolean;
   isRefetching: boolean;
-  profileDetailNavigationHandler: (
-    senderId: number,
-    receiverId: number
-  ) => void;
+  profileDetailNavigationHandler: (profileId: number) => void;
   searchFriendNavigationHandler: () => void;
   goBackNavigationHandler: () => void;
 };
 
 const FriendListTemplate = ({
+  profileId,
   friends,
   refetch,
   isLoading,
@@ -90,9 +89,15 @@ const FriendListTemplate = ({
           data={friends}
           renderItem={({ item }) => (
             <FriendListItem
+              type={item.senderId === profileId ? "receiver" : "sender"}
               item={item}
               onPress={() => {
-                profileDetailNavigationHandler(item.senderId, item.receiverId);
+                if (item.senderId === profileId && item.receiverId) {
+                  profileDetailNavigationHandler(item.receiverId);
+                }
+                if (item.receiverId === profileId && item.senderId) {
+                  profileDetailNavigationHandler(item.senderId);
+                }
               }}
             />
           )}

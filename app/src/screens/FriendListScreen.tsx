@@ -38,17 +38,9 @@ const FriendListScreen = ({
     setIsRefetching(false);
   }, []);
 
-  const profileDetailNavigationHandler = useCallback(
-    (senderId: number, receiverId: number) => {
-      if (senderId === profileId) {
-        navigation.navigate("ProfileDetail", { profileId: receiverId });
-      }
-      if (receiverId === profileId) {
-        navigation.navigate("ProfileDetail", { profileId: senderId });
-      }
-    },
-    []
-  );
+  const profileDetailNavigationHandler = useCallback((profileId: number) => {
+    navigation.navigate("ProfileDetail", { profileId });
+  }, []);
 
   const searchProfileNavigationHandler = useCallback(() => {
     // navigation.navigate("SearchProfile");
@@ -60,6 +52,7 @@ const FriendListScreen = ({
 
   return (
     <FrinedListTemplate
+      profileId={profileId}
       friends={friends}
       refetch={refetch}
       isLoading={isLoadingFriends}

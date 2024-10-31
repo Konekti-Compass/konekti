@@ -5,10 +5,12 @@ import { Camera } from "expo-camera";
 import QRCodeTemplate from "../components/templates/QRCodeTemplate";
 import { useSearchProfileByProfileId } from "../hooks/profile/mutate";
 import useAlert from "../hooks/utils/useAlert";
+import useProfileId from "../hooks/utils/useProfileId";
 import { HomeStackScreenProps } from "../types";
 
 const QRCodeScreen = ({ navigation }: HomeStackScreenProps<"QRCode">) => {
   const { showAlert } = useAlert();
+  const { profileId } = useProfileId();
 
   useEffect(() => {
     (async () => {
@@ -52,6 +54,7 @@ const QRCodeScreen = ({ navigation }: HomeStackScreenProps<"QRCode">) => {
 
   return (
     <QRCodeTemplate
+      profileId={profileId}
       isLoadingSearchProfileByProfileId={isLoadingSearchProfileByProfileId}
       searchProfileByProfileId={searchProfileByProfileId}
       goBackNavigationHandler={goBackNavigationHandler}

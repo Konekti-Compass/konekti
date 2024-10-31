@@ -57,6 +57,7 @@ const PostProfileTemplate = ({
 }: PostProfileTemplateProps) => {
   const textColor = useColorModeValue("muted.600", "muted.300");
   const iconColor = useColorModeValue("muted.600", "muted.100");
+  const belongsBgColor = useColorModeValue("muted.200", "muted.700");
 
   const {
     control,
@@ -283,7 +284,7 @@ const PostProfileTemplate = ({
                               py="3px"
                               space="1"
                               rounded="full"
-                              bg="muted.200"
+                              bg={belongsBgColor}
                             >
                               <Text fontWeight="600">{item}</Text>
                               <IconButton
@@ -291,7 +292,7 @@ const PostProfileTemplate = ({
                                 p="3px"
                                 _pressed={{ opacity: 1 }}
                                 icon={
-                                  <Icon as={<Feather />} name="x" size="3" />
+                                  <Icon as={<Feather />} name="x" size="3" color={textColor} />
                                 }
                                 onPress={() => {
                                   setTags(tags.filter((_, i) => i !== index));

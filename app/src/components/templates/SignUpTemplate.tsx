@@ -132,6 +132,8 @@ const SignUpTemplate = memo(
                     returnKeyType="done"
                     placeholder=""
                     placeholderTextColor="muted.400"
+                    autoCapitalize="none"
+                    style={{ fontFamily: "monospace" }}
                     type={showPassword ? "text" : "password"}
                     InputRightElement={
                       <IconButton
@@ -158,7 +160,7 @@ const SignUpTemplate = memo(
                   required: "パスワードを入力してください",
                   minLength: {
                     value: 6,
-                    message: "パスワードは6文字以内で入力してください",
+                    message: "パスワードは6文字以上で入力してください",
                   },
                   pattern: {
                     value: /[a-zA-Z0-9.?/-]/,

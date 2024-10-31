@@ -1,3 +1,4 @@
+export const PASSWORD_MAX_LENGTH = 6;
 export const NAME_MAX_LENGTH = 20;
 export const DISPLAYNAME_MAX_LENGTH = 20;
 export const BELONG_MAX_LENGTH = 8;

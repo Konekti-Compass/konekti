@@ -88,7 +88,11 @@ const ProfileListTemplate = ({
           renderItem={({ item }) => (
             <ProfileListItem
               item={item}
-              onPress={() => profileDetailNavigationHandler(item.profileId)}
+              onPress={() => {
+                if (item.profileId) {
+                  profileDetailNavigationHandler(item.profileId);
+                }
+              }}
             />
           )}
           ListEmptyComponent={

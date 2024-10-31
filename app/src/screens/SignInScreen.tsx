@@ -14,13 +14,16 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     mutateAsync: mutateAsyncSearchUserByUserId,
     isPending: isLoadingSearchUserByUserId,
   } = useSearchUserByUserId({
-    onError: () => showAlert({ status: "error", text: "エラーが発生しました" }),
+    onError: () => {
+      showAlert({ status: "error", text: "エラーが発生しました" });
+    },
   });
 
   const { mutateAsync: mutateAsyncPostUser, isPending: isLoadingPostUser } =
     usePostUser({
-      onError: () =>
-        showAlert({ status: "error", text: "エラーが発生しました" }),
+      onError: () => {
+        showAlert({ status: "error", text: "エラーが発生しました" });
+      },
     });
 
   const {
@@ -60,7 +63,7 @@ const SignInScreen = ({ navigation }: AuthStackScreenProps) => {
     async (email: string, password: string) => {
       await mutateAsyncSignInWithEmail({ email, password });
     },
-    [],
+    []
   );
 
   const signInWithGoogle = useCallback(async () => {

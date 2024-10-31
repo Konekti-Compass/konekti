@@ -92,10 +92,10 @@ const FriendListTemplate = ({
               type={item.senderId === profileId ? "receiver" : "sender"}
               item={item}
               onPress={() => {
-                if (item.senderId === profileId) {
+                if (item.senderId === profileId && item.receiverId) {
                   profileDetailNavigationHandler(item.receiverId);
                 }
-                if (item.receiverId === profileId) {
+                if (item.receiverId === profileId && item.senderId) {
                   profileDetailNavigationHandler(item.senderId);
                 }
               }}

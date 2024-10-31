@@ -127,6 +127,8 @@ const SignInTemplate = memo(
                     returnKeyType="done"
                     placeholder=""
                     placeholderTextColor="muted.400"
+                    autoCapitalize="none"
+                    style={{ fontFamily: "monospace" }}
                     type={showPassword ? "text" : "password"}
                     InputRightElement={
                       <IconButton

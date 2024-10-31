@@ -23,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Input from "../molecules/Input";
+import * as ValidationConstants from "../../constants/validation";
 
 type SignUpTemplateProps = {
   isLoading: boolean;
@@ -159,8 +160,8 @@ const SignUpTemplate = memo(
                 rules={{
                   required: "パスワードを入力してください",
                   minLength: {
-                    value: 6,
-                    message: "パスワードは6文字以上で入力してください",
+                    value: ValidationConstants.PASSWORD_MAX_LENGTH,
+                    message: `パスワードは${ValidationConstants.PASSWORD_MAX_LENGTH}文字以上で入力してください`,
                   },
                   pattern: {
                     value: /[a-zA-Z0-9.?/-]/,

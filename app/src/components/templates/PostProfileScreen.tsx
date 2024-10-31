@@ -17,6 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Input from "../molecules/Input";
+import * as ValidationConstants from "../../constants/validation";
 
 type PostProfileTemplateProps = {
   tags: string[];
@@ -142,7 +143,7 @@ const PostProfileTemplate = ({
                         >
                           {errors.name && <Text>{errors.name.message}</Text>}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.NAME_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -150,8 +151,8 @@ const PostProfileTemplate = ({
                 rules={{
                   required: "プロフィール名を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "プロフィール名は20文字以内で入力してください",
+                    value: ValidationConstants.NAME_MAX_LENGTH,
+                    message: `プロフィール名は${ValidationConstants.NAME_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -200,7 +201,7 @@ const PostProfileTemplate = ({
                             <Text>{errors.displayName.message}</Text>
                           )}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.DISPLAYNAME_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -208,8 +209,8 @@ const PostProfileTemplate = ({
                 rules={{
                   required: "ユーザー名を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "ユーザー名は20文字以内で入力してください",
+                    value: ValidationConstants.DISPLAYNAME_MAX_LENGTH,
+                    message: `ユーザー名は${ValidationConstants.DISPLAYNAME_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -311,8 +312,8 @@ const PostProfileTemplate = ({
                     return true;
                   },
                   maxLength: {
-                    value: 9,
-                    message: "所属は8文字以内で入力してください",
+                    value: ValidationConstants.BELONG_MAX_LENGTH + 1,
+                    message: `所属は${ValidationConstants.BELONG_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -358,7 +359,7 @@ const PostProfileTemplate = ({
                         >
                           {errors.hobby && <Text>{errors.hobby.message}</Text>}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.HOBBY_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -366,8 +367,8 @@ const PostProfileTemplate = ({
                 rules={{
                   required: "趣味を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "趣味は20文字以内で入力してください",
+                    value: ValidationConstants.HOBBY_MAX_LENGTH,
+                    message: `趣味は${ValidationConstants.HOBBY_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -416,7 +417,7 @@ const PostProfileTemplate = ({
                             <Text>{errors.talent.message}</Text>
                           )}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.TALENT_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -424,8 +425,8 @@ const PostProfileTemplate = ({
                 rules={{
                   required: "特技を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "特技は20文字以内で入力してください",
+                    value: ValidationConstants.TALENT_MAX_LENGTH,
+                    message: `特技は${ValidationConstants.TALENT_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -461,7 +462,7 @@ const PostProfileTemplate = ({
                           )}
                         </FormControl.ErrorMessage>
                         <Text color={textColor}>
-                          {value?.length ?? 0} / 100
+                          {value?.length ?? 0} / {ValidationConstants.INTRODUCTION_MAX_LENGTH}
                         </Text>
                       </HStack>
                     </VStack>
@@ -470,8 +471,8 @@ const PostProfileTemplate = ({
                 rules={{
                   required: "自己紹介を入力してください",
                   maxLength: {
-                    value: 100,
-                    message: "自己紹介は100文字以内で入力してください",
+                    value: ValidationConstants.INTRODUCTION_MAX_LENGTH,
+                    message: `自己紹介は${ValidationConstants.INTRODUCTION_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />

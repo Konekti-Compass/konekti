@@ -20,6 +20,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { GetProfileByProfileIdResponse } from "../../hooks/profile/query";
 import Input from "../molecules/Input";
 import Overlay from "../molecules/Overlay";
+import * as ValidationConstants from "../../constants/validation";
 
 type EditProfileTemplateProps = {
   profile: GetProfileByProfileIdResponse | undefined;
@@ -164,7 +165,7 @@ const EditProfileTemplate = ({
                         >
                           {errors.name && <Text>{errors.name.message}</Text>}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.NAME_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -172,8 +173,8 @@ const EditProfileTemplate = ({
                 rules={{
                   required: "プロフィール名を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "プロフィール名は20文字以内で入力してください",
+                    value: ValidationConstants.NAME_MAX_LENGTH,
+                    message: `プロフィール名は${ValidationConstants.NAME_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -222,16 +223,16 @@ const EditProfileTemplate = ({
                             <Text>{errors.displayName.message}</Text>
                           )}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.DISPLAYNAME_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
                 }}
                 rules={{
-                  required: "ユーザー名は入力してください",
+                  required: "ユーザー名を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "ユーザー名は20文字以内で入力してください",
+                    value: ValidationConstants.DISPLAYNAME_MAX_LENGTH,
+                    message: `ユーザー名は${ValidationConstants.DISPLAYNAME_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -328,8 +329,8 @@ const EditProfileTemplate = ({
                     return true;
                   },
                   maxLength: {
-                    value: 9,
-                    message: "所属は8文字以内で入力してください",
+                    value: ValidationConstants.BELONG_MAX_LENGTH + 1,
+                    message: `所属は${ValidationConstants.BELONG_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -376,7 +377,7 @@ const EditProfileTemplate = ({
                         >
                           {errors.hobby && <Text>{errors.hobby.message}</Text>}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.HOBBY_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -384,8 +385,8 @@ const EditProfileTemplate = ({
                 rules={{
                   required: "趣味を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "趣味は20文字以内で入力してください",
+                    value: ValidationConstants.HOBBY_MAX_LENGTH,
+                    message: `趣味は${ValidationConstants.HOBBY_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -434,7 +435,7 @@ const EditProfileTemplate = ({
                             <Text>{errors.talent.message}</Text>
                           )}
                         </FormControl.ErrorMessage>
-                        <Text color={textColor}>{value?.length ?? 0} / 20</Text>
+                        <Text color={textColor}>{value?.length ?? 0} / {ValidationConstants.TALENT_MAX_LENGTH}</Text>
                       </HStack>
                     </VStack>
                   );
@@ -442,8 +443,8 @@ const EditProfileTemplate = ({
                 rules={{
                   required: "特技を入力してください",
                   maxLength: {
-                    value: 20,
-                    message: "特技は20文字以内で入力してください",
+                    value: ValidationConstants.TALENT_MAX_LENGTH,
+                    message: `特技は${ValidationConstants.TALENT_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />
@@ -479,7 +480,7 @@ const EditProfileTemplate = ({
                           )}
                         </FormControl.ErrorMessage>
                         <Text color={textColor}>
-                          {value?.length ?? 0} / 100
+                          {value?.length ?? 0} / {ValidationConstants.INTRODUCTION_MAX_LENGTH}
                         </Text>
                       </HStack>
                     </VStack>
@@ -488,8 +489,8 @@ const EditProfileTemplate = ({
                 rules={{
                   required: "自己紹介を入力してください",
                   maxLength: {
-                    value: 100,
-                    message: "自己紹介は100文字以内で入力してください",
+                    value: ValidationConstants.INTRODUCTION_MAX_LENGTH,
+                    message: `自己紹介は${ValidationConstants.INTRODUCTION_MAX_LENGTH}文字以内で入力してください`,
                   },
                 }}
               />

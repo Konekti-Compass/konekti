@@ -69,6 +69,9 @@ const HomeTemplate = ({
 }: SettingTemplateProps) => {
   const iconColor = useColorModeValue("muted.500", "muted.100");
   const spinnerColor = useColorModeValue("#a3a3a3", "white");
+  const profileBgColor = useColorModeValue("muted.100", "muted.800");
+  const editIconColor = useColorModeValue("muted.700", "muted.200");
+  const belongsBgColor = useColorModeValue("muted.200", "muted.700");
 
   const {
     isOpen: isOpenImageActionSheet,
@@ -113,7 +116,7 @@ const HomeTemplate = ({
           />
         }
       >
-        <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg="muted.100">
+        <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg={profileBgColor}>
           {isLoading || profile ? (
             <ScrollView px="5" nestedScrollEnabled={true}>
               <HStack
@@ -140,7 +143,7 @@ const HomeTemplate = ({
                     <Icon
                       as={<Feather name="edit" />}
                       size="5"
-                      color="muted.700"
+                      color={editIconColor}
                     />
                   </Pressable>
                 )}
@@ -183,7 +186,7 @@ const HomeTemplate = ({
                           px="8px"
                           py="3px"
                           rounded="full"
-                          bg="muted.200"
+                          bg={belongsBgColor}
                         >
                           <Text fontWeight="600" fontSize="10px">
                             {item.belongCode?.name}

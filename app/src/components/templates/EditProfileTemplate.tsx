@@ -68,6 +68,7 @@ const EditProfileTemplate = ({
 }: EditProfileTemplateProps) => {
   const textColor = useColorModeValue("muted.600", "muted.300");
   const iconColor = useColorModeValue("muted.600", "muted.100");
+  const belongsBgColor = useColorModeValue("muted.200", "muted.700");
 
   const {
     control,
@@ -299,14 +300,14 @@ const EditProfileTemplate = ({
                             py="3px"
                             space="1"
                             rounded="full"
-                            bg="muted.200"
+                            bg={belongsBgColor}
                           >
                             <Text fontWeight="600">{item}</Text>
                             <IconButton
                               variant="unstyled"
                               p="3px"
                               _pressed={{ opacity: 1 }}
-                              icon={<Icon as={<Feather />} name="x" size="3" />}
+                              icon={<Icon as={<Feather />} name="x" size="3" color={textColor} />}
                               onPress={() => {
                                 /* 
                                 setTags(

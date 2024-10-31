@@ -54,6 +54,8 @@ const ProfileDetailTemplate = ({
 }: ProfileDetailTemplateProps) => {
   const iconColor = useColorModeValue("muted.600", "muted.100");
   const spinnerColor = useColorModeValue("#a3a3a3", "white");
+  const profileBgColor = useColorModeValue("muted.100", "muted.800");
+  const belongsBgColor = useColorModeValue("muted.200", "muted.700");
 
   return (
     <Box flex={1} alignItems="center" safeAreaTop>
@@ -93,7 +95,7 @@ const ProfileDetailTemplate = ({
           />
         }
       >
-        <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg="muted.100">
+        <Box w="80%" h="400px" px="1" py="5" rounded="3xl" bg={profileBgColor}>
           <ScrollView px="5" nestedScrollEnabled={true}>
             <HStack w="100%" mt="2" alignItems="flex-start" space="2">
               <Box w="25%">
@@ -132,7 +134,7 @@ const ProfileDetailTemplate = ({
                         px="8px"
                         py="3px"
                         rounded="full"
-                        bg="muted.200"
+                        bg={belongsBgColor}
                       >
                         <Text fontWeight="600" fontSize="10px">
                           {item.belongCode?.name}
